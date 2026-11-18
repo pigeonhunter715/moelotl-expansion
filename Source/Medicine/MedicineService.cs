@@ -2,6 +2,7 @@ using Axolotl;
 using MoeLotlExpansion.Core;
 using RigorMortis;
 using Verse;
+using System.Linq;
 
 namespace MoeLotlExpansion
 {
@@ -13,7 +14,7 @@ namespace MoeLotlExpansion
                 return "MX_NoMedicine".Translate().ToString();
             MedicineExtension config = medicine.def.GetModExtension<MedicineExtension>();
             if (config?.effect == null || config.durationTicks <= 0 ||
-                config.effect.hediffClass != typeof(Hediff_TimedMedicine))
+                !typeof(Hediff_TimedMedicine).IsAssignableFrom(config.effect.hediffClass))
                 return "MX_InvalidMedicine".Translate().ToString();
 
             bool exists = target?.health != null;
@@ -24,12 +25,31 @@ namespace MoeLotlExpansion
                 return "MX_InvalidTarget".Translate().ToString();
             if (rejection == MedicineRejection.RequiresLivingMoeLotl)
                 return "MX_LivingMoeLotlOnly".Translate().ToString();
+            if (config.requiresMeridians)
+            {
+                var energy = target.TryGetComp<CompAxolotlEnergy>();
+                var part = target.RaceProps.body.AllParts.FirstOrDefault(p => p.def == AxolotlBodyPartDefOf.Axolotl_Meridians);
+                if (target.IsMutant || energy == null || energy.Level < 1 || part == null ||
+                    target.health.hediffSet.GetPartHealth(part) <= 0f)
+                    return "MX_RequiresMeridians".Translate().ToString();
+            }
 
             // Fail safely if another mod supplies an incompatible instance for this Def.
             foreach (Hediff existing in target.health.hediffSet.hediffs)
                 if (existing.def == config.effect && !(existing is Hediff_TimedMedicine))
                     return "MX_InvalidMedicine".Translate().ToString();
+            var timed = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;
+            if (config.preventRefresh && timed != null && timed.RemainingTicks > 0)
+                return "MX_MedicineCooldown".Translate((timed.RemainingTicks / 2500f).ToString("0.0")).ToString();
+            if (config.restoresQi && RecoveryFor(target) <= 0f)
+                return "MX_QiFull".Translate().ToString();
             return true;
+        }
+
+        public static float RecoveryFor(Pawn target)
+        {
+            var energy = target?.TryGetComp<CompAxolotlEnergy>();
+            return energy == null ? 0f : MedicineRules.RecoveryAmount(energy.EnergyMax, energy.Energy);
         }
 
         public static AcceptanceReport TryUse(Thing medicine, Pawn target)
@@ -52,6 +72,11 @@ namespace MoeLotlExpansion
             var applied = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;
             if (applied == null || applied.RemainingTicks <= 0)
                 return "MX_InvalidMedicine".Translate().ToString();
+            if (config.restoresQi)
+            {
+                var energy = target.TryGetComp<CompAxolotlEnergy>();
+                energy.Energy += RecoveryFor(target);
+            }
 
             // One synchronous effect-and-consumption path; no second DestroySelf comp.
             medicine.SplitOff(1).Destroy(DestroyMode.Vanish);

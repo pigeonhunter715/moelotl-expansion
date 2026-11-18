@@ -5,4 +5,8 @@
   <MX_InvalidTarget>目标不能服用这枚丹药。</MX_InvalidTarget>
   <MX_LivingMoeLotlOnly>仅限活体萌螈服用，螈僵不可使用。</MX_LivingMoeLotlOnly>
   <MX_RemainingHours>剩余 {0} 小时</MX_RemainingHours>
+  <MX_RequiresMeridians>需要一级以上且仍有功能的灵螈脉络。</MX_RequiresMeridians>
+  <MX_MedicineCooldown>当前药效或冷却尚余 {0} 小时，不能再服。</MX_MedicineCooldown>
+  <MX_QiFull>当前螈气已满，无法获得回复。</MX_QiFull>
+  <MX_CombatFatigue>药后疲劳</MX_CombatFatigue>
 </LanguageData>

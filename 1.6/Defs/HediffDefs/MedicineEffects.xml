@@ -8,7 +8,13 @@
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
-    <stages><li><statOffsets><ComfyTemperatureMin>-15</ComfyTemperatureMin></statOffsets></li></stages>
+    <stages>
+      <li>
+        <statOffsets>
+          <ComfyTemperatureMin>-15</ComfyTemperatureMin>
+        </statOffsets>
+      </li>
+    </stages>
   </HediffDef>
   <HediffDef>
     <defName>MX_CoolingEffect</defName>
@@ -18,7 +24,13 @@
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
-    <stages><li><statOffsets><ComfyTemperatureMax>15</ComfyTemperatureMax></statOffsets></li></stages>
+    <stages>
+      <li>
+        <statOffsets>
+          <ComfyTemperatureMax>15</ComfyTemperatureMax>
+        </statOffsets>
+      </li>
+    </stages>
   </HediffDef>
   <HediffDef>
     <defName>MX_IndustryEffect</defName>
@@ -28,6 +40,48 @@
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
-    <stages><li><statFactors><WorkSpeedGlobal>1.2</WorkSpeedGlobal><ResearchSpeed>1.1</ResearchSpeed></statFactors></li></stages>
+    <stages>
+      <li>
+        <statFactors>
+          <WorkSpeedGlobal>1.2</WorkSpeedGlobal>
+          <ResearchSpeed>1.1</ResearchSpeed>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_RecoveryEffect</defName>
+    <label>回元丹冷却</label>
+    <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_CombatEffect</defName>
+    <label>临战丹药效</label>
+    <description>持续8小时：近战伤害×1.20，移动×1.15，瞄准时间×0.85，受到伤害×0.90。随后6小时工作速度×0.90。药效与疲劳期间禁止再服；需一级以上仍有功能的灵螈脉络。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_CombatMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages>
+      <li>
+        <statFactors>
+          <MeleeDamageFactor>1.2</MeleeDamageFactor>
+          <MoveSpeed>1.15</MoveSpeed>
+          <AimingDelayFactor>0.85</AimingDelayFactor>
+          <IncomingDamageFactor>0.9</IncomingDamageFactor>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>药后疲劳</label>
+        <statFactors>
+          <WorkSpeedGlobal>0.9</WorkSpeedGlobal>
+        </statFactors>
+      </li>
+    </stages>
   </HediffDef>
 </Defs>

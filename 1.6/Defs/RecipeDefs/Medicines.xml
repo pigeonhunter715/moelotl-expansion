@@ -8,14 +8,39 @@
     <workAmount>1200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
-    <skillRequirements><Crafting>2</Crafting></skillRequirements>
+    <skillRequirements>
+      <Crafting>2</Crafting>
+    </skillRequirements>
     <ingredients>
-      <li><filter><thingDefs><li>RM_AxoPeachWood</li></thingDefs></filter><count>5</count></li>
-      <li><filter><thingDefs><li>MedicineHerbal</li></thingDefs></filter><count>2</count></li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RM_AxoPeachWood</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
     </ingredients>
-    <fixedIngredientFilter><thingDefs><li>RM_AxoPeachWood</li><li>MedicineHerbal</li></thingDefs></fixedIngredientFilter>
-    <products><MX_WarmingPill>5</MX_WarmingPill></products>
-    <recipeUsers><li>Axolotl_GrindingTable</li></recipeUsers>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>RM_AxoPeachWood</li>
+        <li>MedicineHerbal</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MX_WarmingPill>5</MX_WarmingPill>
+    </products>
+    <recipeUsers>
+      <li>Axolotl_GrindingTable</li>
+    </recipeUsers>
     <researchPrerequisite>Axolotl_Research_BasePlant</researchPrerequisite>
     <effectWorking>Tailor</effectWorking>
     <soundWorking>Recipe_MakeStoneBlocks</soundWorking>
@@ -28,14 +53,39 @@
     <workAmount>1200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
-    <skillRequirements><Crafting>2</Crafting></skillRequirements>
+    <skillRequirements>
+      <Crafting>2</Crafting>
+    </skillRequirements>
     <ingredients>
-      <li><filter><thingDefs><li>RM_OvercastWood</li></thingDefs></filter><count>5</count></li>
-      <li><filter><thingDefs><li>MedicineHerbal</li></thingDefs></filter><count>2</count></li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RM_OvercastWood</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
     </ingredients>
-    <fixedIngredientFilter><thingDefs><li>RM_OvercastWood</li><li>MedicineHerbal</li></thingDefs></fixedIngredientFilter>
-    <products><MX_CoolingPill>5</MX_CoolingPill></products>
-    <recipeUsers><li>Axolotl_GrindingTable</li></recipeUsers>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>RM_OvercastWood</li>
+        <li>MedicineHerbal</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MX_CoolingPill>5</MX_CoolingPill>
+    </products>
+    <recipeUsers>
+      <li>Axolotl_GrindingTable</li>
+    </recipeUsers>
     <researchPrerequisite>Axolotl_Research_BasePlant</researchPrerequisite>
     <effectWorking>Tailor</effectWorking>
     <soundWorking>Recipe_MakeStoneBlocks</soundWorking>
@@ -48,17 +98,176 @@
     <workAmount>6000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
-    <skillRequirements><Crafting>4</Crafting></skillRequirements>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
     <ingredients>
-      <li><filter><thingDefs><li>PsychoidLeaves</li></thingDefs></filter><count>6</count></li>
-      <li><filter><thingDefs><li>MedicineHerbal</li></thingDefs></filter><count>2</count></li>
-      <li><filter><thingDefs><li>Axolotl_JadeEssencePowder</li></thingDefs></filter><count>10</count></li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>PsychoidLeaves</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Axolotl_JadeEssencePowder</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
     </ingredients>
-    <fixedIngredientFilter><thingDefs><li>PsychoidLeaves</li><li>MedicineHerbal</li><li>Axolotl_JadeEssencePowder</li></thingDefs></fixedIngredientFilter>
-    <products><MX_IndustryPill>5</MX_IndustryPill></products>
-    <recipeUsers><li>Axolotl_GrindingTable</li></recipeUsers>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>PsychoidLeaves</li>
+        <li>MedicineHerbal</li>
+        <li>Axolotl_JadeEssencePowder</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MX_IndustryPill>5</MX_IndustryPill>
+    </products>
+    <recipeUsers>
+      <li>Axolotl_GrindingTable</li>
+    </recipeUsers>
     <researchPrerequisite>Axolotl_Research_BasePlant</researchPrerequisite>
     <effectWorking>Tailor</effectWorking>
     <soundWorking>Recipe_MakeStoneBlocks</soundWorking>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>MX_MakeRecoveryPreparation</defName>
+    <label>配制回元丹剂（炼成12枚）</label>
+    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚回元丹。</description>
+    <jobString>正在配制回元丹剂。</jobString>
+    <workAmount>7200</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>Axolotl_GrindingTable</li>
+    </recipeUsers>
+    <researchPrerequisite>Axolotl_Research_Alchemy</researchPrerequisite>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_MakeStoneBlocks</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>PsychoidLeaves</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Axolotl_JadeEssencePowder</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Uranium</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>PsychoidLeaves</li>
+        <li>Axolotl_JadeEssencePowder</li>
+        <li>MedicineHerbal</li>
+        <li>Uranium</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MX_RecoveryPreparation>1</MX_RecoveryPreparation>
+    </products>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>MX_MakeCombatPreparation</defName>
+    <label>配制临战丹剂（炼成12枚）</label>
+    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚临战丹。</description>
+    <jobString>正在配制临战丹剂。</jobString>
+    <workAmount>9600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <skillRequirements>
+      <Crafting>6</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>Axolotl_GrindingTable</li>
+    </recipeUsers>
+    <researchPrerequisite>Axolotl_Research_Alchemy</researchPrerequisite>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_MakeStoneBlocks</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>RM_AxoPeachWood</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>PsychoidLeaves</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Axolotl_JadeEssencePowder</li>
+          </thingDefs>
+        </filter>
+        <count>16</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Uranium</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>RM_AxoPeachWood</li>
+        <li>PsychoidLeaves</li>
+        <li>Axolotl_JadeEssencePowder</li>
+        <li>Uranium</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <MX_CombatPreparation>1</MX_CombatPreparation>
+    </products>
   </RecipeDef>
 </Defs>

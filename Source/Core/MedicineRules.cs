@@ -10,6 +10,18 @@ namespace MoeLotlExpansion.Core
         public const int TicksPerHour = 2500;
         public const int TicksPerDay = 60000;
 
+        public static float RecoveryAmount(float capacity, float current)
+        {
+            if (float.IsNaN(capacity) || float.IsInfinity(capacity) || capacity <= 0 ||
+                float.IsNaN(current) || float.IsInfinity(current)) return 0f;
+            return Math.Max(0f, Math.Min(Math.Min(capacity * 0.4f, 200f), capacity - Math.Max(0f, current)));
+        }
+
+        public static int FatigueRemaining(long combatExpiresAt, int now)
+        {
+            return Remaining(combatExpiresAt + 6L * TicksPerHour, now);
+        }
+
         public static MedicineRejection CheckLivingTarget(bool exists, bool alive, bool moeLotl, bool zombie)
         {
             if (!exists || !alive) return MedicineRejection.InvalidTarget;

@@ -3,11 +3,30 @@
   <name>MoeLotl Expansion - 萌螈丹药扩展</name>
   <author>pigeonhunter715</author>
   <packageId>pigeonhunter715.moelotl.expansion</packageId>
-  <supportedVersions><li>1.6</li></supportedVersions>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
   <modDependencies>
-    <li><packageId>hentailoliteam.axolotl</packageId><displayName>MoeLotl Race</displayName><steamWorkshopUrl>steam://url/CommunityFilePage/3292351432</steamWorkshopUrl></li>
-    <li><packageId>fxz.moelotlzombie.update</packageId><displayName>MoeLotl: Rigor Mortis</displayName><steamWorkshopUrl>steam://url/CommunityFilePage/3454053400</steamWorkshopUrl></li>
+    <li>
+      <packageId>hentailoliteam.axolotl</packageId>
+      <displayName>MoeLotl Race</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3292351432</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>fxz.moelotlzombie.update</packageId>
+      <displayName>MoeLotl: Rigor Mortis</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3454053400</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
   </modDependencies>
-  <loadAfter><li>hentailoliteam.axolotl</li><li>fxz.moelotlzombie.update</li></loadAfter>
-  <description>萌螈丹药与药渡玉佩扩展（dev 开发版）。阶段一包含暖脉丹、清暑丹、百工丹及捣药台配方。其余丹药和玉佩尚在开发，详见 README。仅支持 RimWorld 1.6；未声明 1.7 兼容。</description>
+  <loadAfter>
+    <li>hentailoliteam.axolotl</li>
+    <li>fxz.moelotlzombie.update</li>
+    <li>brrainz.harmony</li>
+  </loadAfter>
+  <description>萌螈丹药与药渡玉佩扩展（dev 开发版）。包含暖脉、清暑、百工、回元、临战五药及捣药台/炉炼流程。其余丹药和玉佩尚在开发，详见 README。仅支持 RimWorld 1.6；未声明 1.7 兼容。</description>
 </ModMetaData>

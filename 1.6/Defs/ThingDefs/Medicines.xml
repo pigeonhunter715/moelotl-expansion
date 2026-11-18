@@ -17,14 +17,37 @@
     <stackLimit>25</stackLimit>
     <pathCost>15</pathCost>
     <drawGUIOverlay>true</drawGUIOverlay>
-    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>12</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
-    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.72,0.29,0.18)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
-    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>12</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.72,0.29,0.18)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
     <comps>
       <li Class="CompProperties_Forbiddable" />
-      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompUsableMedicine</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>100</useDuration>
+      </li>
     </comps>
-    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_WarmingEffect</effect><durationTicks>120000</durationTicks></li></modExtensions>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <effect>MX_WarmingEffect</effect>
+        <durationTicks>120000</durationTicks>
+      </li>
+    </modExtensions>
   </ThingDef>
   <ThingDef>
     <defName>MX_CoolingPill</defName>
@@ -43,14 +66,37 @@
     <stackLimit>25</stackLimit>
     <pathCost>15</pathCost>
     <drawGUIOverlay>true</drawGUIOverlay>
-    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>12</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
-    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.20,0.56,0.62)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
-    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>12</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.20,0.56,0.62)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
     <comps>
       <li Class="CompProperties_Forbiddable" />
-      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompUsableMedicine</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>100</useDuration>
+      </li>
     </comps>
-    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_CoolingEffect</effect><durationTicks>120000</durationTicks></li></modExtensions>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <effect>MX_CoolingEffect</effect>
+        <durationTicks>120000</durationTicks>
+      </li>
+    </modExtensions>
   </ThingDef>
   <ThingDef>
     <defName>MX_IndustryPill</defName>
@@ -69,13 +115,161 @@
     <stackLimit>25</stackLimit>
     <pathCost>15</pathCost>
     <drawGUIOverlay>true</drawGUIOverlay>
-    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>25</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
-    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.92,0.72,0.25)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
-    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>25</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.92,0.72,0.25)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
     <comps>
       <li Class="CompProperties_Forbiddable" />
-      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompUsableMedicine</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>100</useDuration>
+      </li>
     </comps>
-    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_IndustryEffect</effect><durationTicks>60000</durationTicks></li></modExtensions>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <effect>MX_IndustryEffect</effect>
+        <durationTicks>60000</durationTicks>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_RecoveryPill</defName>
+    <label>回元丹</label>
+    <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>60</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.25,0.75,0.48)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompUsableMedicine</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>100</useDuration>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_RecoveryPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>2</RefineNeedCount>
+        <FinishGetCount>12</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <effect>MX_RecoveryEffect</effect>
+        <durationTicks>15000</durationTicks>
+        <requiresMeridians>true</requiresMeridians>
+        <preventRefresh>true</preventRefresh>
+        <restoresQi>true</restoresQi>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy</li>
+        </researches>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_CombatPill</defName>
+    <label>临战丹</label>
+    <description>持续8小时：近战伤害×1.20，移动×1.15，瞄准时间×0.85，受到伤害×0.90。随后6小时工作速度×0.90。药效与疲劳期间禁止再服；需一级以上仍有功能的灵螈脉络。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>100</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.8,0.2,0.15)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompUsableMedicine</compClass>
+        <useJob>UseItem</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>100</useDuration>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_CombatPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>4</RefineNeedCount>
+        <FinishGetCount>12</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <effect>MX_CombatEffect</effect>
+        <durationTicks>35000</durationTicks>
+        <requiresMeridians>true</requiresMeridians>
+        <preventRefresh>true</preventRefresh>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy</li>
+        </researches>
+      </li>
+    </modExtensions>
   </ThingDef>
 </Defs>

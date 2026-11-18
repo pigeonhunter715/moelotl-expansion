@@ -5,4 +5,8 @@
   <MX_InvalidTarget>This target cannot use this medicine.</MX_InvalidTarget>
   <MX_LivingMoeLotlOnly>Only living MoeLotl can use this medicine; zombies cannot.</MX_LivingMoeLotlOnly>
   <MX_RemainingHours>{0} hours remaining</MX_RemainingHours>
+  <MX_RequiresMeridians>Requires functioning meridians of level 1 or higher.</MX_RequiresMeridians>
+  <MX_MedicineCooldown>Effect or cooldown has {0} hours remaining.</MX_MedicineCooldown>
+  <MX_QiFull>Qi is full; this pill would restore nothing.</MX_QiFull>
+  <MX_CombatFatigue>Post-combat fatigue</MX_CombatFatigue>
 </LanguageData>

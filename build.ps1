@@ -8,7 +8,7 @@ if (-not (Test-Path -LiteralPath $ConfigPath)) {
     throw 'Copy build.example.json to build.local.json and configure your own dependency paths.'
 }
 $config = Get-Content -LiteralPath $ConfigPath -Raw | ConvertFrom-Json
-foreach ($name in @('compilerPath', 'frameworkReferenceDir', 'rimWorldManagedDir', 'axolotlDll', 'rigorMortisDll')) {
+foreach ($name in @('compilerPath', 'frameworkReferenceDir', 'rimWorldManagedDir', 'axolotlDll', 'rigorMortisDll', 'harmonyDll')) {
     if (-not $config.$name -or -not (Test-Path -LiteralPath $config.$name)) { throw "Missing dependency path: $name" }
 }
 if (-not (Test-Path -LiteralPath (Join-Path $config.rimWorldManagedDir 'UnityEngine.CoreModule.dll'))) {
@@ -17,7 +17,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $config.rimWorldManagedDir 'UnityEng
 $frameworkNames = @('mscorlib.dll', 'System.dll', 'System.Core.dll')
 $references = @($frameworkNames | ForEach-Object { Join-Path $config.frameworkReferenceDir $_ })
 $references += @('Assembly-CSharp.dll', 'UnityEngine.CoreModule.dll') | ForEach-Object { Join-Path $config.rimWorldManagedDir $_ }
-$references += @($config.axolotlDll, $config.rigorMortisDll)
+$references += @($config.axolotlDll, $config.rigorMortisDll, $config.harmonyDll)
 foreach ($path in $references) { if (-not (Test-Path -LiteralPath $path)) { throw "Missing reference: $path" } }
 $outputDir = Join-Path $PSScriptRoot '1.6/Assemblies'
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null

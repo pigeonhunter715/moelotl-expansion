@@ -14,6 +14,16 @@ internal static class MedicineRulesTests
     {
         try
         {
+            Equal(40f, MedicineRules.RecoveryAmount(100f, 0f), "level one recovery");
+            Equal(120f, MedicineRules.RecoveryAmount(300f, 0f), "level three recovery");
+            Equal(200f, MedicineRules.RecoveryAmount(800f, 0f), "cultivation cap");
+            Equal(12f, MedicineRules.RecoveryAmount(300f, 288f), "partial recovery");
+            Equal(0f, MedicineRules.RecoveryAmount(300f, 300f), "full qi rejected");
+            Equal(0f, MedicineRules.RecoveryAmount(0f, 0f), "missing capacity");
+            Equal(0f, MedicineRules.RecoveryAmount(float.NaN, 0f), "invalid qi rejected");
+            Equal(15000, MedicineRules.FatigueRemaining(20000, 20000), "six hour fatigue");
+            Equal(10000, MedicineRules.FatigueRemaining(20000, 25000), "late expiry preserves elapsed fatigue");
+            Equal(0, MedicineRules.FatigueRemaining(20000, 35000), "travel does not restart fatigue");
             Equal(MedicineRejection.InvalidTarget, MedicineRules.CheckLivingTarget(false, false, false, false), "missing pawn");
             Equal(MedicineRejection.InvalidTarget, MedicineRules.CheckLivingTarget(true, false, true, false), "dead MoeLotl");
             Equal(MedicineRejection.RequiresLivingMoeLotl, MedicineRules.CheckLivingTarget(true, true, false, false), "other race");

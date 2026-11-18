@@ -3,5 +3,6 @@
   "frameworkReferenceDir": "C:/path/to/reference-assemblies/.NETFramework/v4.8",
   "rimWorldManagedDir": "D:/path/to/RimWorld-1.6/RimWorldWin64_Data/Managed",
   "axolotlDll": "D:/path/to/workshop/3292351432/1.6/Assemblies/Axolotl.dll",
-  "rigorMortisDll": "D:/path/to/workshop/3454053400/1.6/Assemblies/RigorMortis.dll"
+  "rigorMortisDll": "D:/path/to/workshop/3454053400/1.6/Assemblies/RigorMortis.dll",
+  "harmonyDll": "D:/path/to/workshop/2009463077/1.6/Assemblies/0Harmony.dll"
 }

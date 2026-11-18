@@ -5,13 +5,14 @@ using Verse;
 namespace MoeLotlExpansion
 {
     // Absolute game ticks keep expiry independent of pawn/map tick frequency.
-    public sealed class Hediff_TimedMedicine : Hediff
+    public class Hediff_TimedMedicine : Hediff
     {
         private long expiresAtTick;
         public long ExpiresAtTick => expiresAtTick;
         public int RemainingTicks => MedicineRules.Remaining(expiresAtTick, Find.TickManager.TicksGame);
 
         public override bool ShouldRemove => RemainingTicks <= 0 || base.ShouldRemove;
+        public override HediffStage CurStage => RemainingTicks > 0 ? base.CurStage : null;
         public override string LabelInBrackets => "MX_RemainingHours".Translate(
             (RemainingTicks / (float)MedicineRules.TicksPerHour).ToString("0.0"));
 
