@@ -12,6 +12,9 @@
 *.log
 
 # .NET build and IDE output
+/1.6/Assemblies/
+/artifacts/
+/build.local.json
 **/[Bb]in/
 **/[Oo]bj/
 .vs/

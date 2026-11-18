@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <MX_NoMedicine>No medicine is available.</MX_NoMedicine>
+  <MX_InvalidMedicine>Invalid medicine configuration. No item was consumed.</MX_InvalidMedicine>
+  <MX_InvalidTarget>This target cannot use this medicine.</MX_InvalidTarget>
+  <MX_LivingMoeLotlOnly>Only living MoeLotl can use this medicine; zombies cannot.</MX_LivingMoeLotlOnly>
+  <MX_RemainingHours>{0} hours remaining</MX_RemainingHours>
+</LanguageData>

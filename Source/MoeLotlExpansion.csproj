@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>MoeLotlExpansion</AssemblyName>
+    <RootNamespace>MoeLotlExpansion</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>../1.6/Assemblies/</OutputPath>
+    <RimWorldManagedDir Condition="'$(RimWorldManagedDir)' == ''">$(RIMWORLD_MANAGED_DIR)</RimWorldManagedDir>
+    <AxolotlDll Condition="'$(AxolotlDll)' == ''">$(AXOLOTL_DLL)</AxolotlDll>
+    <RigorMortisDll Condition="'$(RigorMortisDll)' == ''">$(RIGOR_MORTIS_DLL)</RigorMortisDll>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="All" />
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldManagedDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldManagedDir)/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Axolotl"><HintPath>$(AxolotlDll)</HintPath><Private>false</Private></Reference>
+    <Reference Include="RigorMortis"><HintPath>$(RigorMortisDll)</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+  <Target Name="ValidateDependencyPaths" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(RimWorldManagedDir)/Assembly-CSharp.dll')" Text="Configure RimWorldManagedDir for RimWorld 1.6." />
+    <Error Condition="!Exists('$(AxolotlDll)')" Text="Configure AxolotlDll for the 1.6 dependency." />
+    <Error Condition="!Exists('$(RigorMortisDll)')" Text="Configure RigorMortisDll for the 1.6 dependency." />
+  </Target>
+</Project>

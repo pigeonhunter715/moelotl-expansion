@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>MX_WarmingEffect</defName>
+    <label>暖脉丹药效</label>
+    <description>以桃木正气温养经脉的前期丹药。活体萌螈服用后最低舒适温度降低15℃，持续2天；不治疗失温或冻伤。重复使用只刷新时长。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages><li><statOffsets><ComfyTemperatureMin>-15</ComfyTemperatureMin></statOffsets></li></stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_CoolingEffect</defName>
+    <label>清暑丹药效</label>
+    <description>以阴沉木调和暑热的前期丹药。活体萌螈服用后最高舒适温度提高15℃，持续2天；不治疗中暑、不增加煞气。重复使用只刷新时长。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages><li><statOffsets><ComfyTemperatureMax>15</ComfyTemperatureMax></statOffsets></li></stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_IndustryEffect</defName>
+    <label>百工丹药效</label>
+    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度提高20%，研究速度额外提高10%，同条件研究综合提高32%，持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <stages><li><statFactors><WorkSpeedGlobal>1.2</WorkSpeedGlobal><ResearchSpeed>1.1</ResearchSpeed></statFactors></li></stages>
+  </HediffDef>
+</Defs>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef>
+    <defName>MX_WarmingPill</defName>
+    <label>暖脉丹</label>
+    <description>以桃木正气温养经脉的前期丹药。活体萌螈服用后最低舒适温度降低15℃，持续2天；不治疗失温或冻伤。重复使用只刷新时长。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>12</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
+    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.72,0.29,0.18)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
+    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+    </comps>
+    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_WarmingEffect</effect><durationTicks>120000</durationTicks></li></modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_CoolingPill</defName>
+    <label>清暑丹</label>
+    <description>以阴沉木调和暑热的前期丹药。活体萌螈服用后最高舒适温度提高15℃，持续2天；不治疗中暑、不增加煞气。重复使用只刷新时长。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>12</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
+    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.20,0.56,0.62)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
+    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+    </comps>
+    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_CoolingEffect</effect><durationTicks>120000</durationTicks></li></modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_IndustryPill</defName>
+    <label>百工丹</label>
+    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度提高20%，研究速度额外提高10%，同条件研究综合提高32%，持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases><MaxHitPoints>50</MaxHitPoints><Mass>0.05</Mass><MarketValue>25</MarketValue><DeteriorationRate>1</DeteriorationRate><Flammability>0.5</Flammability></statBases>
+    <graphicData><texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath><graphicClass>Graphic_Single</graphicClass><color>(0.92,0.72,0.25)</color><drawSize>(0.65,0.65)</drawSize></graphicData>
+    <thingCategories><li>Axolotl_Speical</li></thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable"><compClass>MoeLotlExpansion.CompUsableMedicine</compClass><useJob>UseItem</useJob><useLabel>服用 {0}</useLabel><useDuration>100</useDuration></li>
+    </comps>
+    <modExtensions><li Class="MoeLotlExpansion.MedicineExtension"><effect>MX_IndustryEffect</effect><durationTicks>60000</durationTicks></li></modExtensions>
+  </ThingDef>
+</Defs>
