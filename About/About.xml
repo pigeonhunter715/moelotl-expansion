@@ -28,5 +28,5 @@
     <li>fxz.moelotlzombie.update</li>
     <li>brrainz.harmony</li>
   </loadAfter>
-  <description>萌螈丹药与药渡玉佩扩展（dev 开发版）。包含十种丹药、捣药台/炉炼流程与螈僵喂药。其余丹药和玉佩尚在开发，详见 README。仅支持 RimWorld 1.6；未声明 1.7 兼容。</description>
+  <description>萌螈丹药与药渡玉佩扩展（dev 开发版）。包含十一种丹药、七种丹剂、捣药台/炉炼流程、螈僵喂药与药渡玉佩。玉佩真实储药，自动服药和补货默认关闭，目标数量默认0。仅支持 RimWorld 1.6；未声明 1.7 兼容。验证范围与开发占位美术见 README。</description>
 </ModMetaData>

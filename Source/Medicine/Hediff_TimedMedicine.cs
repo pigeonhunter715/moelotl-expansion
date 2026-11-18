@@ -13,6 +13,12 @@ namespace MoeLotlExpansion
 
         public override bool ShouldRemove => RemainingTicks <= 0 || base.ShouldRemove;
         public override HediffStage CurStage => RemainingTicks > 0 ? base.CurStage : null;
+        protected override void OnStageIndexChanged(int stageIndex)
+        {
+            // PostMake sets severity before Renew assigns the expiry clock.
+            // Vanilla assumes CurStage is non-null during that callback.
+            if (CurStage != null) base.OnStageIndexChanged(stageIndex);
+        }
         public override string LabelInBrackets => "MX_RemainingHours".Translate(
             (RemainingTicks / (float)MedicineRules.TicksPerHour).ToString("0.0"));
 

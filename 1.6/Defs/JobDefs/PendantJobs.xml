@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>MX_RestockPendant</defName>
+    <driverClass>MoeLotlExpansion.JobDriver_RestockPendant</driverClass>
+    <reportString>正在为药渡玉佩装药。</reportString>
+    <casualInterruptible>true</casualInterruptible>
+  </JobDef>
+  <WorkGiverDef>
+    <defName>MX_RestockPendant</defName>
+    <label>补充药渡玉佩</label>
+    <giverClass>MoeLotlExpansion.WorkGiver_RestockPendant</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>95</priorityInType>
+    <verb>装药</verb>
+    <gerund>装药</gerund>
+  </WorkGiverDef>
+</Defs>

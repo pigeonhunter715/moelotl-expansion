@@ -111,4 +111,13 @@
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
   </HediffDef>
+  <HediffDef>
+    <defName>MX_DispelEffect</defName>
+    <label>镇煞丹药效</label>
+    <description>药效12小时。实际消耗螈气的攻击直接命中螈僵时散去20基础煞气；同次攻击同目标一次，每次最多60，同一对角色间隔180 ticks。沿用飞僵和散煞倍率，不突破珍珠有效下限；护盾、位移、未命中和持续伤害不触发。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+  </HediffDef>
 </Defs>

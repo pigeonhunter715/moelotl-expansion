@@ -3,6 +3,7 @@ Optional --rimsearcher checks external references against the merged Def snapsho
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -35,6 +36,8 @@ ZOMBIE_SPECS = {
     'Release': ('归真丹', 0, 2400, 4, 40, 0, 3, 'Axolotl_Research_BasePlant', {'RM_AxoPeachWood': 5, 'RM_OvercastWood': 5, 'MedicineHerbal': 3, 'Axolotl_JadeEssencePowder': 20}),
     'Rescue': ('安魂丹', 0, 3000, 6, 180, 10, 3, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 20, 'RM_ChickenBlood': 3, 'Gold': 6, 'Axolotl_JadeEssencePowder': 20, 'MedicineHerbal': 4}),
 }
+EXPECTED['Dispel'] = dict(label='镇煞丹', ticks=30000, work=9600, skill=6, price=100, refine=4,
+    ingredients={'RM_AxoPeachWood':8, 'RM_ChickenBlood':2, 'Gold':1, 'Axolotl_JadeEssencePowder':12}, offsets={}, factors={})
 for key, (label, ticks, work, skill, price, refine, batch, research, ingredients) in ZOMBIE_SPECS.items():
     EXPECTED[key] = dict(label=label, ticks=ticks, work=work, skill=skill, price=price, batch=batch, research=research, ingredients=ingredients, offsets={}, factors={}, zombie=True)
     if refine: EXPECTED[key]['refine'] = refine
@@ -93,7 +96,7 @@ def main():
         refined = "refine" in spec
         recipe = recipes[f"MX_Make{key}Preparation" if refined else f"MX_Make{key}Pills"]
         research = spec.get('research', "Axolotl_Research_Alchemy" if refined else "Axolotl_Research_BasePlant")
-        researches = [research] + (['Axolotl_RM_Zombies'] if zombie else [])
+        researches = [research] + (['Axolotl_RM_Zombies'] if zombie or key == 'Dispel' else [])
         batch = spec.get('batch', 12 if refined else 5)
         check(item.findtext("alwaysHaulable") == "true", f"{key}: item cannot be hauled")
         check(item.findtext("stackLimit") == "25", f"{key}: stack size")
@@ -132,14 +135,14 @@ def main():
             unlock = item.find("modExtensions/li[@Class='MoeLotlExpansion.AlchemyRecipeExtension']")
             check([n.text for n in unlock.findall("researches/li")] == researches, f"{key}: furnace research")
             if not zombie:
-                check(extension.findtext("requiresMeridians") == "true" and extension.findtext("preventRefresh") == "true", f"{key}: use gates")
+                check(extension.findtext("requiresMeridians") == "true" and (key == 'Dispel' or extension.findtext("preventRefresh") == "true"), f"{key}: use gates")
         else:
             check(recipe.findtext(f"products/MX_{key}Pill") == str(batch), f"{key}: batch output")
         check(int(recipe.findtext("workAmount")) == spec["work"], f"{key}: work")
         check(recipe.findtext("workSkill") == "Crafting", f"{key}: must use crafting skill")
         check(int(recipe.findtext("skillRequirements/Crafting")) == spec["skill"], f"{key}: skill requirement")
         check([n.text for n in recipe.findall("recipeUsers/li")] == ["Axolotl_GrindingTable"], f"{key}: wrong workbench")
-        actual_researches = [r.text for r in recipe.findall('researchPrerequisites/li')] if zombie else [recipe.findtext('researchPrerequisite')]
+        actual_researches = [r.text for r in recipe.findall('researchPrerequisites/li')] if zombie or key == 'Dispel' else [recipe.findtext('researchPrerequisite')]
         check(actual_researches == researches, f'{key}: research')
         external |= {('ResearchProjectDef', r) for r in researches}
         matching = [line for line in design.splitlines() if line.startswith(f'| {spec["label"]} |') and "颗" in line and len(line.split("|")) == 8]
@@ -152,9 +155,28 @@ def main():
         external |= {("ThingDef", name) for name in ingredients}
         external |= {("StatDef", name) for name in (*spec["offsets"], *spec["factors"])}
     check(abs(1.2 * 1.1 - 1.32) < 1e-9, "Research multiplier")
+    pendant = indexed('1.6/Defs/ThingDefs/MedicinePendant.xml', 'ThingDef')['MX_MedicinePendant']
+    pendant_recipe = indexed('1.6/Defs/RecipeDefs/MedicinePendant.xml', 'RecipeDef')['MX_MakeMedicinePendant']
+    cost = {'Jade': 20, 'Gold': 2, 'Axolotl_JadeEssencePowder': 8, 'Cloth': 5}
+    check({n.tag: int(n.text) for n in pendant.findall('costList/*')} == cost, 'Pendant cost list')
+    check({n.findtext('filter/thingDefs/li'): int(n.findtext('count')) for n in pendant_recipe.findall('ingredients/li')} == cost, 'Pendant recipe ingredients')
+    check(pendant.findtext('thingClass') == 'MoeLotlExpansion.MedicinePendant', 'Pendant physical container class')
+    check(pendant.findtext('statBases/Mass') == '0.3' and pendant.findtext('statBases/MaxHitPoints') == '120', 'Pendant mass and durability')
+    check(pendant.findtext('apparel/layers/li') == 'MX_PendantLayer' and pendant.findtext('apparel/bodyPartGroups/li') == 'Waist', 'Pendant layer and body part')
+    check(not any('Quality' in n.get('Class', '') for n in pendant.findall('comps/li')), 'Pendant quality must not alter capacity')
+    check(pendant_recipe.findtext('workAmount') == '6000' and pendant_recipe.findtext('skillRequirements/Crafting') == '4', 'Pendant crafting work and level')
+    check(pendant_recipe.findtext('recipeUsers/li') == 'TableSculpting' and pendant_recipe.findtext('researchPrerequisite') == 'Axolotl_Research_BasePlant', 'Pendant bench and research')
+    check(pendant_recipe.findtext('products/MX_MedicinePendant') == '1', 'Pendant output')
+    external |= {('ThingDef', name) for name in cost}
+    external |= {('ThingDef', 'TableSculpting'), ('ApparelLayerDef', 'OnSkin'), ('BodyPartGroupDef', 'Waist'), ('ThingCategoryDef', 'Apparel'), ('WorkTypeDef', 'Hauling')}
     cn = ET.parse(ROOT / "Languages/ChineseSimplified/Keyed/Medicines.xml").getroot()
     en = ET.parse(ROOT / "Languages/English/Keyed/Medicines.xml").getroot()
     check({x.tag for x in cn} == {x.tag for x in en}, "Translation keys mismatch")
+    keys = {x.tag for x in cn}
+    source = '\n'.join(p.read_text(encoding='utf-8-sig') for p in (ROOT / 'Source').rglob('*.cs'))
+    used_keys = set(re.findall(r'"(MX_[A-Za-z0-9_]+)"\.Translate\(', source))
+    check(used_keys <= keys, 'Missing source translations: ' + str(used_keys - keys))
+    check(len(keys) == len(cn) == len(en), 'Duplicate localization keys')
     if args.rimsearcher:
         for def_type, name in sorted(external):
             result = subprocess.run([str(args.rimsearcher.resolve()), "get", name, "--type", def_type, "--brief"],

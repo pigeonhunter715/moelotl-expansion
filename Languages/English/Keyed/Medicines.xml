@@ -20,4 +20,53 @@
   <MX_CapacityNormalRisk>Capacity will return to normal; monitor malice.</MX_CapacityNormalRisk>
   <MX_PurifyStatus>Malice {0} / stable capacity {1}; purifying ceiling {2}</MX_PurifyStatus>
   <MX_PearlFloorSuppressed>Low capacity temporarily suppresses the pearl floor; duration and growth factor remain active.</MX_PearlFloorSuppressed>
+  <MX_NativeNeedsMap>This native pill requires a map; paused while travelling.</MX_NativeNeedsMap>
+  <MX_DeliveryGap>Wait for the ordinary delivery interval.</MX_DeliveryGap>
+  <MX_RescueStock>{0} has {1} rescue pills remaining in the pendant.</MX_RescueStock>
+  <MX_OpenPendant>Medicine pendant</MX_OpenPendant>
+  <MX_PendantDescription>Manage real medicine, manual use and independent automatic use/refill policies.</MX_PendantDescription>
+  <MX_TargetInvalid>Unchanged: enter an integer 0–25; total targets &lt;=60; reserved and stocked types &lt;=6.</MX_TargetInvalid>
+  <MX_WearToConfigure>Wear to configure; removed pendants retain stock and stop delivery.</MX_WearToConfigure>
+  <MX_PendantHeader>{0}: {1}/60 pills, {2}/6 types, {3} kg</MX_PendantHeader>
+  <MX_AutoUse>Enable automatic use</MX_AutoUse>
+  <MX_AutoRefill>Enable automatic refill</MX_AutoRefill>
+  <MX_RefillNow>Refill to targets</MX_RefillNow>
+  <MX_Unload>Unload all</MX_Unload>
+  <MX_PendantDefaults>All switches start off, targets at zero. Refill never enables use. Maintain renews on expiry. Release and repair are manual only.</MX_PendantDefaults>
+  <MX_PendantColumns>Medicine                      Count      Refill target               Automatic mode             Actions                      Status</MX_PendantColumns>
+  <MX_Set>Set</MX_Set>
+  <MX_ManualOnly>Manual only</MX_ManualOnly>
+  <MX_ModeOff>Automatic off</MX_ModeOff>
+  <MX_ModeConditional>Conditional</MX_ModeConditional>
+  <MX_ModeMaintain>Maintain</MX_ModeMaintain>
+  <MX_UseNow>Use now</MX_UseNow>
+  <MX_LoadOne>Load one</MX_LoadOne>
+  <MX_NoRestockPath>No available hauler, reachable medicine or capacity; no refill during combat, drafting or berserk.</MX_NoRestockPath>
+  <MX_PearlPaused>Paused after rescue; re-enable manually</MX_PearlPaused>
+  <MX_GatherPaused>Automatic malice gain paused for 1h</MX_GatherPaused>
+  <MX_GrowthTarget>Cultivation target: {0} (0 = off)</MX_GrowthTarget>
+  <MX_CopyPolicy>Copy policy</MX_CopyPolicy>
+  <MX_PastePolicy>Paste policy</MX_PastePolicy>
+  <MX_TravelPaused>Travel: temperature, work/combat and native growth/repair paused; verified qi/malice rules continue.</MX_TravelPaused>
+  <MX_PendantManualHelp>Manual use still waits and validates; rescue removes the pearl. Load one works with a zero target.</MX_PendantManualHelp>
+  <MX_ClearSlotFirst>Unload this medicine and set its target to zero before changing this slot.</MX_ClearSlotFirst>
+  <MX_EmptySlot>Clear slot selection</MX_EmptySlot>
+  <MX_ChooseMedicine>+ Choose medicine</MX_ChooseMedicine>
+  <MX_SlotDetail>Shortfall {0} | {1}</MX_SlotDetail>
+  <MX_MaliceStatus>Malice {0} / capacity {1} | control limit {2} | expected gain {3}</MX_MaliceStatus>
+  <MX_Condition_MX_WarmingPill>Cold for 5s; absent effect or scheduled renewal.</MX_Condition_MX_WarmingPill>
+  <MX_Condition_MX_CoolingPill>Heat for 5s; absent effect or scheduled renewal.</MX_Condition_MX_CoolingPill>
+  <MX_Condition_MX_RecoveryPill>Qi at most 30%, room for full dose; 6h cooldown.</MX_Condition_MX_RecoveryPill>
+  <MX_Condition_MX_CombatPill>Actual hostile combat; 8h buff plus 6h fatigue lockout.</MX_Condition_MX_CombatPill>
+  <MX_Condition_MX_DispelPill>A qi attack targeting a zombie.</MX_Condition_MX_DispelPill>
+  <MX_Condition_MX_IndustryPill>Awake, undrafted, actually working or researching.</MX_Condition_MX_IndustryPill>
+  <MX_Condition_MX_CapacityPill>Owned zombie; maintain mode schedules expiry renewal.</MX_Condition_MX_CapacityPill>
+  <MX_Condition_MX_PurifyPill>Owned zombie; dynamic limit at 80% of capacity.</MX_Condition_MX_PurifyPill>
+  <MX_Condition_MX_GatherPill>Malice below 50%, gain at least 200; 6h cooldown.</MX_Condition_MX_GatherPill>
+  <MX_Condition_MX_ReleasePill>Manual only; removes purify/pearl and disables their rules.</MX_Condition_MX_ReleasePill>
+  <MX_Condition_MX_RescuePill>Owned berserk zombie; requires master and this rule enabled.</MX_Condition_MX_RescuePill>
+  <MX_Condition_Axolotl_LotlqiPellet>Below selected meridian level; native restrictions apply.</MX_Condition_Axolotl_LotlqiPellet>
+  <MX_Condition_Axolotl_ReversalMeridianPill>Manual only; native meridian repair restrictions apply.</MX_Condition_Axolotl_ReversalMeridianPill>
+  <MX_Condition_Axolotl_YakshaPearl>Owned non-berserk zombie; re-enable manually after rescue.</MX_Condition_Axolotl_YakshaPearl>
+  <MX_StoredMedicine>Medicine: {0}/60 doses, {1}/6 types.</MX_StoredMedicine>
 </LanguageData>

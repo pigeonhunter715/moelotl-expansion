@@ -16,7 +16,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $config.rimWorldManagedDir 'UnityEng
 }
 $frameworkNames = @('mscorlib.dll', 'System.dll', 'System.Core.dll')
 $references = @($frameworkNames | ForEach-Object { Join-Path $config.frameworkReferenceDir $_ })
-$references += @('Assembly-CSharp.dll', 'UnityEngine.CoreModule.dll') | ForEach-Object { Join-Path $config.rimWorldManagedDir $_ }
+$references += @('Assembly-CSharp.dll', 'UnityEngine.CoreModule.dll', 'UnityEngine.IMGUIModule.dll', 'UnityEngine.TextRenderingModule.dll', 'netstandard.dll') | ForEach-Object { Join-Path $config.rimWorldManagedDir $_ }
 $references += @($config.axolotlDll, $config.rigorMortisDll, $config.harmonyDll)
 foreach ($path in $references) { if (-not (Test-Path -LiteralPath $path)) { throw "Missing reference: $path" } }
 $outputDir = Join-Path $PSScriptRoot '1.6/Assemblies'

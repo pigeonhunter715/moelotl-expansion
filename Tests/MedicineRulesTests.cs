@@ -15,6 +15,26 @@ internal static class MedicineRulesTests
         try
         {
             Equal(40f, MedicineRules.RecoveryAmount(100f, 0f), "level one recovery");
+            Equal(25, MedicineRules.StorageSpace(0,0,0), "per type limit");
+            Equal(0, MedicineRules.StorageSpace(60,10,6), "total full");
+            Equal(0, MedicineRules.StorageSpace(6,0,6), "seventh type rejected");
+            Equal(5, MedicineRules.StorageSpace(55,20,6), "same type fifth remaining");
+            Equal(false, MedicineRules.ValidTarget(-1,0,1), "negative target denied");
+            Equal(false, MedicineRules.ValidTarget(26,0,1), "target above twenty five denied");
+            Equal(false, MedicineRules.ValidTarget(25,36,3), "target total denied");
+            Equal(false, MedicineRules.ValidTarget(1,5,7), "reserved seventh type denied");
+            Equal(true, MedicineRules.ValidTarget(0,60,6), "zero target leaves stock");
+            Equal(0, MedicineRules.RefillNeed(12,7,0,false), "above half no refill");
+            Equal(6, MedicineRules.RefillNeed(12,6,0,false), "half triggers exact deficit");
+            Equal(2, MedicineRules.RefillNeed(12,6,4,false), "in flight deducted");
+            Equal(1, MedicineRules.RefillNeed(1,0,0,false), "single emergency target respected");
+            Equal(5, MedicineRules.RefillNeed(12,7,0,true), "manual refill bypasses half threshold");
+            Equal(true, MedicineRules.CanDispel(0, false, 0, 100), "first paid contact");
+            Equal(false, MedicineRules.CanDispel(1, true, 0, 1000), "same burst cannot repeat after cooldown");
+            Equal(false, MedicineRules.CanDispel(0, false, 180, 179), "pair cooldown last tick");
+            Equal(true, MedicineRules.CanDispel(0, false, 180, 180), "pair cooldown exact boundary");
+            Equal(true, MedicineRules.CanDispel(2, false, 0, 100), "third target allowed");
+            Equal(false, MedicineRules.CanDispel(3, false, 0, 100), "sixty base total cap");
             Equal(800f, MedicineRules.ControlledMalice(1200f, 1000f, false, 300f), "purify hard ceiling");
             Equal(0f, MedicineRules.ControlledMalice(0f, 1000f, false, 300f), "purify never fills");
             Equal(300f, MedicineRules.ControlledMalice(0f, 1000f, true, 300f), "pearl preserved");

@@ -11,7 +11,9 @@ namespace MoeLotlExpansion
     {
 #pragma warning disable CS0649
         public static HediffDef MX_CapacityEffect, MX_PurifyEffect, MX_GatherEffect;
+        public static HediffDef MX_DispelEffect;
         public static JobDef MX_FeedMedicine;
+        public static JobDef MX_RestockPendant;
 #pragma warning restore CS0649
         static MXDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(MXDefOf));
     }
@@ -89,6 +91,7 @@ namespace MoeLotlExpansion
                 _ = comp.Malevolent;
             }
             medicine.SplitOff(1).Destroy(DestroyMode.Vanish);
+            PendantManager.Instance?.MedicineUsed(pawn, config.zombieMedicine);
             return true;
         }
     }

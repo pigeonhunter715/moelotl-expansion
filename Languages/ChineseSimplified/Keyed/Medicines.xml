@@ -20,4 +20,53 @@
   <MX_CapacityNormalRisk>容量将恢复，请留意煞气。</MX_CapacityNormalRisk>
   <MX_PurifyStatus>煞气 {0} / 稳定容量 {1}；涤煞上限 {2}</MX_PurifyStatus>
   <MX_PearlFloorSuppressed>容量不足，夜叉珍珠300保底暂被抑制；药效计时与增长系数仍保留。</MX_PearlFloorSuppressed>
+  <MX_NativeNeedsMap>此原模组丹药需要地图环境，远行时暂停。</MX_NativeNeedsMap>
+  <MX_DeliveryGap>普通送药间隔尚未结束。</MX_DeliveryGap>
+  <MX_RescueStock>{0}的药渡玉佩仅余{1}枚安魂丹。</MX_RescueStock>
+  <MX_OpenPendant>药渡玉佩</MX_OpenPendant>
+  <MX_PendantDescription>管理真实丹药、手动使用及独立的自动用药和补货设置。</MX_PendantDescription>
+  <MX_TargetInvalid>设置未修改：数量须为0～25整数，目标合计≤60，目标与现存药合计≤6种。</MX_TargetInvalid>
+  <MX_WearToConfigure>穿戴后可配置；卸下时保留实物药品并停止送药。</MX_WearToConfigure>
+  <MX_PendantHeader>{0}的药渡玉佩：{1}/60枚，{2}/6种，当前重量{3} kg</MX_PendantHeader>
+  <MX_AutoUse>启用自动用药</MX_AutoUse>
+  <MX_AutoRefill>启用自动补货</MX_AutoRefill>
+  <MX_RefillNow>补至目标</MX_RefillNow>
+  <MX_Unload>全部卸药</MX_Unload>
+  <MX_PendantDefaults>初始全部关闭、目标0。设补货目标不会开启自动服药。维持模式到期才续服；归真与回脉仅手动。</MX_PendantDefaults>
+  <MX_PendantColumns>丹药                          数量      补货目标（0～25）       自动模式                    操作                         状态</MX_PendantColumns>
+  <MX_Set>设定</MX_Set>
+  <MX_ManualOnly>仅手动</MX_ManualOnly>
+  <MX_ModeOff>禁用自动</MX_ModeOff>
+  <MX_ModeConditional>条件使用</MX_ModeConditional>
+  <MX_ModeMaintain>维持药效</MX_ModeMaintain>
+  <MX_UseNow>立即使用</MX_UseNow>
+  <MX_LoadOne>装入1枚</MX_LoadOne>
+  <MX_NoRestockPath>暂无可用搬运者、可达药品或容器空间；交战、征召和狂暴时不补货。</MX_NoRestockPath>
+  <MX_PearlPaused>安魂后暂停；手动重新启用</MX_PearlPaused>
+  <MX_GatherPaused>安魂后暂停自动聚煞1小时</MX_GatherPaused>
+  <MX_GrowthTarget>运气丹目标等级：{0}（0=不培养）</MX_GrowthTarget>
+  <MX_CopyPolicy>复制方案</MX_CopyPolicy>
+  <MX_PastePolicy>粘贴方案</MX_PastePolicy>
+  <MX_TravelPaused>远行：暂停环境温度、工作/战斗条件及原生运气/回脉药；可核实的补气/稳煞规则继续。</MX_TravelPaused>
+  <MX_PendantManualHelp>手动服药仍需完成送药并复核；安魂会消除夜叉珍珠。装入1枚无需设置补货目标。</MX_PendantManualHelp>
+  <MX_ClearSlotFirst>先卸出该格药物并将目标设为0，再更换药种。</MX_ClearSlotFirst>
+  <MX_EmptySlot>清空药格设置</MX_EmptySlot>
+  <MX_ChooseMedicine>＋选择丹药</MX_ChooseMedicine>
+  <MX_SlotDetail>缺口 {0} ｜ {1}</MX_SlotDetail>
+  <MX_MaliceStatus>煞气 {0}／容量 {1} ｜ 控制上限 {2} ｜ 聚煞预计补量 {3}</MX_MaliceStatus>
+  <MX_Condition_MX_WarmingPill>低温持续5秒；无药效或维持到期。</MX_Condition_MX_WarmingPill>
+  <MX_Condition_MX_CoolingPill>高温持续5秒；无药效或维持到期。</MX_Condition_MX_CoolingPill>
+  <MX_Condition_MX_RecoveryPill>螈气≤30%，容纳完整回复；6小时冷却。</MX_Condition_MX_RecoveryPill>
+  <MX_Condition_MX_CombatPill>实际敌对战斗；8小时药效＋6小时疲劳禁续。</MX_Condition_MX_CombatPill>
+  <MX_Condition_MX_DispelPill>对螈僵执行耗气攻击；不因普通攻击服药。</MX_Condition_MX_DispelPill>
+  <MX_Condition_MX_IndustryPill>清醒、未征召，正在工作或研究。</MX_Condition_MX_IndustryPill>
+  <MX_Condition_MX_CapacityPill>己方螈僵；维持模式预约到期续服。</MX_Condition_MX_CapacityPill>
+  <MX_Condition_MX_PurifyPill>己方螈僵；动态封顶实际容量80%。</MX_Condition_MX_PurifyPill>
+  <MX_Condition_MX_GatherPill>煞气&lt;50%，至少增加200；6小时冷却。</MX_Condition_MX_GatherPill>
+  <MX_Condition_MX_ReleasePill>仅手动；去除涤煞和夜叉并关闭对应自动规则。</MX_Condition_MX_ReleasePill>
+  <MX_Condition_MX_RescuePill>仅己方螈僵狂暴；需开启总开关与本规则。</MX_Condition_MX_RescuePill>
+  <MX_Condition_Axolotl_LotlqiPellet>低于指定经脉等级，仍须满足本体使用条件。</MX_Condition_Axolotl_LotlqiPellet>
+  <MX_Condition_Axolotl_ReversalMeridianPill>仅手动；保留本体经脉修复限制。</MX_Condition_Axolotl_ReversalMeridianPill>
+  <MX_Condition_Axolotl_YakshaPearl>正常己方螈僵；安魂后须手动重新开启。</MX_Condition_Axolotl_YakshaPearl>
+  <MX_StoredMedicine>药仓：{0}／60枚，{1}／6种。</MX_StoredMedicine>
 </LanguageData>

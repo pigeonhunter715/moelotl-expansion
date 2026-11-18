@@ -34,6 +34,15 @@ namespace MoeLotlExpansion.Core
             return Math.Max(0f, Math.Min(300f, capacity * (controlled ? 0.8f : 0.9f) - current));
         }
 
+        public static bool CanDispel(int targetsAlreadyHit, bool sameActionHit, int cooldownUntil, int now) =>
+            targetsAlreadyHit < 3 && !sameActionHit && now >= cooldownUntil;
+        public static int StorageSpace(int total, int sameType, int kinds) =>
+            sameType == 0 && kinds >= 6 ? 0 : Math.Max(0, Math.Min(60 - total, 25 - sameType));
+        public static bool ValidTarget(int amount, int otherTargets, int resultingKinds) =>
+            amount >= 0 && amount <= 25 && amount + otherTargets <= 60 && resultingKinds <= 6;
+        public static int RefillNeed(int target, int current, int inFlight, bool manual) =>
+            target <= 0 || (!manual && current > target / 2) ? 0 : Math.Max(0, target - current - inFlight);
+
         public static MedicineRejection CheckLivingTarget(bool exists, bool alive, bool moeLotl, bool zombie)
         {
             if (!exists || !alive) return MedicineRejection.InvalidTarget;
