@@ -272,4 +272,313 @@
       </li>
     </modExtensions>
   </ThingDef>
+  <ThingDef>
+    <defName>MX_CapacityPill</defName>
+    <label>纳煞丹</label>
+    <description>煞气稳定容量×1.50，持续10天。当前煞气不变。到期前24小时及1小时提示；到期容量下降可能导致超限。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>200</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.25,0.4,0.22)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>喂服 {0}…</useLabel>
+        <useDuration>120</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_CapacityPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>25</RefineNeedCount>
+        <FinishGetCount>3</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Capacity</zombieMedicine>
+        <effect>MX_CapacityEffect</effect>
+        <durationTicks>600000</durationTicks>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy_Industrial</li>
+          <li>Axolotl_RM_Zombies</li>
+        </researches>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_PurifyPill</defName>
+    <label>涤煞丹</label>
+    <description>持续10天，将当前煞气硬封顶至实时稳定容量的80%。低于上限不补煞。容量低于375时暂时抑制夜叉珍珠300下限，保留珍珠增长系数和剩余时长；不直接解除狂暴。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>140</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(1,0.87,0.5)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>喂服 {0}…</useLabel>
+        <useDuration>120</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_PurifyPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>20</RefineNeedCount>
+        <FinishGetCount>3</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Purify</zombieMedicine>
+        <effect>MX_PurifyEffect</effect>
+        <durationTicks>600000</durationTicks>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy</li>
+          <li>Axolotl_RM_Zombies</li>
+        </researches>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_GatherPill</defName>
+    <label>聚煞丹</label>
+    <description>即时增加最多300煞气，只补至容量90%，有涤煞药效时只补至80%。冷却6小时，不增加阴气、进化进度或容量。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>70</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.4,0.18,0.5)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>喂服 {0}…</useLabel>
+        <useDuration>120</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_GatherPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>2</RefineNeedCount>
+        <FinishGetCount>12</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Gather</zombieMedicine>
+        <effect>MX_GatherEffect</effect>
+        <durationTicks>15000</durationTicks>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy</li>
+          <li>Axolotl_RM_Zombies</li>
+        </researches>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_ReleasePill</defName>
+    <label>归真丹</label>
+    <description>移除涤煞丹和夜叉珍珠的全部药效，保留服药前显示的煞气以及纳煞药效。没有这两种状态时不能使用。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>40</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.5,0.6,0.7)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>喂服 {0}…</useLabel>
+        <useDuration>120</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Release</zombieMedicine>
+      </li>
+    </modExtensions>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_RescuePill</defName>
+    <label>安魂丹</label>
+    <description>只可用于己方狂暴中的螈僵。先移除夜叉珍珠，再将煞气清零、解除螈僵狂暴并停止旧攻击。保留涤煞和纳煞；不改变归属。由其他角色贴身喂服120 ticks，受打断不耗药。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>25</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>180</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(1,0.8,0.75)</color>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>喂服 {0}…</useLabel>
+        <useDuration>120</useDuration>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_RescuePreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>10</RefineNeedCount>
+        <FinishGetCount>3</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Rescue</zombieMedicine>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_Alchemy</li>
+          <li>Axolotl_RM_Zombies</li>
+        </researches>
+      </li>
+    </modExtensions>
+  </ThingDef>
 </Defs>

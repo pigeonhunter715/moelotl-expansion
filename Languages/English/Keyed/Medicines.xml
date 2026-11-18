@@ -9,4 +9,15 @@
   <MX_MedicineCooldown>Effect or cooldown has {0} hours remaining.</MX_MedicineCooldown>
   <MX_QiFull>Qi is full; this pill would restore nothing.</MX_QiFull>
   <MX_CombatFatigue>Post-combat fatigue</MX_CombatFatigue>
+  <MX_ZombieOnly>Only living MoeLotl zombies can receive this medicine.</MX_ZombieOnly>
+  <MX_RescueOnly>Requires an owned zombie in zombie berserk; removes the remaining Yaksha pearl effect.</MX_RescueOnly>
+  <MX_NoBindings>No purifying pill or Yaksha pearl effect to remove.</MX_NoBindings>
+  <MX_GatherCooldown>Malice recovery is still on its six-hour cooldown.</MX_GatherCooldown>
+  <MX_MaliceFull>Already at the permitted malice replenishment limit.</MX_MaliceFull>
+  <MX_CapacityExpiring>The capacity pill on {0} expires in {1} hours. {2}</MX_CapacityExpiring>
+  <MX_CapacityPurifyRisk>The purifying ceiling will fall with capacity and may dissipate excess malice.</MX_CapacityPurifyRisk>
+  <MX_CapacityDangerRisk>Current malice is expected to exceed restored capacity; dispel or renew in advance.</MX_CapacityDangerRisk>
+  <MX_CapacityNormalRisk>Capacity will return to normal; monitor malice.</MX_CapacityNormalRisk>
+  <MX_PurifyStatus>Malice {0} / stable capacity {1}; purifying ceiling {2}</MX_PurifyStatus>
+  <MX_PearlFloorSuppressed>Low capacity temporarily suppresses the pearl floor; duration and growth factor remain active.</MX_PearlFloorSuppressed>
 </LanguageData>

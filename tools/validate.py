@@ -28,6 +28,18 @@ EXPECTED = {
 }
 
 
+ZOMBIE_SPECS = {
+    'Capacity': ('纳煞丹', 600000, 3000, 8, 200, 25, 3, 'Axolotl_Research_Alchemy_Industrial', {'RM_OvercastWood': 15, 'RM_UnrottenBone': 6, 'Axolotl_JadeEssencePowder': 20}),
+    'Purify': ('涤煞丹', 600000, 2400, 6, 140, 20, 3, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 15, 'RM_ChickenBlood': 1, 'Gold': 2, 'Axolotl_JadeEssencePowder': 10}),
+    'Gather': ('聚煞丹', 15000, 7200, 5, 70, 2, 12, 'Axolotl_Research_Alchemy', {'RM_OvercastWood': 8, 'RM_InsectBlood': 2, 'Axolotl_JadeEssencePowder': 8}),
+    'Release': ('归真丹', 0, 2400, 4, 40, 0, 3, 'Axolotl_Research_BasePlant', {'RM_AxoPeachWood': 5, 'RM_OvercastWood': 5, 'MedicineHerbal': 3, 'Axolotl_JadeEssencePowder': 20}),
+    'Rescue': ('安魂丹', 0, 3000, 6, 180, 10, 3, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 20, 'RM_ChickenBlood': 3, 'Gold': 6, 'Axolotl_JadeEssencePowder': 20, 'MedicineHerbal': 4}),
+}
+for key, (label, ticks, work, skill, price, refine, batch, research, ingredients) in ZOMBIE_SPECS.items():
+    EXPECTED[key] = dict(label=label, ticks=ticks, work=work, skill=skill, price=price, batch=batch, research=research, ingredients=ingredients, offsets={}, factors={}, zombie=True)
+    if refine: EXPECTED[key]['refine'] = refine
+
+
 def check(condition, message):
     if not condition:
         raise ValueError(message)
@@ -65,21 +77,24 @@ def main():
     effects = indexed("1.6/Defs/HediffDefs/MedicineEffects.xml", "HediffDef")
     recipes = indexed("1.6/Defs/RecipeDefs/Medicines.xml", "RecipeDef")
     preparations = indexed("1.6/Defs/ThingDefs/Preparations.xml", "ThingDef")
-    check(len(items) == len(effects) == len(recipes) == len(EXPECTED), "Medicine count mismatch")
+    check(len(items) == len(recipes) == len(EXPECTED) and len(effects) == sum(s['ticks'] > 0 for s in EXPECTED.values()), "Medicine count mismatch")
     check(len(preparations) == sum("refine" in s for s in EXPECTED.values()), "Preparation count mismatch")
     external = {("ThingDef", "Axolotl_GrindingTable"), ("ResearchProjectDef", "Axolotl_Research_BasePlant"),
                 ("ThingCategoryDef", "Axolotl_Speical"), ("JobDef", "UseItem"), ("SkillDef", "Crafting"),
                 ("StatDef", "GeneralLaborSpeed"), ("EffecterDef", "Tailor"), ("SoundDef", "Recipe_MakeStoneBlocks")}
     design = (ROOT / "萌螈丹药扩展设计_v0.1.md").read_text(encoding="utf-8-sig")
     material_names = {"RM_AxoPeachWood": "桃木", "RM_OvercastWood": "阴沉木", "MedicineHerbal": "草药",
-                      "PsychoidLeaves": "精神叶", "Axolotl_JadeEssencePowder": "玉琼粉", "Uranium": "铀"}
+                      "PsychoidLeaves": "精神叶", "Axolotl_JadeEssencePowder": "玉琼粉", "Uranium": "铀",
+                      "RM_UnrottenBone": "不化骨", "RM_ChickenBlood": "鸡血", "RM_InsectBlood": "虫血", "Gold": "黄金"}
     for key, spec in EXPECTED.items():
         item = items[f"MX_{key}Pill"]
-        effect = effects[f"MX_{key}Effect"]
+        effect = effects.get(f"MX_{key}Effect")
+        zombie = spec.get('zombie', False)
         refined = "refine" in spec
         recipe = recipes[f"MX_Make{key}Preparation" if refined else f"MX_Make{key}Pills"]
-        research = "Axolotl_Research_Alchemy" if refined else "Axolotl_Research_BasePlant"
-        batch = 12 if refined else 5
+        research = spec.get('research', "Axolotl_Research_Alchemy" if refined else "Axolotl_Research_BasePlant")
+        researches = [research] + (['Axolotl_RM_Zombies'] if zombie else [])
+        batch = spec.get('batch', 12 if refined else 5)
         check(item.findtext("alwaysHaulable") == "true", f"{key}: item cannot be hauled")
         check(item.findtext("stackLimit") == "25", f"{key}: stack size")
         check(float(item.findtext("statBases/Mass")) == 0.05, f"{key}: mass")
@@ -88,15 +103,22 @@ def main():
         comps = item.findall("comps/li")
         check(not any("DestroySelf" in (c.get("Class", "") + (c.findtext("compClass") or "")) for c in comps), f"{key}: double consumption")
         use = next(c for c in comps if c.get("Class") == "CompProperties_Usable")
-        check(use.findtext("compClass") == "MoeLotlExpansion.CompUsableMedicine", f"{key}: custom validation missing")
-        check(use.findtext("useDuration") == "100", f"{key}: use duration")
+        check(use.findtext("compClass") == ('MoeLotlExpansion.CompFeedMedicine' if zombie else "MoeLotlExpansion.CompUsableMedicine"), f"{key}: custom validation missing")
+        check(use.findtext("useDuration") == ('120' if zombie else "100"), f"{key}: use duration")
         extension = item.find("modExtensions/li")
-        check(extension.findtext("effect") == f"MX_{key}Effect", f"{key}: effect cross reference")
-        check(int(extension.findtext("durationTicks")) == spec["ticks"], f"{key}: duration")
-        effect_class = "Hediff_CombatMedicine" if key == "Combat" else "Hediff_TimedMedicine"
-        check(effect.findtext("hediffClass") == "MoeLotlExpansion." + effect_class, f"{key}: persistence class")
-        check(modifiers(effect, "statOffsets") == spec["offsets"], f"{key}: stat offsets")
-        check(modifiers(effect, "statFactors") == spec["factors"], f"{key}: stat factors")
+        if zombie:
+            check(extension.findtext('zombieMedicine') == key, f'{key}: action')
+            check(use.findtext('useJob') == 'MX_FeedMedicine', f'{key}: feeding job')
+            check(any(c.findtext('compClass') == 'MoeLotlExpansion.CompTargetableMedicine' for c in comps), f'{key}: targeting')
+        if spec['ticks']:
+            check(extension.findtext('effect') == f'MX_{key}Effect', f'{key}: effect reference')
+            check(int(extension.findtext('durationTicks')) == spec['ticks'], f'{key}: duration')
+            effect_class = {'Combat': 'Hediff_CombatMedicine', 'Capacity': 'Hediff_CapacityMedicine', 'Purify': 'Hediff_PurifyMedicine'}.get(key, 'Hediff_TimedMedicine')
+            check(effect.findtext('hediffClass') == 'MoeLotlExpansion.' + effect_class, f'{key}: persistence class')
+            check(modifiers(effect, 'statOffsets') == spec['offsets'], f'{key}: offsets')
+            check(modifiers(effect, 'statFactors') == spec['factors'], f'{key}: factors')
+        else:
+            check(effect is None and extension.find('effect') is None, f'{key}: instant action')
         ingredients = {n.findtext("filter/thingDefs/li"): int(n.findtext("count")) for n in recipe.findall("ingredients/li")}
         check(ingredients == spec["ingredients"], f"{key}: recipe ingredients")
         check({n.text for n in recipe.findall("fixedIngredientFilter/thingDefs/li")} == set(ingredients), f"{key}: ingredient filter")
@@ -108,16 +130,18 @@ def main():
             check(stove.findtext("StuffDef") == f"MX_{key}Preparation" and stove.findtext("StuffCount") == "1", f"{key}: no duplicate ingredient charges")
             check(int(stove.findtext("FinishGetCount")) == batch and int(stove.findtext("RefineNeedCount")) == spec["refine"], f"{key}: furnace yield/timing")
             unlock = item.find("modExtensions/li[@Class='MoeLotlExpansion.AlchemyRecipeExtension']")
-            check([n.text for n in unlock.findall("researches/li")] == [research], f"{key}: furnace research")
-            check(extension.findtext("requiresMeridians") == "true" and extension.findtext("preventRefresh") == "true", f"{key}: use gates")
+            check([n.text for n in unlock.findall("researches/li")] == researches, f"{key}: furnace research")
+            if not zombie:
+                check(extension.findtext("requiresMeridians") == "true" and extension.findtext("preventRefresh") == "true", f"{key}: use gates")
         else:
-            check(recipe.findtext(f"products/MX_{key}Pill") == "5", f"{key}: batch output")
+            check(recipe.findtext(f"products/MX_{key}Pill") == str(batch), f"{key}: batch output")
         check(int(recipe.findtext("workAmount")) == spec["work"], f"{key}: work")
         check(recipe.findtext("workSkill") == "Crafting", f"{key}: must use crafting skill")
         check(int(recipe.findtext("skillRequirements/Crafting")) == spec["skill"], f"{key}: skill requirement")
         check([n.text for n in recipe.findall("recipeUsers/li")] == ["Axolotl_GrindingTable"], f"{key}: wrong workbench")
-        check(recipe.findtext("researchPrerequisite") == research, f"{key}: research")
-        external.add(("ResearchProjectDef", research))
+        actual_researches = [r.text for r in recipe.findall('researchPrerequisites/li')] if zombie else [recipe.findtext('researchPrerequisite')]
+        check(actual_researches == researches, f'{key}: research')
+        external |= {('ResearchProjectDef', r) for r in researches}
         matching = [line for line in design.splitlines() if line.startswith(f'| {spec["label"]} |') and "颗" in line and len(line.split("|")) == 8]
         check(len(matching) == 1, f"{key}: ambiguous current design recipe")
         cells = [x.strip() for x in matching[0].split("|")]
@@ -138,7 +162,7 @@ def main():
             info = json.loads(result.stdout)
             check(info.get("def_name") == name, f"Missing runtime reference: {name}")
         print(f"PASS: {len(external)} external Def references resolved against runtime snapshot")
-    print("PASS: 5 medicines, 2 preparations, effects, recipes, design parity, XML and localization checks")
+    print(f"PASS: {len(items)} medicines, {len(preparations)} preparations, effects, recipes, design parity, XML and localization checks")
     print("Not an in-game load or save/reload test.")
 
 

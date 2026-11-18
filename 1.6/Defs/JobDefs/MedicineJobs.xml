@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>MX_FeedMedicine</defName>
+    <driverClass>MoeLotlExpansion.JobDriver_FeedMedicine</driverClass>
+    <reportString>正在喂服丹药。</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+</Defs>

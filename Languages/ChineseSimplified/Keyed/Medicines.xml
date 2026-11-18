@@ -9,4 +9,15 @@
   <MX_MedicineCooldown>当前药效或冷却尚余 {0} 小时，不能再服。</MX_MedicineCooldown>
   <MX_QiFull>当前螈气已满，无法获得回复。</MX_QiFull>
   <MX_CombatFatigue>药后疲劳</MX_CombatFatigue>
+  <MX_ZombieOnly>只能喂给仍存活的螈僵。</MX_ZombieOnly>
+  <MX_RescueOnly>只适用于仍属于己方、处于螈僵狂暴状态的目标；会消除夜叉珍珠剩余药效。</MX_RescueOnly>
+  <MX_NoBindings>目标没有涤煞丹或夜叉珍珠药效。</MX_NoBindings>
+  <MX_GatherCooldown>聚煞丹仍在6小时冷却内。</MX_GatherCooldown>
+  <MX_MaliceFull>已达到允许补充上限，不能服用聚煞丹。</MX_MaliceFull>
+  <MX_CapacityExpiring>{0}的纳煞药效将在{1}小时后结束。{2}</MX_CapacityExpiring>
+  <MX_CapacityPurifyRisk>涤煞上限将随容量下降，可能消去多余煞气。</MX_CapacityPurifyRisk>
+  <MX_CapacityDangerRisk>预计现有煞气将超过恢复后的容量，请提前降煞或续药。</MX_CapacityDangerRisk>
+  <MX_CapacityNormalRisk>容量将恢复，请留意煞气。</MX_CapacityNormalRisk>
+  <MX_PurifyStatus>煞气 {0} / 稳定容量 {1}；涤煞上限 {2}</MX_PurifyStatus>
+  <MX_PearlFloorSuppressed>容量不足，夜叉珍珠300保底暂被抑制；药效计时与增长系数仍保留。</MX_PearlFloorSuppressed>
 </LanguageData>

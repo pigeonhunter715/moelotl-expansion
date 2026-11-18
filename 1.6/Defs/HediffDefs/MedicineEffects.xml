@@ -84,4 +84,31 @@
       </li>
     </stages>
   </HediffDef>
+  <HediffDef>
+    <defName>MX_CapacityEffect</defName>
+    <label>纳煞丹药效</label>
+    <description>煞气稳定容量×1.50，持续10天。当前煞气不变。到期前24小时及1小时提示；到期容量下降可能导致超限。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_CapacityMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_PurifyEffect</defName>
+    <label>涤煞丹药效</label>
+    <description>持续10天，将当前煞气硬封顶至实时稳定容量的80%。低于上限不补煞。容量低于375时暂时抑制夜叉珍珠300下限，保留珍珠增长系数和剩余时长；不直接解除狂暴。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_PurifyMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+  </HediffDef>
+  <HediffDef>
+    <defName>MX_GatherEffect</defName>
+    <label>聚煞丹冷却</label>
+    <description>即时增加最多300煞气，只补至容量90%，有涤煞药效时只补至80%。冷却6小时，不增加阴气、进化进度或容量。</description>
+    <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+  </HediffDef>
 </Defs>

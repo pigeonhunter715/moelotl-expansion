@@ -22,6 +22,18 @@ namespace MoeLotlExpansion.Core
             return Remaining(combatExpiresAt + 6L * TicksPerHour, now);
         }
 
+        public static float ControlledMalice(float value, float capacity, bool pearl, float pearlFloor)
+        {
+            float ceiling = Math.Max(0f, capacity * 0.8f);
+            float floor = pearl && ceiling >= pearlFloor ? pearlFloor : 0f;
+            return Math.Max(floor, Math.Min(ceiling, value));
+        }
+
+        public static float MaliceDose(float current, float capacity, bool controlled)
+        {
+            return Math.Max(0f, Math.Min(300f, capacity * (controlled ? 0.8f : 0.9f) - current));
+        }
+
         public static MedicineRejection CheckLivingTarget(bool exists, bool alive, bool moeLotl, bool zombie)
         {
             if (!exists || !alive) return MedicineRejection.InvalidTarget;

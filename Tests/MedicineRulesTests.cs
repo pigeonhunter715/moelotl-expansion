@@ -15,6 +15,15 @@ internal static class MedicineRulesTests
         try
         {
             Equal(40f, MedicineRules.RecoveryAmount(100f, 0f), "level one recovery");
+            Equal(800f, MedicineRules.ControlledMalice(1200f, 1000f, false, 300f), "purify hard ceiling");
+            Equal(0f, MedicineRules.ControlledMalice(0f, 1000f, false, 300f), "purify never fills");
+            Equal(300f, MedicineRules.ControlledMalice(0f, 1000f, true, 300f), "pearl preserved");
+            Equal(240f, MedicineRules.ControlledMalice(600f, 300f, true, 300f), "ceiling wins floor conflict");
+            Equal(0f, MedicineRules.ControlledMalice(0f, 300f, true, 300f), "conflict suppresses rather than replaces floor");
+            Equal(300f, MedicineRules.ControlledMalice(0f, 375f, true, 300f), "pearl restored at boundary");
+            Equal(150f, MedicineRules.MaliceDose(650f, 1000f, true), "gather limited by purify");
+            Equal(250f, MedicineRules.MaliceDose(650f, 1000f, false), "gather normal ninety percent");
+            Equal(0f, MedicineRules.MaliceDose(1000f, 1000f, false), "gather never reduces malice");
             Equal(120f, MedicineRules.RecoveryAmount(300f, 0f), "level three recovery");
             Equal(200f, MedicineRules.RecoveryAmount(800f, 0f), "cultivation cap");
             Equal(12f, MedicineRules.RecoveryAmount(300f, 288f), "partial recovery");
