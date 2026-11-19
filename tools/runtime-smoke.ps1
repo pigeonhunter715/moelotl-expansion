@@ -1,11 +1,27 @@
 [CmdletBinding()]
-param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'), [switch]$Functional)
+param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'), [switch]$Functional, [switch]$CoreOnly)
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $config = Get-Content -LiteralPath $ConfigPath -Raw | ConvertFrom-Json
 $runtime = Join-Path $repo 'artifacts/runtime'
 $game = Join-Path $runtime 'game'
 $save = Join-Path $runtime 'save'
+if ($CoreOnly) {
+    $sourceSave = $save
+    $save = Join-Path $runtime 'save-core-only'
+    New-Item -ItemType Directory -Force -Path (Join-Path $save 'Config') | Out-Null
+    foreach ($file in @('ModsConfig.xml', 'Prefs.xml')) {
+        $source = Join-Path $sourceSave ('Config/' + $file)
+        if (Test-Path -LiteralPath $source) { Copy-Item -LiteralPath $source -Destination (Join-Path $save ('Config/' + $file)) -Force }
+    }
+    $coreModsPath = Join-Path $save 'Config/ModsConfig.xml'
+    [xml]$coreMods = Get-Content -LiteralPath $coreModsPath -Raw
+    foreach ($entry in @($coreMods.ModsConfigData.activeMods.li)) {
+        if ($entry.InnerText -match '^ludeon\.rimworld\.(royalty|ideology|biotech|anomaly|odyssey)$') { $entry.ParentNode.RemoveChild($entry) | Out-Null }
+    }
+    $coreMods.ModsConfigData.knownExpansions.RemoveAll()
+    $coreMods.Save($coreModsPath)
+}
 # This script uses a prepared, isolated game directory. Never use a player's game directory.
 if (-not (Test-Path -LiteralPath (Join-Path $game 'RimWorldWin64.exe'))) { throw 'Prepare artifacts/runtime/game with the 1.6 executable, Data/Managed junctions, and only the required dependency Mods junctions first.' }
 $running = Get-Process -Name RimWorldWin64 -ErrorAction SilentlyContinue | Where-Object Path -eq (Join-Path $game 'RimWorldWin64.exe')

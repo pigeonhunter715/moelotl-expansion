@@ -111,6 +111,38 @@ namespace MoeLotlExpansionTests
             Check(pendant.Count(Def("MX_RecoveryPill")) == 2, "competing manual and auto consume one");
             policy.autoUse = false;
 
+            // One actual full-speed industrial-stove batch with four connected pillars.
+            var stove = (Building_AlchemyStove_Industrial)ThingMaker.MakeThing(Def("Axolotl_AlchemyStove_Industrial"));
+            GenSpawn.Spawn(stove, Cell(0, 10), map);
+            foreach (IntVec3 cell in new[] { Cell(-2, 10), Cell(2, 10), Cell(0, 8), Cell(0, 12) })
+            {
+                var pillar = (Building_DeputyStove_Industrial)ThingMaker.MakeThing(Def("Axolotl_DeputyStove_Industrial"));
+                GenSpawn.Spawn(pillar, cell, map);
+                Check(stove.Action_TryConnect(pillar), "industrial pillar connects");
+            }
+            stove.Action_ResetTargetPill(Def("MX_RecoveryPill"));
+            var preparation = Make("MX_RecoveryPreparation");
+            stove.Action_AddRefineStuff(preparation);
+            stove.Comp_Refuelable.Refuel(31f);
+            stove.Action_UpdateAlstState();
+            Check(stove.IsStart && stove.CurrentTargetPill_ProgressMax == 2f && stove.Comp_Refuelable.Fuel == 31f,
+                "four-pillar stove starts one recovery batch with exact fuel");
+            int recoveryBefore = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
+            int batchStart = Find.TickManager.TicksGame;
+            var stoveTick = AccessTools.Method(typeof(Building_AlchemyStove_Industrial), "UpdateAlstProgressAndConsumeConnectDestFuel");
+            int progressIntervals = 0;
+            for (; progressIntervals < 361 && map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == recoveryBefore; progressIntervals++)
+                stoveTick.Invoke(stove, new object[] { 60 });
+            int recoveryAfter = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
+            int progressTicks = progressIntervals * 60;
+            SmokeLog.Write("STOVE_BATCH progressTicks=" + progressTicks + " mapTickDelta=" + (Find.TickManager.TicksGame - batchStart) +
+                " produced=" + (recoveryAfter - recoveryBefore) + " fuelLeft=" + stove.Comp_Refuelable.Fuel +
+                " progress=" + stove.CurrentTargetPill_Progress + " max=" + stove.CurrentTargetPill_ProgressMax + " running=" + stove.IsStart);
+            Check(recoveryAfter == recoveryBefore + 12, "native stove TickInterval produces a full twelve-pill batch over " + progressTicks + " simulated ticks");
+            Check(stove.Comp_Refuelable.Fuel > 0.8f && stove.Comp_Refuelable.Fuel < 1.1f,
+                "native stove completes the two-progress batch within one extra refuel unit");
+            stove.Destroy();
+
             // Actual UseItem job, not a direct service invocation.
             Stop(actor); var warming = Pill("Warming", 2); GenSpawn.Spawn(warming, Cell(-7, 0), map);
             Check(actor.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("UseItem"), warming), JobTag.Misc), "UseItem order accepted");
