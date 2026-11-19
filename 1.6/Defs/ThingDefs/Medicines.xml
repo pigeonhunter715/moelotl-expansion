@@ -25,9 +25,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_WarmingPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.72,0.29,0.18)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -74,9 +73,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_CoolingPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.20,0.56,0.62)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -123,9 +121,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_IndustryPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.92,0.72,0.25)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -172,9 +169,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_RecoveryPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.25,0.75,0.48)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -235,9 +231,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_CombatPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.8,0.2,0.15)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -297,9 +292,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_CapacityPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.25,0.4,0.22)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -362,9 +356,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_PurifyPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(1,0.87,0.5)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -427,9 +420,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_GatherPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.4,0.18,0.5)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -492,9 +484,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_ReleasePill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.5,0.6,0.7)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -543,9 +534,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_RescuePill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(1,0.8,0.75)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>
@@ -606,9 +596,8 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <graphicData>
-      <texPath>Axolotl_Item/Axolotl_LotlqiPellet</texPath>
+      <texPath>Things/Item/MoeLotl/MX_DispelPill</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.8,0.2,0.15)</color>
       <drawSize>(0.65,0.65)</drawSize>
     </graphicData>
     <thingCategories>

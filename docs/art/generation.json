@@ -1,0 +1,110 @@
+[
+  {
+    "name": "MX_WarmingPill",
+    "label": "暖脉丹",
+    "seed": 2026111900,
+    "prompt_id": "081caf60-2d95-42eb-9e98-da5ef4d7b028",
+    "prompt": "warm terracotta red sphere, three fine curved ochre streaks, smooth waxy surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "2a2f0f28fe0e407c69445926672051ec698f053dbf58694ae4f9942fc64eaa5e",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_CoolingPill",
+    "label": "清暑丹",
+    "seed": 2026111901,
+    "prompt_id": "a6781f9a-e2f2-42db-a583-0899ef3fb7b5",
+    "prompt": "pale cyan sphere, thin branching ivory veins, cool opaque polished surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "dee6af31ecb4010b98dc02e41121c7b6bc8c714483a60be45e434ebb803c1e3c",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_IndustryPill",
+    "label": "百工丹",
+    "seed": 2026111902,
+    "prompt_id": "29832cea-d319-4a34-ba12-7e1074de2e88",
+    "prompt": "honey ochre sphere, simple dark green leaf-shaped mark, smooth dense surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "bd686898f726c58ebff8e6219fc11694677c78e97ecb9fb4cebd1d6be81b0c36",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_RecoveryPill",
+    "label": "回元丹",
+    "seed": 2026111903,
+    "prompt_id": "7ef0f2c5-828c-4941-b786-81bb4591584e",
+    "prompt": "deep jade green sphere, one pale yellow curled stripe, softly translucent surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "753a655089879bae3f497a32babef4fc6524426d3545c9fc1f68f74557b65a28",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_CombatPill",
+    "label": "临战丹",
+    "seed": 2026111904,
+    "prompt_id": "e087f118-dd3e-4f4a-a025-c461a70b6ddd",
+    "prompt": "brick red sphere, two short angular gold streaks, smooth lacquered surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "c90d26e1d8270ae0df813d9370bd35b8399be24fd58de218e9d2b788f1a9e085",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_DispelPill",
+    "label": "镇煞丹",
+    "seed": 2026111905,
+    "prompt_id": "1115c810-757d-4e29-940c-91aa8317e24d",
+    "prompt": "dark reddish brown sphere, thin ivory curved band with a short vertical line, smooth opaque surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "6bb19c37e6e50461ed093e81bc6d8c01b349da2e59ba6e883765eefec8e6910c",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_CapacityPill",
+    "label": "纳煞丹",
+    "seed": 2026111906,
+    "prompt_id": "cf0aa9d0-1cfe-4dc1-98e2-ec70aceca7a9",
+    "prompt": "dark muted violet sphere, three nested silver gray arcs, dense dark surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "3f25d380d124b4b6de1293795e4cf360090754d97b756a7cfda6d2089add19b6",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_PurifyPill",
+    "label": "涤煞丹",
+    "seed": 2026111907,
+    "prompt_id": "6f26e9d0-80a6-46d0-a8bd-e69423eb9b0b",
+    "prompt": "pale ivory gold sphere, two flowing ochre curved stripes, creamy smooth surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "84d7c440688fe27befbfcefb10b5bcd6feba356be1a1662804fc9af24f4362a3",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_GatherPill",
+    "label": "聚煞丹",
+    "seed": 2026111908,
+    "prompt_id": "1ab00566-6474-4673-8411-13739d7f04db",
+    "prompt": "muted plum purple sphere, a lavender inward spiral stripe, opaque polished surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "8c62bcf44d1b4c1d47c7c307ec17bff81f8ba86c60116813040f8ba083aa37aa",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_ReleasePill",
+    "label": "归真丹",
+    "seed": 2026111909,
+    "prompt_id": "613c68bd-0517-4e17-8298-0685675034f6",
+    "prompt": "blue gray sphere, a single dark blue S-shaped curved stripe, smooth satin surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "093b58799bae66f656fa9f50b8e0341413cb0072b7136af58ece03cae16e6ff7",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_RescuePill",
+    "label": "安魂丹",
+    "seed": 2026111910,
+    "prompt_id": "9a436b5f-65e8-4026-8ac3-b2133ebb5b70",
+    "prompt": "peach pink sphere, three small ivory petal-shaped marks, softly glazed surface resting on a folded beige paper square. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "5593990d33e8846dad55fd47c18e9b97745eaaa2b46adc92712666a9948b1d34",
+    "denoise": 0.28
+  },
+  {
+    "name": "MX_MedicinePendant",
+    "label": "药渡玉佩",
+    "seed": 2026111911,
+    "prompt_id": "4ff5266e-a6b6-4934-ae8e-1e5e289a1f9d",
+    "prompt": "A small flat green rounded rectangular hollow container, gold stopper at the top, small recessed square panel, short red cord loop and two red tassels, smooth opaque green stone. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
+    "sha256": "f31eb4c1c8e8405069688eef559a615830f813846b5dad41cf3b7451e3121a82",
+    "denoise": 0.28
+  }
+]
