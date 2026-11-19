@@ -20,7 +20,7 @@ EXPECTED = {
     "Industry": {"label": "百工丹", "ticks": 60000, "work": 6000, "skill": 4, "price": 25,
                  "ingredients": {"PsychoidLeaves": 6, "MedicineHerbal": 2, "Axolotl_JadeEssencePowder": 10},
                  "offsets": {}, "factors": {"WorkSpeedGlobal": 1.2, "ResearchSpeed": 1.1}},
-    "Recovery": {"label": "回元丹", "ticks": 15000, "work": 7200, "skill": 4, "price": 60, "refine": 2,
+    "Recovery": {"label": "回气丹", "ticks": 15000, "work": 7200, "skill": 4, "price": 60, "refine": 2,
                  "ingredients": {"PsychoidLeaves": 12, "Axolotl_JadeEssencePowder": 12, "MedicineHerbal": 2, "Uranium": 1},
                  "offsets": {}, "factors": {}},
     "Combat": {"label": "临战丹", "ticks": 35000, "work": 9600, "skill": 6, "price": 100, "refine": 4,

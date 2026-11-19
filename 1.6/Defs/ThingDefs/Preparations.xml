@@ -2,8 +2,8 @@
 <Defs>
   <ThingDef>
     <defName>MX_RecoveryPreparation</defName>
-    <label>回元丹剂</label>
-    <description>在捣药台配成的完整药批。投入通天鼎或通天仪炼制，一份产出12枚回元丹；丹剂不可直接服用。</description>
+    <label>回气丹剂</label>
+    <description>在捣药台配成的完整药批。投入通天鼎或通天仪炼制，一份产出12枚回气丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

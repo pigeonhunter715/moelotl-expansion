@@ -21,7 +21,7 @@ SPECS = [
     ('Warming', '暖脉丹', '#cf6642', '#ffe2a0', 'grain', 'warm terracotta red sphere, three fine curved ochre streaks, smooth waxy surface'),
     ('Cooling', '清暑丹', '#78bfd1', '#e4f6e6', 'vein', 'pale cyan sphere, thin branching ivory veins, cool opaque polished surface'),
     ('Industry', '百工丹', '#cfad57', '#48664a', 'leaf', 'honey ochre sphere, simple dark green leaf-shaped mark, smooth dense surface'),
-    ('Recovery', '回元丹', '#469d7e', '#e2efb0', 'spiral', 'deep jade green sphere, one pale yellow curled stripe, softly translucent surface'),
+    ('Recovery', '回气丹', '#469d7e', '#e2efb0', 'spiral', 'deep jade green sphere, one pale yellow curled stripe, softly translucent surface'),
     ('Combat', '临战丹', '#b94842', '#edc778', 'chevron', 'brick red sphere, two short angular gold streaks, smooth lacquered surface'),
     ('Dispel', '镇煞丹', '#864e43', '#eadbb4', 'band', 'dark reddish brown sphere, thin ivory curved band with a short vertical line, smooth opaque surface'),
     ('Capacity', '纳煞丹', '#65547e', '#b9c4d3', 'arcs', 'dark muted violet sphere, three nested silver gray arcs, dense dark surface'),

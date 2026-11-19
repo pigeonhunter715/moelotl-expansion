@@ -146,9 +146,9 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeRecoveryPreparation</defName>
-    <label>配制回元丹剂（炼成12枚）</label>
-    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚回元丹。</description>
-    <jobString>正在配制回元丹剂。</jobString>
+    <label>配制回气丹剂（炼成12枚）</label>
+    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚回气丹。</description>
+    <jobString>正在配制回气丹剂。</jobString>
     <workAmount>7200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>

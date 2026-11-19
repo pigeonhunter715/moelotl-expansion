@@ -51,7 +51,7 @@
   </HediffDef>
   <HediffDef>
     <defName>MX_RecoveryEffect</defName>
-    <label>回元丹冷却</label>
+    <label>回气丹冷却</label>
     <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
     <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
     <isBad>false</isBad>

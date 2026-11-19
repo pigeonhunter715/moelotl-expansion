@@ -146,7 +146,7 @@
   </ThingDef>
   <ThingDef>
     <defName>MX_RecoveryPill</defName>
-    <label>回元丹</label>
+    <label>回气丹</label>
     <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>

@@ -11,7 +11,7 @@
 - 色彩：整颗仍以乳白为主，纹样约占可见丹体面积的15%—25%；每药一种主纹色，最多少量同色明暗变化。
 - 构图：保留首版原创折纸底托与视角。一个主纹样即可，不能叠满文字、八卦、符箓、花边；丹体右上留出高光空白。
 - 可读性：先按64px最终物品图检查，主笔画目标约2—3px、间隙至少1px，再反推大图尺寸。32px检查轮廓和主色，不要求盘长的穿插细节全部可见。这是待验证目标，不能视为已经通过验收。
-- 轮廓分工：暖脉尖焰、清暑横波、百工方结、回元斜枝、临战尖纹、镇煞直剑、纳煞瓶腹、涤煞闭环、聚煞内卷、归真双旋、安魂展开花瓣。颜色相近的丹药必须靠形状区分。
+- 轮廓分工：暖脉尖焰、清暑横波、百工方结、回气舒云、临战尖纹、镇煞直剑、纳煞瓶腹、涤煞闭环、聚煞内卷、归真双旋、安魂展开花瓣。颜色相近的丹药必须靠形状区分。
 
 ## 按实际药效选型
 
@@ -22,7 +22,7 @@
 | 暖脉丹：耐寒，舒适温度下限降低15°C，2天 | 火焰纹 | 按用户指定，以火焰表达温暖。本轮未取得能直接支持该具体画法的馆藏说明，不附会十二章、明德或治疗寒伤等含义 | 朱红 `#B84A32`；一高两低、向上收尖的三瓣火焰，内部留一道乳白弯隙 |
 | 清暑丹：耐热，舒适温度上限提高15°C，2天 | 水波纹 | 马家窑彩陶水波纹是河水的图案化表现[S1]；流动清凉是本作功能联想 | 靛青 `#286B8B`；两至三道横向缓波，避免画成飞溅巨浪 |
 | 百工丹：工作速度+20%、研究额外+10%，1天 | 简化盘长纹 | 盘长属于八吉祥；故宫释义含“回环贯彻，一切通明”[S2]，另有玉器实物[S3]。借连续穿插表达思路贯通、手工熟练，不宣称传统纹样代表生产加速 | 赭金 `#95652B`；圆角方形回环带，保留两处明确上下穿插，减少外圈结耳 |
-| 回元丹：恢复40%最大螈气，至多200，冷却6小时 | 缠枝纹，取缠枝莲的枝叶部分 | 缠枝以植物茎蔓为骨架连续展开[S2/S4]；新叶、延展用于表达恢复和接续。不把器物上其他植物的多子寓意移给本纹样 | 青绿 `#397559`；一根斜向弯茎、两片新叶，末端向外舒展，避免内卷团形 |
+| 回气丹：恢复40%最大螈气，至多200，冷却6小时 | 云纹，横向舒展 | 玉云纹珌提供传统云纹的实物依据[S8]；以舒展流动的云气表达补充螈气，是本作转译，不宣称云纹具有传统补气功效 | 青绿 `#397559`；一组横向舒展的圆润云头，接两条短飘带，保留乳白空隙；区别于聚煞丹的三股向心勾云 |
 | 临战丹：战斗增强8小时，随后疲劳6小时 | 虎纹，提炼为虎额与颊侧纹 | 布老虎有驱邪避灾、护佑平安的民俗依据[S5]；猛兽的力量感用于本作战斗识别。战斗加成及疲劳不是传统寓意 | 赤褐 `#814735`；三道宽而尖的对称虎斑，中央向下，侧面斜展；不画虎脸、眼睛或“王”字 |
 | 镇煞丹：耗气攻击降低目标螈僵煞气，12小时 | 暗八仙中的宝剑，配极少短云线 | 暗八仙以器物代人，宝剑在其中，资料提及逢凶化吉[S6]；转译为攻击时镇煞。不画成服药者自身自动降煞 | 铁青 `#395E69`；一柄短直剑、短横护手、两侧短弧；优先保留剑形 |
 | 纳煞丹：稳定煞气容量×1.5，10天，当前量不变 | 宝瓶纹 | 宝瓶属于八吉祥，资料释义“福智圆满，具完无漏”[S2]；由容器的大腹与收口转译为增加容纳能力，不宣称古义为储存煞气 | 深紫 `#6D5289`；窄颈、宽腹、收口的小瓶轮廓，腹部留乳白，不画液面或向内吸气 |
@@ -44,7 +44,7 @@
 | 暖脉 | `A vermilion flame marking with one tall pointed curved tongue and two shorter side tongues, one ivory curved slit inside.` |
 | 清暑 | `Two broad indigo-blue horizontal flowing wave lines, smooth parallel curves, generous ivory gaps, no splashes.` |
 | 百工 | `An ochre rounded-square ribbon loop with two clearly separated over-under crossings, a compact open center, few thick strokes.` |
-| 回元 | `A muted green curved diagonal stem with two simple pointed leaves, an open outward-growing tip, no central spiral.` |
+| 回气 | `A muted green horizontally flowing cloud marking, three rounded connected lobes with two short trailing curved strokes, generous ivory gaps, no inward spiral or radial arrangement.` |
 | 临战 | `Three dark red-brown tapered tiger-stripe markings, one downward central wedge and two outward angled side strokes, no animal face or lettering.` |
 | 镇煞 | `A small dark teal straight sword-shaped marking, one pointed blade, one short crossguard, two short curved strokes beside it.` |
 | 纳煞 | `A dark violet outline of a closed narrow-necked vessel with a broad rounded belly and a small rim, ivory interior, no liquid level.` |
@@ -62,11 +62,11 @@
 | S1 | [马家窑文化彩陶水波纹钵](https://www.dpm.org.cn/collection/ceramic/227459.html) | 水波纹是日常所见河水的图案化表现 |
 | S2 | [剔红莲托八吉祥纹圆盒](https://www.dpm.org.cn/collection/lacquerware/232889.html) | 八吉祥种类、盘长／宝瓶／莲花的解释，以及缠枝的形式定义 |
 | S3 | [白玉镂雕盘长纹扁方](https://www.dpm.org.cn/collection/jade/232338.html) | 盘长纹在玉器上的实际应用；不据此额外推导研究效率含义 |
-| S4 | [青花缠枝莲纹碗](https://www.dpm.org.cn/collection/ceramic/227625.html) | 缠枝莲装饰及连续枝叶结构 |
+| S4（备选留档） | [青花缠枝莲纹碗](https://www.dpm.org.cn/collection/ceramic/227625.html) | 原枝叶方案的来源，回气丹已按用户要求改为云纹，不再采用 |
 | S5 | [布老虎](https://www.dpm.org.cn/collection/utensil/232027.html) | 虎形民俗物品驱邪避灾、祈求平安健康；简化虎斑为本作再设计 |
 | S6 | [粉彩暗八仙纹双耳转心瓶](https://www.dpm.org.cn/collection/ceramic/227331.html) | 宝剑等八件器物及以物代人、逢凶化吉的解释 |
 | S7 | [定窑白釉刻回纹盏托](https://www.dpm.org.cn/collection/ceramic/226985.html) | 回纹环绕边饰的器物实例；闭合圆形药纹为新编 |
-| S8 | [玉云纹珌](https://www.dpm.org.cn/collection/jade/229308.html) | 阴刻勾云纹与线条组合；向心聚集为新编 |
+| S8 | [玉云纹珌](https://www.dpm.org.cn/collection/jade/229308.html) | 阴刻勾云纹与线条组合；回气丹的横向舒展和聚煞丹的向心聚集均为新编 |
 | S9 | [吴伟太极图轴](https://www.dpm.org.cn/collection/paint/231892.html) | 太极图像的绘画实例；不据此宣称解除药效是传统寓意 |
 | S10 | [金葫芦](https://www.dpm.org.cn/collection/tinware/230717.html) | 藤蔓、瓜果、种子与子孙繁衍的关联，用于比较备用方案 |
 
