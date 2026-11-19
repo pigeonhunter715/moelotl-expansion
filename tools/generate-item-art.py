@@ -103,7 +103,7 @@ def main():
         g=pendant_art.guard_guide() if guard_pendant else guide(spec,pendant)
         g.save(out/(name+'_guide.png'))
         if guard_pendant:prompt=pendant_art.GUARD_PROMPT
-        image_name=name+'_bamboo' if guard_pendant else name
+        image_name=name+'_bamboo_v5' if guard_pendant else name
         background=Image.new('RGBA',g.size,(255,0,255,255));background.alpha_composite(g)
         background.convert('RGB').save(ARGS.comfy/'input'/(image_name+'.png'))
         wf=workflow(image_name,prompt,ARGS.seed+index)
@@ -115,7 +115,7 @@ def main():
         (out/(name+'_api.json')).write_text(json.dumps(wf,ensure_ascii=False,indent=2),encoding='utf-8')
         gui=gui_graph(wf)
         (out/(name+'_workflow.json')).write_text(json.dumps(gui,ensure_ascii=False,indent=2),encoding='utf-8')
-        workflow_name=('moelotl_v4_bamboo_' if guard_pendant else '2026-11-19_moelotl_v2_')+name+'.json'
+        workflow_name=('moelotl_v5_bamboo_' if guard_pendant else '2026-11-19_moelotl_v2_')+name+'.json'
         (ARGS.comfy/'user/default/workflows'/workflow_name).write_text(json.dumps(gui,ensure_ascii=False,indent=2),encoding='utf-8')
         pid=api('/prompt',{'prompt':wf,'extra_data':{'extra_pnginfo':{'workflow':gui}}})['prompt_id']
         print('QUEUED',name,pid,flush=True);deadline=time.time()+600
@@ -140,7 +140,7 @@ def main():
         canvas.alpha_composite(result,((512-result.width)//2,(512-result.height)//2))
         canvas.save(out/(name+'.png'))
         manifest.append({'name':name,'label':label,'seed':ARGS.seed+index,'prompt_id':pid,'prompt':wf['4']['inputs']['text'],'sha256':hashlib.sha256(raw).hexdigest(),'denoise':ARGS.denoise,'version':2,'checkpoint':'sd_xl_base_1.0.safetensors','steps':30,'cfg':5.5,'sampler':'dpmpp_2m','scheduler':'karras','negative_prompt':wf['5']['inputs']['text'],'guide_sha256':hashlib.sha256((out/(name+'_guide.png')).read_bytes()).hexdigest(),'final_sha256':hashlib.sha256((out/(name+'.png')).read_bytes()).hexdigest()})
-        if guard_pendant:manifest[-1]['version']=4
+        if guard_pendant:manifest[-1]['version']=5
         (out/f'manifest-{name}.json').write_text(json.dumps([manifest[-1]],ensure_ascii=False,indent=2),encoding='utf-8')
         print('DONE',name,flush=True)
 

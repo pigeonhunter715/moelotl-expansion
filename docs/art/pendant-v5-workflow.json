@@ -1,0 +1,485 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 11,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        400,
+        320
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            5
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            2,
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "sd_xl_base_1.0.safetensors"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [
+        0,
+        400
+      ],
+      "size": [
+        400,
+        540
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "MX_MedicinePendant_bamboo_v5.png"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "VAEEncode",
+      "pos": [
+        550,
+        800
+      ],
+      "size": [
+        400,
+        320
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [
+        550,
+        0
+      ],
+      "size": [
+        400,
+        360
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "Hand-painted 2D inventory icon of a rounded green jade pendant with a thin soft gold line inset along its outer bevel. Three visibly separate bamboo stalks of different lengths rise toward the upper right at slightly different angles, overlapping in shallow jade relief. Each stalk has bamboo joints and a few narrow pointed leaves. Two small curled cloud engravings flank the bamboo in the open green areas. Polished emerald jade, clear dark silhouette, pierced suspension ear, burgundy cord and one silk tassel, flat magenta background."
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [
+        550,
+        400
+      ],
+      "size": [
+        400,
+        360
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "text, letters, watermark, Greek key, geometric fret, dot inlay, gold lattice, thick metal frame, extra stalks, opposed stems, busy ornament, flower, logo, gold leaves, photographic background"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "KSampler",
+      "pos": [
+        1100,
+        0
+      ],
+      "size": [
+        400,
+        320
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 5
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 7
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        2026112051,
+        "fixed",
+        30,
+        5.5,
+        "dpmpp_2m",
+        "karras",
+        0.2
+      ]
+    },
+    {
+      "id": 7,
+      "type": "VAEDecode",
+      "pos": [
+        1650,
+        0
+      ],
+      "size": [
+        400,
+        320
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 9
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 8,
+      "type": "SaveImage",
+      "pos": [
+        2200,
+        0
+      ],
+      "size": [
+        400,
+        540
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 11
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "MoeLotl_OriginalGuides/MX_MedicinePendant_bamboo_v5"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      3,
+      0,
+      "IMAGE"
+    ],
+    [
+      2,
+      1,
+      2,
+      3,
+      1,
+      "VAE"
+    ],
+    [
+      3,
+      1,
+      1,
+      4,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      1,
+      1,
+      5,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      1,
+      0,
+      6,
+      0,
+      "MODEL"
+    ],
+    [
+      6,
+      4,
+      0,
+      6,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      7,
+      5,
+      0,
+      6,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      8,
+      3,
+      0,
+      6,
+      3,
+      "LATENT"
+    ],
+    [
+      9,
+      6,
+      0,
+      7,
+      0,
+      "LATENT"
+    ],
+    [
+      10,
+      1,
+      2,
+      7,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      7,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Model and original guide",
+      "bounding": [
+        -20,
+        -70,
+        440,
+        1030
+      ],
+      "color": "#44605b",
+      "font_size": 22,
+      "flags": {}
+    },
+    {
+      "title": "Surface description and encoding",
+      "bounding": [
+        530,
+        -70,
+        440,
+        1210
+      ],
+      "color": "#44605b",
+      "font_size": 22,
+      "flags": {}
+    },
+    {
+      "title": "SDXL restrained repaint",
+      "bounding": [
+        1080,
+        -70,
+        440,
+        410
+      ],
+      "color": "#44605b",
+      "font_size": 22,
+      "flags": {}
+    },
+    {
+      "title": "Decode",
+      "bounding": [
+        1630,
+        -70,
+        440,
+        410
+      ],
+      "color": "#44605b",
+      "font_size": 22,
+      "flags": {}
+    },
+    {
+      "title": "Save generated image",
+      "bounding": [
+        2180,
+        -70,
+        440,
+        630
+      ],
+      "color": "#44605b",
+      "font_size": 22,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

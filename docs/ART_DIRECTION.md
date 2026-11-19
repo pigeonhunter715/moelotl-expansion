@@ -1,10 +1,16 @@
 # 物品贴图风格与制作记录
 
+## 药渡玉佩第五版
+
+三根竹枝都由左下向右上伸展，以不同的长度和倾角在佩面叠交。两处卷云和沿佩体收口的细金边采用上一版构图。
+
+复现参数为 `--only MX_MedicinePendant --guard-pendant --seed 2026112040 --denoise 0.20`，实际种子为 `2026112051`。[API 工作流](art/pendant-v5-api.json) · [GUI 工作流](art/pendant-v5-workflow.json)
+
 ## 药渡玉佩第四版
 
 佩面为三根长短不一的浅雕竹枝和两处卷云。最长竹枝从另两根前方穿过，错开的竹节和端点让三个轮廓容易辨认。细金边沿圆肩佩体收口，绳穗沿用上一版的形制。
 
-使用本地 ComfyUI 与 SDXL Base 1.0 细化原创底稿，保留透明轮廓。复现参数为 `--only MX_MedicinePendant --guard-pendant --seed 2026112040 --denoise 0.20`，实际种子为 `2026112051`。[API 工作流](art/pendant-v4-api.json) · [GUI 工作流](art/pendant-v4-workflow.json)
+使用本地 ComfyUI 与 SDXL Base 1.0 细化原创底稿，保留透明轮廓。在 `e4d7fb2` 版本使用 `--only MX_MedicinePendant --guard-pendant --seed 2026112040 --denoise 0.20` 可复现，实际种子为 `2026112051`。[API 工作流](art/pendant-v4-api.json) · [GUI 工作流](art/pendant-v4-workflow.json)
 
 ## 药渡玉佩第三版
 

@@ -12,12 +12,13 @@ NEGATIVE = ('photograph, photorealism, text, letters, logo, watermark, bottle, s
             'square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, '
             'extra pendants, extra tassels, fuzzy edges, scratched noisy surface')
 GUARD_PROMPT = ('Hand-painted 2D inventory icon of a rounded green jade pendant with a thin soft gold line inset '
-                'along its outer bevel. Three visibly separate bamboo stalks of different lengths overlap diagonally '
-                'in shallow jade relief. Each stalk has bamboo joints and a few narrow pointed leaves. Two small '
+                'along its outer bevel. Three visibly separate bamboo stalks of different lengths rise toward the '
+                'upper right at slightly different angles, overlapping in shallow jade relief. Each stalk has bamboo '
+                'joints and a few narrow pointed leaves. Two small '
                 'curled cloud engravings flank the bamboo in the open green areas. Polished emerald jade, clear dark '
                 'silhouette, pierced suspension ear, burgundy cord and one silk tassel, flat magenta background.')
 GUARD_NEGATIVE = ('text, letters, watermark, Greek key, geometric fret, dot inlay, gold lattice, thick metal frame, '
-                  'extra stalks, parallel stems, busy ornament, flower, logo, gold leaves, photographic background')
+                  'extra stalks, opposed stems, busy ornament, flower, logo, gold leaves, photographic background')
 
 
 def curve(start, *segments):
@@ -157,11 +158,11 @@ def guard_guide():
         for base, tip in leaves:
             leaf(base, tip, width, color)
 
-    # The long stalk crosses in front at the two intersections.
-    stalk([(598, 665), (572, 585), (536, 505), (479, 419)],
-          [((508, 463), (455, 431)), ((572, 585), (624, 554))], '#8db985', 12)
-    stalk([(510, 675), (469, 626), (440, 576), (418, 522)],
-          [((440, 576), (392, 526)), ((468, 624), (404, 603))], '#a2c995', 10)
-    stalk([(422, 668), (473, 588), (511, 512), (552, 430), (587, 337)],
-          [((552, 430), (505, 367)), ((570, 384), (627, 351)), ((503, 528), (557, 477))], '#b0d39b', 15)
+    # Stagger the intersections while all three stalks rise toward the upper right.
+    stalk([(493, 672), (501, 591), (511, 518), (533, 415)],
+          [((529, 434), (478, 397)), ((501, 591), (569, 555))], '#8db985', 12)
+    stalk([(399, 666), (445, 615), (479, 570), (519, 525)],
+          [((445, 615), (410, 566)), ((479, 570), (436, 532))], '#a2c995', 10)
+    stalk([(432, 679), (472, 591), (508, 506), (549, 422), (587, 337)],
+          [((549, 422), (522, 365)), ((567, 381), (627, 351)), ((527, 467), (579, 438))], '#b0d39b', 15)
     return image

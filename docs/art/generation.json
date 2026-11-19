@@ -234,18 +234,18 @@
     "name": "MX_MedicinePendant",
     "label": "药渡玉佩",
     "seed": 2026112051,
-    "prompt_id": "5c030641-11d7-408d-a3ad-8bd81ea1426a",
-    "prompt": "Hand-painted 2D inventory icon of a rounded green jade pendant with a thin soft gold line inset along its outer bevel. Three visibly separate bamboo stalks of different lengths overlap diagonally in shallow jade relief. Each stalk has bamboo joints and a few narrow pointed leaves. Two small curled cloud engravings flank the bamboo in the open green areas. Polished emerald jade, clear dark silhouette, pierced suspension ear, burgundy cord and one silk tassel, flat magenta background.",
-    "sha256": "b2847afe4e489fcc49ec1965c805935e8aea9de43ebc55f37b5c46c6ff0c6739",
+    "prompt_id": "e256186f-1dc5-49b7-9b54-aaf4739b9565",
+    "prompt": "Hand-painted 2D inventory icon of a rounded green jade pendant with a thin soft gold line inset along its outer bevel. Three visibly separate bamboo stalks of different lengths rise toward the upper right at slightly different angles, overlapping in shallow jade relief. Each stalk has bamboo joints and a few narrow pointed leaves. Two small curled cloud engravings flank the bamboo in the open green areas. Polished emerald jade, clear dark silhouette, pierced suspension ear, burgundy cord and one silk tassel, flat magenta background.",
+    "sha256": "046a2cdc5fad19f210a0300edc3ee6f599d9681139e918f9929b2d151a1f3726",
     "denoise": 0.2,
-    "version": 4,
+    "version": 5,
     "checkpoint": "sd_xl_base_1.0.safetensors",
     "steps": 30,
     "cfg": 5.5,
     "sampler": "dpmpp_2m",
     "scheduler": "karras",
-    "negative_prompt": "text, letters, watermark, Greek key, geometric fret, dot inlay, gold lattice, thick metal frame, extra stalks, parallel stems, busy ornament, flower, logo, gold leaves, photographic background",
-    "guide_sha256": "4a518382b3e05c1898bf6f422d4f308e035abcb5f0d023cea34ec9d02d09fc5c",
-    "final_sha256": "418d3d93dbf1b4197eb24d2548505f5d631cf6f2bd560a3134b236ce4226349a"
+    "negative_prompt": "text, letters, watermark, Greek key, geometric fret, dot inlay, gold lattice, thick metal frame, extra stalks, opposed stems, busy ornament, flower, logo, gold leaves, photographic background",
+    "guide_sha256": "b6fd0bc6b13cf94d490d55ba0da441dc3dd2a066fc02134eb043d9dd6e1896af",
+    "final_sha256": "570508b8f52bf8adc28fd7b7b51c816cce5bd24993d3348e2b26e3193e03465a"
   }
 ]
