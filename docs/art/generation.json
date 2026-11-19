@@ -101,10 +101,22 @@
   {
     "name": "MX_MedicinePendant",
     "label": "药渡玉佩",
-    "seed": 2026111911,
-    "prompt_id": "4ff5266e-a6b6-4934-ae8e-1e5e289a1f9d",
-    "prompt": "A small flat green rounded rectangular hollow container, gold stopper at the top, small recessed square panel, short red cord loop and two red tassels, smooth opaque green stone. Simple hand drawn 2D object illustration, heavy charcoal contour, broad flat shading, small white highlight on upper right, readable smooth silhouette, slight elevated view. Isolated on flat magenta background.",
-    "sha256": "f31eb4c1c8e8405069688eef559a615830f813846b5dad41cf3b7451e3121a82",
-    "denoise": 0.28
+    "seed": 2026111952,
+    "prompt_id": "d753a3b2-961d-45e2-a257-bb8793a0d306",
+    "prompt": "A small flat thick green jade pendant, softly tapered shoulders and rounded bottom corners, carved narrow bamboo border, three pointed bamboo leaves in shallow green relief, one curved diagonal jointed stem, sparse fine warm gold inlaid lines, smooth waxy jade with broad pale green highlights, small integrated pierced suspension ear, natural curved burgundy braided cord, one short soft burgundy tassel, front view, restrained hand-painted 2D game item illustration, clear dark outer contour, fine interior carving, large quiet green areas, isolated on flat magenta background.",
+    "sha256": "35de8335063043c949331f3de3b92e09a9d34e6e94ded61a2aa598be7479339f",
+    "denoise": 0.28,
+    "version": 2,
+    "checkpoint": "sd_xl_base_1.0.safetensors",
+    "steps": 30,
+    "cfg": 5.5,
+    "sampler": "dpmpp_2m",
+    "scheduler": "karras",
+    "guide_sha256": "fa41b52ebd40b5686285fec6a5a131e4c3cbb57de002fbde1cb6d44094d4a083",
+    "final_sha256": "5102a36731014f94445ff8ce5866401fd2ddf4811929137c037acfecef147bf9",
+    "api_workflow": "pendant-v2-api.json",
+    "gui_workflow": "pendant-v2-workflow.json",
+    "guide_source": "tools/pendant_art.py",
+    "qc": "PASS at 64px; fine carving and inlay reduced at 32px; no in-game screenshot check"
   }
 ]

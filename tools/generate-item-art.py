@@ -15,6 +15,8 @@ import urllib.request
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+import pendant_art
+
 ROOT = Path(__file__).resolve().parents[1]
 # Stable order also controls seeds. Names are file identifiers, never model prompts.
 SPECS = [
@@ -44,22 +46,7 @@ def guide(spec, pendant=False):
     d = ImageDraw.Draw(im)
     ink = '#29272c'
     if pendant:
-        d.line([(480,260),(453,163),(488,124),(537,153),(535,257)], fill=ink, width=25, joint='curve')
-        d.line([(480,260),(453,163),(488,124),(537,153),(535,257)], fill='#953e46', width=12, joint='curve')
-        d.rounded_rectangle((347,284,677,734), radius=106, fill='#407f70', outline=ink, width=15)
-        d.rounded_rectangle((367,303,651,681), radius=91, fill='#78b69b')
-        d.arc((375,315,642,665),95,275,fill='#b3d5ac',width=13)
-        d.line([(374,620),(402,676),(605,676),(653,619)], fill='#315d59',width=14,joint='curve')
-        d.rounded_rectangle((396,245,629,320),radius=18,fill='#c7a158',outline=ink,width=13)
-        d.line([(410,269),(606,269)],fill='#edce89',width=9)
-        d.rounded_rectangle((437,418,589,550),radius=28,fill='#46786a',outline='#33554d',width=10)
-        d.arc((465,442,563,529),25,295,fill='#b4d2ab',width=10)
-        d.ellipse((401,345,425,401),fill='#e5eecf')
-        for x in (474,540):
-            d.line([(x,728),(x,800)],fill=ink,width=18)
-            d.line([(x,729),(x,801)],fill='#aa5051',width=9)
-            d.polygon([(x-17,792),(x+17,792),(x+22,868),(x-22,868)],fill='#934a50',outline=ink,width=7)
-        return im
+        return pendant_art.guide()
     _,_,base,accent,motif,_ = spec
     # A fresh irregular folded paper shape, not traced from the reference.
     d.polygon([(155,670),(579,508),(865,703),(430,858)],fill='#d4ccb9',outline=ink,width=14)
@@ -163,17 +150,23 @@ def main():
     p.add_argument('--url',default='http://127.0.0.1:8188')
     p.add_argument('--limit',type=int,default=12)
     p.add_argument('--start',type=int,default=0)
+    p.add_argument('--seed',type=int,default=2026111900,help='Base seed; job index is added')
+    p.add_argument('--denoise',type=float,default=0.28)
     p.add_argument('--output',type=Path,default=ROOT/'artifacts/art-style/generated')
     ARGS=p.parse_args();out=ARGS.output;out.mkdir(parents=True,exist_ok=True)
     jobs=[(f'MX_{s[0]}Pill',s[1],s,False,s[5]+' resting on a folded beige paper square.') for s in SPECS]
-    jobs.append(('MX_MedicinePendant','药渡玉佩',None,True,'A small flat green rounded rectangular hollow container, gold stopper at the top, small recessed square panel, short red cord loop and two red tassels, smooth opaque green stone.'))
+    jobs.append(('MX_MedicinePendant','药渡玉佩',None,True,pendant_art.PROMPT))
     info=api('/object_info');manifest=[]
     for index,(name,label,spec,pendant,prompt) in enumerate(jobs):
         if index<ARGS.start or index>=ARGS.start+ARGS.limit:continue
         g=guide(spec,pendant);g.save(out/(name+'_guide.png'))
         background=Image.new('RGBA',g.size,(255,0,255,255));background.alpha_composite(g)
         background.convert('RGB').save(ARGS.comfy/'input'/(name+'.png'))
-        wf=workflow(name,prompt,2026111900+index)
+        wf=workflow(name,prompt,ARGS.seed+index)
+        wf['6']['inputs']['denoise']=ARGS.denoise
+        if pendant:
+            wf['4']['inputs']['text']=prompt
+            wf['5']['inputs']['text']=pendant_art.NEGATIVE
         assert all(n['class_type'] in info for n in wf.values())
         (out/(name+'_api.json')).write_text(json.dumps(wf,ensure_ascii=False,indent=2),encoding='utf-8')
         gui=gui_graph(wf)
@@ -200,7 +193,7 @@ def main():
         canvas=Image.new('RGBA',(512,512))
         canvas.alpha_composite(result,((512-result.width)//2,(512-result.height)//2))
         canvas.save(out/(name+'.png'))
-        manifest.append({'name':name,'label':label,'seed':2026111900+index,'prompt_id':pid,'prompt':prompt+STYLE,'sha256':hashlib.sha256(raw).hexdigest(),'denoise':0.28})
+        manifest.append({'name':name,'label':label,'seed':ARGS.seed+index,'prompt_id':pid,'prompt':wf['4']['inputs']['text'],'sha256':hashlib.sha256(raw).hexdigest(),'denoise':ARGS.denoise})
         (out/f'manifest-{ARGS.start}.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
         print('DONE',name,flush=True)
 

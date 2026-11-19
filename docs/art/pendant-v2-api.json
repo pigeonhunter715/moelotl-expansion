@@ -1,0 +1,97 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "MX_MedicinePendant.png"
+    }
+  },
+  "3": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "2",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "A small flat thick green jade pendant, softly tapered shoulders and rounded bottom corners, carved narrow bamboo border, three pointed bamboo leaves in shallow green relief, one curved diagonal jointed stem, sparse fine warm gold inlaid lines, smooth waxy jade with broad pale green highlights, small integrated pierced suspension ear, natural curved burgundy braided cord, one short soft burgundy tassel, front view, restrained hand-painted 2D game item illustration, clear dark outer contour, fine interior carving, large quiet green areas, isolated on flat magenta background."
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "photograph, photorealism, text, letters, logo, watermark, bottle, stopper, cap, padlock, square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, extra pendants, extra tassels, fuzzy edges, scratched noisy surface"
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "3",
+        0
+      ],
+      "seed": 2026111952,
+      "steps": 30,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.28
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ],
+      "filename_prefix": "MoeLotl_OriginalGuides/MX_MedicinePendant"
+    }
+  }
+}

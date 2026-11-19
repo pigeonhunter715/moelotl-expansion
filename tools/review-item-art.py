@@ -1,6 +1,6 @@
 """Rebuild transparent finals and review sheets from original guides and SDXL outputs.
 
-Usage: python tools/review-item-art.py [--source PATH] [--publish]
+Usage: python tools/review-item-art.py [--source PATH] [--only MX_MedicinePendant] [--publish]
 Publish only after visually reviewing art-preview.png and art-small.png.
 """
 import argparse
@@ -30,12 +30,25 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source',type=Path,default=ROOT/'artifacts/art-style/generated')
     p.add_argument('--publish',action='store_true')
+    p.add_argument('--only',action='append',help='Rebuild only these Def names; retain existing textures for all others')
     args=p.parse_args()
     spec=importlib.util.spec_from_file_location('art',ROOT/'tools/generate-item-art.py')
     art=importlib.util.module_from_spec(spec);spec.loader.exec_module(art)
     names=[(f'MX_{s[0]}Pill',s[1]) for s in art.SPECS]+[('MX_MedicinePendant','药渡玉佩')]
+    selected=set(args.only or [name for name,_ in names])
+    assert selected <= {name for name,_ in names}, 'Unknown item name'
+    entries={}
     if args.publish:
-        assert all((args.source/(name+'_raw.png')).exists() and (args.source/(name+'_guide.png')).exists() for name,_ in names),'Incomplete batch'
+        assert all((args.source/(name+'_raw.png')).exists() and (args.source/(name+'_guide.png')).exists() for name in selected),'Incomplete selected batch'
+        previous=ROOT/'docs/art/generation.json'
+        if args.only and previous.exists():
+            entries={r['name']:r for r in json.loads(previous.read_text(encoding='utf-8'))}
+        generated={}
+        for f in sorted(args.source.glob('manifest-*.json')):
+            for r in json.loads(f.read_text(encoding='utf-8')):
+                if r['name'] in selected:generated[r['name']]=r
+        assert selected <= generated.keys(), 'Missing generation records for selected batch'
+        entries.update(generated)
     font_path=Path('C:/Windows/Fonts/msyh.ttc')
     font=ImageFont.truetype(str(font_path),22) if font_path.exists() else ImageFont.load_default()
     fontsmall=ImageFont.truetype(str(font_path),14) if font_path.exists() else ImageFont.load_default()
@@ -43,10 +56,13 @@ def main():
     d=ImageDraw.Draw(sheet);ds=ImageDraw.Draw(small)
     for i,(name,label) in enumerate(names):
         rawpath=args.source/(name+'_raw.png');guidepath=args.source/(name+'_guide.png')
-        if not rawpath.exists():continue
-        raw=Image.open(rawpath).convert('RGBA');guide=Image.open(guidepath).convert('RGBA')
-        assert raw.size==guide.size==(1024,1024)
-        im=finish(raw,guide);im.save(args.source/(name+'.png'))
+        if name in selected:
+            if not rawpath.exists():continue
+            raw=Image.open(rawpath).convert('RGBA');guide=Image.open(guidepath).convert('RGBA')
+            assert raw.size==guide.size==(1024,1024)
+            im=finish(raw,guide);im.save(args.source/(name+'.png'))
+        else:
+            im=Image.open(ROOT/'1.6/Textures/Things/Item/MoeLotl'/(name+'.png')).convert('RGBA')
         a=np.array(im.getchannel('A'));border=np.concatenate((a[0],a[-1],a[:,0],a[:,-1]))
         assert a.min()==0 and a.max()==255 and not border.any(),name
         assert 0.07<(a>0).mean()<0.7,(name,'alpha occupancy')
@@ -58,20 +74,16 @@ def main():
             thumb=im.resize((size,size),Image.Resampling.LANCZOS);small.paste(thumb,(x+dx,y+dy),thumb)
         ds.text((x+10,y+142),label,font=font,fill='#30343b')
         ds.text((x+10,y+175),'128 / 64 / 32 px',font=fontsmall,fill='#555555')
-        if args.publish:
+        if args.publish and name in selected:
             dest=ROOT/'1.6/Textures/Things/Item/MoeLotl';dest.mkdir(parents=True,exist_ok=True)
             im.save(dest/(name+'.png'))
     sheet.save(args.source/'art-preview.png');small.save(args.source/'art-small.png')
     print(args.source/'art-preview.png');print(args.source/'art-small.png')
     if args.publish:
-        assert all((args.source/(name+'_raw.png')).exists() for name,_ in names),'Incomplete batch'
         dest=ROOT/'docs/art';dest.mkdir(exist_ok=True)
         sheet.save(dest/'art-preview.png');small.save(dest/'art-small.png')
-        entries={}
-        for f in sorted(args.source.glob('manifest-*.json')):
-            for r in json.loads(f.read_text(encoding='utf-8')):entries[r['name']]=r
         (dest/'generation.json').write_text(json.dumps(list(entries.values()),ensure_ascii=False,indent=2),encoding='utf-8')
-        print('Published 12 validated RGBA textures and review sheets.')
+        print(f'Published {len(selected)} validated RGBA textures and refreshed review sheets.')
 
 
 if __name__=='__main__':main()
