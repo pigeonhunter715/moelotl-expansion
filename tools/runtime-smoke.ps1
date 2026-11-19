@@ -1,9 +1,10 @@
 [CmdletBinding()]
-param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'), [switch]$Functional, [switch]$CoreOnly)
+param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'), [switch]$Functional, [switch]$CoreOnly, [switch]$ReleasePackage)
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $config = Get-Content -LiteralPath $ConfigPath -Raw | ConvertFrom-Json
 $runtime = Join-Path $repo 'artifacts/runtime'
+if ($ReleasePackage) { $runtime = Join-Path $repo 'artifacts/runtime-release' }
 $game = Join-Path $runtime 'game'
 $save = Join-Path $runtime 'save'
 if ($CoreOnly) {
@@ -31,7 +32,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $testMod 'About'), (Join-Pa
 '<ModMetaData><name>MoeLotl Expansion Isolated Tests</name><author>local test harness</author><packageId>pigeonhunter715.moelotl.expansion.tests</packageId><supportedVersions><li>1.6</li></supportedVersions><loadAfter><li>pigeonhunter715.moelotl.expansion</li></loadAfter></ModMetaData>' | Set-Content -LiteralPath (Join-Path $testMod 'About/About.xml') -Encoding utf8
 $references = @('mscorlib.dll', 'System.dll', 'System.Core.dll') | ForEach-Object { Join-Path $config.frameworkReferenceDir $_ }
 $references += @('Assembly-CSharp.dll', 'UnityEngine.CoreModule.dll', 'UnityEngine.ScreenCaptureModule.dll', 'netstandard.dll') | ForEach-Object { Join-Path $config.rimWorldManagedDir $_ }
-$references += @($config.axolotlDll, $config.rigorMortisDll, $config.harmonyDll, (Join-Path $repo '1.6/Assemblies/MoeLotlExpansion.dll'))
+$references += @($config.axolotlDll, $config.rigorMortisDll, $config.harmonyDll, (Join-Path $game 'Mods/MoeLotlExpansion/1.6/Assemblies/MoeLotlExpansion.dll'))
 $argsCompile = @('/noconfig', '/nologo', '/nostdlib+', '/target:library', '/langversion:latest', '/warnaserror+', ('/out:' + (Join-Path $testMod 'Assemblies/MXRuntimeTests.dll')))
 $argsCompile += $references | ForEach-Object { '/reference:' + $_ }
 $argsCompile += Join-Path $repo 'Tests/RuntimeSmoke.cs'

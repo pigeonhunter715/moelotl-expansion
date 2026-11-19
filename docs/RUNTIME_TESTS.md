@@ -8,7 +8,9 @@
 2. 在忽略目录 `artifacts/runtime/game` 放置合法的 RimWorld 1.6 可执行文件及必要根目录文件。`Data`、`RimWorldWin64_Data`、`MonoBleedingEdge` 可连接到独立1.6游戏安装。不可误连Steam自动升级后的1.7。
 3. 在该目录的 `Mods` 中只连接 Harmony、Humanoid Alien Races、Custom Quest Framework、萌螈本体、螈僵扩展和本项目。不复制或提交依赖DLL。
 4. 在 `artifacts/runtime/save/Config/ModsConfig.xml` 创建专用启用列表，顺序为Harmony、Core及所需DLC、HAR、CQF、本体、螈僵、本扩展。测试脚本会追加测试模组。
-5. 运行 `./tools/runtime-smoke.ps1`。脚本只使用仓库的 `artifacts/runtime`，设置该测试配置允许后台运行、静音，并隐藏启动窗口。测试使用正常图形设备；`-nographics` 会引起原版图集初始化错误，不作为加载通过依据。
+5. 运行 `./tools/runtime-smoke.ps1`。脚本默认使用仓库的 `artifacts/runtime`，设置该测试配置允许后台运行、静音，并隐藏启动窗口。测试使用正常图形设备；`-nographics` 会引起原版图集初始化错误，不作为加载通过依据。
+
+发行包验收可加 `-ReleasePackage`。在 `artifacts/runtime-release` 按上述结构准备独立环境，把实际 ZIP 解压到 `game/Mods`，使用其中的 DLL 编译测试模组。功能测试与常规回归依次启动，等前一个进程退出后再启动下一个。
 
 无 DLC 回归可运行 `./tools/runtime-smoke.ps1 -CoreOnly`。它从 `save/Config` 复制配置到独立的 `save-core-only/Config`，只修改副本中的 DLC 启用列表和已知扩展，不改主测试配置。
 
