@@ -31,17 +31,19 @@ def main():
     p.add_argument('--source',type=Path,default=ROOT/'artifacts/art-style/generated')
     p.add_argument('--publish',action='store_true')
     p.add_argument('--only',action='append',help='Rebuild only these Def names; retain existing textures for all others')
+    p.add_argument('--pills',action='store_true',help='Select all eleven pills, preserving the pendant')
     args=p.parse_args()
     spec=importlib.util.spec_from_file_location('art',ROOT/'tools/generate-item-art.py')
     art=importlib.util.module_from_spec(spec);spec.loader.exec_module(art)
     names=[(f'MX_{s[0]}Pill',s[1]) for s in art.SPECS]+[('MX_MedicinePendant','药渡玉佩')]
-    selected=set(args.only or [name for name,_ in names])
+    if args.pills and args.only:p.error('Use either --pills or --only')
+    selected=set([f'MX_{s[0]}Pill' for s in art.SPECS] if args.pills else args.only or [name for name,_ in names])
     assert selected <= {name for name,_ in names}, 'Unknown item name'
     entries={}
     if args.publish:
         assert all((args.source/(name+'_raw.png')).exists() and (args.source/(name+'_guide.png')).exists() for name in selected),'Incomplete selected batch'
         previous=ROOT/'docs/art/generation.json'
-        if args.only and previous.exists():
+        if (args.only or args.pills) and previous.exists():
             entries={r['name']:r for r in json.loads(previous.read_text(encoding='utf-8'))}
         generated={}
         for f in sorted(args.source.glob('manifest-*.json')):
