@@ -11,11 +11,13 @@ PROMPT = ('A small flat thick green jade pendant, softly tapered shoulders and r
 NEGATIVE = ('photograph, photorealism, text, letters, logo, watermark, bottle, stopper, cap, padlock, '
             'square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, '
             'extra pendants, extra tassels, fuzzy edges, scratched noisy surface')
-GUARD_PROMPT = ('Hand-painted 2D inventory icon of a rounded green jade waist pendant. Preserve the diagonal bamboo '
-                'and the deep green shadow along the jade rim. Carve round cloud scrolls into the open corners, a '
-                'repeating angular fret band at the top and foot, and tiny leaf veins. Set a few muted gold strokes '
-                'into the carving. Soft jade bevels, rich emerald surface, clear large forms, dark ink contour, '
-                'pierced suspension ear, burgundy cord and single fan tassel, isolated on a flat magenta field.')
+GUARD_PROMPT = ('Hand-painted 2D inventory icon of a rounded green jade pendant with a thin soft gold line inset '
+                'along its outer bevel. Three visibly separate bamboo stalks of different lengths overlap diagonally '
+                'in shallow jade relief. Each stalk has bamboo joints and a few narrow pointed leaves. Two small '
+                'curled cloud engravings flank the bamboo in the open green areas. Polished emerald jade, clear dark '
+                'silhouette, pierced suspension ear, burgundy cord and one silk tassel, flat magenta background.')
+GUARD_NEGATIVE = ('text, letters, watermark, Greek key, geometric fret, dot inlay, gold lattice, thick metal frame, '
+                  'extra stalks, parallel stems, busy ornament, flower, logo, gold leaves, photographic background')
 
 
 def curve(start, *segments):
@@ -30,7 +32,7 @@ def curve(start, *segments):
     return points
 
 
-def guide():
+def guide(include_face=True):
     im=Image.new('RGBA',(1024,1024))
     d=ImageDraw.Draw(im)
     ink='#283c37'
@@ -70,6 +72,8 @@ def guide():
     line(curve((355,593),((345,655),(365,706),(399,715)),((457,734),(586,733),(635,711)),((665,699),(675,659),(670,622))),'#396d58',16)
     line(curve((414,301),((472,286),(559,287),(605,302)),((638,315),(649,343),(653,375))),'#c5d7ac',9)
     line(curve((659,394),((670,464),(658,514),(667,560))),'#9ec5a0',8)
+    if not include_face:
+        return im
     # Two slender edge rails with a few bamboo joints, never a central boxed panel.
     rail=curve((396,328),((367,390),(376,446),(368,488)),((360,557),(376,624),(390,673)))
     line(rail,'#467f64',9);line([(x+6,y) for x,y in rail],'#96bc88',5)
@@ -106,32 +110,58 @@ def guide():
 
 
 def guard_guide():
-    image = guide()
+    image = guide(include_face=False)
     draw = ImageDraw.Draw(image)
 
-    def incise(points, color='#9bc79b', width=7):
-        shadow = [(x, y + 3) for x, y in points]
-        draw.line(shadow, fill='#356c57', width=width + 3, joint='curve')
+    rim = curve((409, 311), ((456, 293), (567, 295), (603, 311)),
+                ((639, 322), (649, 356), (653, 387)),
+                ((669, 446), (657, 515), (665, 580)),
+                ((675, 643), (657, 686), (632, 702)),
+                ((592, 725), (424, 727), (386, 702)),
+                ((355, 681), (352, 642), (360, 581)),
+                ((369, 516), (357, 435), (372, 376)),
+                ((381, 340), (388, 323), (409, 311)))
+    draw.line(rim, fill='#66764b', width=10, joint='curve')
+    draw.line(rim, fill='#c6a768', width=6, joint='curve')
+
+    def relief(points, color, width):
+        draw.line([(x + 3, y + 3) for x, y in points], fill='#356a55', width=width + 3, joint='curve')
         draw.line(points, fill=color, width=width, joint='curve')
 
-    # Wide scrolls echo the bamboo without crossing its stems or leaves.
-    incise(curve((389, 474), ((404, 469), (397, 449), (415, 443)),
-                 ((433, 435), (450, 447), (445, 461)),
-                 ((442, 472), (424, 474), (421, 462)),
-                 ((417, 455), (425, 448), (431, 452))), '#a0c696', 8)
-    incise(curve((520, 600), ((539, 584), (564, 599), (579, 580)),
-                 ((588, 568), (580, 551), (591, 538)),
-                 ((606, 518), (633, 531), (631, 548)),
-                 ((630, 559), (608, 563), (604, 549)),
-                 ((602, 542), (612, 538), (616, 543))), '#acd39c', 10)
-    incise(curve((510, 629), ((536, 607), (578, 628), (601, 601)),
-                 ((610, 593), (615, 581), (615, 575))), '#82b58a', 5)
+    for x, y in ((395, 397), (590, 493)):
+        scroll = curve((x, y + 19), ((x + 18, y + 16), (x + 12, y - 3), (x + 32, y - 6)),
+                       ((x + 52, y - 11), (x + 62, y + 4), (x + 53, y + 13)),
+                       ((x + 44, y + 23), (x + 30, y + 16), (x + 36, y + 7)),
+                       ((x + 39, y + 4), (x + 44, y + 4), (x + 46, y + 8)))
+        relief(scroll, '#9bc39a', 8)
 
-    # Stepped borders and small brass inlays sit inside the jade bevel.
-    for x in (465, 500, 535):
-        incise([(x, 325), (x, 337), (x + 22, 337), (x + 22, 325), (x + 10, 325)], '#c6b471', 5)
-    for x in (464, 500, 536, 572):
-        incise([(x, 660), (x, 677), (x + 25, 677), (x + 25, 660), (x + 12, 660)], '#a9c597', 6)
-    for x, y in ((449, 336), (570, 334), (447, 676), (608, 667)):
-        draw.polygon([(x, y - 6), (x + 6, y), (x, y + 6), (x - 6, y)], fill='#d6b977')
+    def leaf(base, tip, width, color):
+        bx, by = base
+        tx, ty = tip
+        dx, dy = tx - bx, ty - by
+        length = np.hypot(dx, dy)
+        nx, ny = -dy * width / length, dx * width / length
+        mx, my = bx + 0.55 * dx, by + 0.55 * dy
+        shape = curve(base, ((mx + nx, my + ny), (tx + nx / 2, ty + ny / 2), tip),
+                      ((tx - nx / 2, ty - ny / 2), (mx - nx, my - ny), base))
+        draw.polygon([(x + 3, y + 3) for x, y in shape], fill='#376c56')
+        draw.polygon(shape, fill=color)
+        draw.line((base, tip), fill='#bbd4a2', width=2)
+
+    def stalk(joints, leaves, color, width):
+        relief(joints, color, width)
+        for (x, y), (nx, ny) in zip(joints[1:-1], joints[2:]):
+            length = np.hypot(nx - x, ny - y)
+            dx, dy = (ny - y) * width * 0.72 / length, (x - nx) * width * 0.72 / length
+            draw.line(((x - dx, y - dy), (x + dx, y + dy)), fill='#406f52', width=5)
+        for base, tip in leaves:
+            leaf(base, tip, width, color)
+
+    # The long stalk crosses in front at the two intersections.
+    stalk([(598, 665), (572, 585), (536, 505), (479, 419)],
+          [((508, 463), (455, 431)), ((572, 585), (624, 554))], '#8db985', 12)
+    stalk([(510, 675), (469, 626), (440, 576), (418, 522)],
+          [((440, 576), (392, 526)), ((468, 624), (404, 603))], '#a2c995', 10)
+    stalk([(422, 668), (473, 588), (511, 512), (552, 430), (587, 337)],
+          [((552, 430), (505, 367)), ((570, 384), (627, 351)), ((503, 528), (557, 477))], '#b0d39b', 15)
     return image

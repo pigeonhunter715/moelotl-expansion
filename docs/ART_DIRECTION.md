@@ -1,10 +1,16 @@
 # 物品贴图风格与制作记录
 
+## 药渡玉佩第四版
+
+佩面为三根长短不一的浅雕竹枝和两处卷云。最长竹枝从另两根前方穿过，错开的竹节和端点让三个轮廓容易辨认。细金边沿圆肩佩体收口，绳穗沿用上一版的形制。
+
+使用本地 ComfyUI 与 SDXL Base 1.0 细化原创底稿，保留透明轮廓。复现参数为 `--only MX_MedicinePendant --guard-pendant --seed 2026112040 --denoise 0.20`，实际种子为 `2026112051`。[API 工作流](art/pendant-v4-api.json) · [GUI 工作流](art/pendant-v4-workflow.json)
+
 ## 药渡玉佩第三版
 
 在斜竹、圆肩和红穗的基础上加入卷云浅雕、上下回纹和点状金嵌。使用本地 ComfyUI 与 SDXL Base 1.0 对原创底稿作低强度细化，沿用底稿的透明轮廓与穿绳孔。成品为 512×512 RGBA。128 和 64 像素可辨竹纹及主卷云，32 像素仍可辨佩形和红穗。
 
-复现时对 `tools/generate-item-art.py` 使用 `--only MX_MedicinePendant --guard-pendant --seed 2026112000 --denoise 0.23`。实际种子为 `2026112011`。[API 工作流](art/pendant-v3-api.json) · [GUI 工作流](art/pendant-v3-workflow.json) · [物品总览](art/art-preview.png)
+在 `baa4b0b` 版本对 `tools/generate-item-art.py` 使用 `--only MX_MedicinePendant --guard-pendant --seed 2026112000 --denoise 0.23` 可复现。实际种子为 `2026112011`。[API 工作流](art/pendant-v3-api.json) · [GUI 工作流](art/pendant-v3-workflow.json)
 
 ## 当前方向：乳白丹体与中国纹样
 

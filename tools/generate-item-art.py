@@ -87,7 +87,7 @@ def main():
     p.add_argument('--only',action='append',help='Optional selected Def names')
     p.add_argument('--seed',type=int,default=2026111900,help='Base seed; job index is added')
     p.add_argument('--denoise',type=float,default=0.28)
-    p.add_argument('--guard-pendant',action='store_true',help='Use the cloud-scroll and fretwork pendant guide')
+    p.add_argument('--guard-pendant',action='store_true',help='Use the three-stalk bamboo and cloud-scroll pendant guide')
     p.add_argument('--output',type=Path,default=ROOT/'artifacts/art-style/generated')
     ARGS=p.parse_args()
     if not 0<=ARGS.denoise<=1:p.error('--denoise must be between 0 and 1')
@@ -103,18 +103,19 @@ def main():
         g=pendant_art.guard_guide() if guard_pendant else guide(spec,pendant)
         g.save(out/(name+'_guide.png'))
         if guard_pendant:prompt=pendant_art.GUARD_PROMPT
-        image_name=name+'_guard' if guard_pendant else name
+        image_name=name+'_bamboo' if guard_pendant else name
         background=Image.new('RGBA',g.size,(255,0,255,255));background.alpha_composite(g)
         background.convert('RGB').save(ARGS.comfy/'input'/(image_name+'.png'))
         wf=workflow(image_name,prompt,ARGS.seed+index)
         wf['6']['inputs']['denoise']=ARGS.denoise
         wf['4']['inputs']['text']=prompt
         wf['5']['inputs']['text']=pendant_art.NEGATIVE if pendant else pill_art.NEGATIVE
+        if guard_pendant:wf['5']['inputs']['text']=pendant_art.GUARD_NEGATIVE
         assert all(n['class_type'] in info for n in wf.values())
         (out/(name+'_api.json')).write_text(json.dumps(wf,ensure_ascii=False,indent=2),encoding='utf-8')
         gui=gui_graph(wf)
         (out/(name+'_workflow.json')).write_text(json.dumps(gui,ensure_ascii=False,indent=2),encoding='utf-8')
-        workflow_name=('2026-11-20_moelotl_guard_' if guard_pendant else '2026-11-19_moelotl_v2_')+name+'.json'
+        workflow_name=('moelotl_v4_bamboo_' if guard_pendant else '2026-11-19_moelotl_v2_')+name+'.json'
         (ARGS.comfy/'user/default/workflows'/workflow_name).write_text(json.dumps(gui,ensure_ascii=False,indent=2),encoding='utf-8')
         pid=api('/prompt',{'prompt':wf,'extra_data':{'extra_pnginfo':{'workflow':gui}}})['prompt_id']
         print('QUEUED',name,pid,flush=True);deadline=time.time()+600
@@ -139,7 +140,7 @@ def main():
         canvas.alpha_composite(result,((512-result.width)//2,(512-result.height)//2))
         canvas.save(out/(name+'.png'))
         manifest.append({'name':name,'label':label,'seed':ARGS.seed+index,'prompt_id':pid,'prompt':wf['4']['inputs']['text'],'sha256':hashlib.sha256(raw).hexdigest(),'denoise':ARGS.denoise,'version':2,'checkpoint':'sd_xl_base_1.0.safetensors','steps':30,'cfg':5.5,'sampler':'dpmpp_2m','scheduler':'karras','negative_prompt':wf['5']['inputs']['text'],'guide_sha256':hashlib.sha256((out/(name+'_guide.png')).read_bytes()).hexdigest(),'final_sha256':hashlib.sha256((out/(name+'.png')).read_bytes()).hexdigest()})
-        if guard_pendant:manifest[-1]['version']=3
+        if guard_pendant:manifest[-1]['version']=4
         (out/f'manifest-{name}.json').write_text(json.dumps([manifest[-1]],ensure_ascii=False,indent=2),encoding='utf-8')
         print('DONE',name,flush=True)
 
