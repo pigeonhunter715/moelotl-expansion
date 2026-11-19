@@ -14,6 +14,7 @@ namespace MoeLotlExpansion
         public static HediffDef MX_DispelEffect;
         public static JobDef MX_FeedMedicine;
         public static JobDef MX_RestockPendant;
+        public static JobDef MX_LoadPendantOne;
 #pragma warning restore CS0649
         static MXDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(MXDefOf));
     }

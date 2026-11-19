@@ -21,7 +21,7 @@ namespace MoeLotlExpansionTests
         public static float RescueAtConsumption = -1;
         static SmokeLog()
         {
-            if (Enabled) new Harmony("pigeonhunter715.moelotl.expansion.tests").PatchAll(typeof(SmokeLog).Assembly);
+            if (Enabled || GenCommandLine.CommandLineArgPassed("mx-functional")) new Harmony("pigeonhunter715.moelotl.expansion.tests").PatchAll(typeof(SmokeLog).Assembly);
             if (Enabled) LongEventHandler.ExecuteWhenFinished(() =>
             {
                 Write("DEFS_LOADED");
@@ -183,8 +183,6 @@ namespace MoeLotlExpansionTests
             SmokeLog.Check(!policy.autoUse && !policy.autoRefill, "zombie independent defaults off");
             // Keep the test away from quickstart colonists and random friendly fire.
             zombie.jobs.StopAll();
-            for (int x = 5; x <= 35; x++) for (int z = 5; z <= 35; z++)
-                zombie.Map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
             zombie.Position = CellFinder.RandomClosewalkCellNear(new IntVec3(15, 0, 15), zombie.Map, 5);
             living.Position = CellFinder.RandomClosewalkCellNear(zombie.Map.Center, zombie.Map, 5);
             var state = DefDatabase<MentalStateDef>.AllDefsListForReading.First(d => d.stateClass == typeof(MentalState_ZombieBerserk));
@@ -249,6 +247,27 @@ namespace MoeLotlExpansionTests
         {
             if (__result.Accepted && config.zombieMedicine == ZombieMedicine.Rescue)
                 SmokeLog.RescueAtConsumption = pawn.TryGetComp<CompYinAndMalevolent>().Malevolent;
+        }
+    }
+    [HarmonyPatch(typeof(PendantManager), nameof(PendantManager.Start))]
+    internal static class ObserveRescueStart
+    {
+        private static void Postfix(MedicinePendant pendant, Thing item, AcceptanceReport __result)
+        {
+            if (SmokeLog.Enabled && item.def.defName == "MX_RescuePill")
+                SmokeLog.Write("RESCUE_START tick=" + Find.TickManager.TicksGame + " accepted=" + __result.Accepted + " due=" + PendantManager.Instance.For(pendant.Wearer).deliveryAt);
+        }
+    }
+    [HarmonyPatch(typeof(PawnMedicinePolicy), nameof(PawnMedicinePolicy.CancelDelivery))]
+    internal static class ObserveRescueCancel
+    {
+        private static void Prefix(PawnMedicinePolicy __instance)
+        {
+            if (SmokeLog.Enabled && __instance.pendingMedicine?.def.defName == "MX_RescuePill")
+                SmokeLog.Write("RESCUE_CLEAR tick=" + Find.TickManager.TicksGame + " due=" + __instance.deliveryAt +
+                    " wants=" + PendantManager.Wants(__instance, __instance.pendingMedicine) + " state=" + __instance.pawn.MentalStateDef +
+                    " available=" + PendantManager.Available(__instance.pawn) + " holder=" + __instance.pawn.ParentHolder?.GetType() +
+                    " reason=" + MedicineCatalog.CanUse(__instance.pendingMedicine, __instance.pawn).Reason);
         }
     }
 }

@@ -6,6 +6,12 @@
     <reportString>正在为药渡玉佩装药。</reportString>
     <casualInterruptible>true</casualInterruptible>
   </JobDef>
+  <JobDef>
+    <defName>MX_LoadPendantOne</defName>
+    <driverClass>MoeLotlExpansion.JobDriver_RestockPendant</driverClass>
+    <reportString>正在向药渡玉佩装入一枚丹药。</reportString>
+    <casualInterruptible>true</casualInterruptible>
+  </JobDef>
   <WorkGiverDef>
     <defName>MX_RestockPendant</defName>
     <label>补充药渡玉佩</label>

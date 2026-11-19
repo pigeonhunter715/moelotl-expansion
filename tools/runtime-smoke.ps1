@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'))
+param([string]$ConfigPath = (Join-Path $PSScriptRoot '../build.local.json'), [switch]$Functional)
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $config = Get-Content -LiteralPath $ConfigPath -Raw | ConvertFrom-Json
@@ -19,6 +19,7 @@ $references += @($config.axolotlDll, $config.rigorMortisDll, $config.harmonyDll,
 $argsCompile = @('/noconfig', '/nologo', '/nostdlib+', '/target:library', '/langversion:latest', '/warnaserror+', ('/out:' + (Join-Path $testMod 'Assemblies/MXRuntimeTests.dll')))
 $argsCompile += $references | ForEach-Object { '/reference:' + $_ }
 $argsCompile += Join-Path $repo 'Tests/RuntimeSmoke.cs'
+$argsCompile += Join-Path $repo 'Tests/RuntimeFunctional.cs'
 & $config.compilerPath @argsCompile
 if ($LASTEXITCODE -ne 0) { throw 'Smoke harness compilation failed.' }
 $modsPath = Join-Path $save 'Config/ModsConfig.xml'
@@ -33,7 +34,10 @@ if (-not ($mods.ModsConfigData.activeMods.li -contains 'pigeonhunter715.moelotl.
 }
 $result = Join-Path $save 'mx-smoke.txt'
 if (Test-Path -LiteralPath $result) { Move-Item -LiteralPath $result -Destination (Join-Path $save ('mx-smoke-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '.txt')) }
+$engineLog = Join-Path $runtime 'smoke.log'
+if (Test-Path -LiteralPath $engineLog) { Move-Item -LiteralPath $engineLog -Destination (Join-Path $runtime ('smoke-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '.log')) }
 $launchArgs = @('-quicktest', '-mx-smoke', '-screen-width', '1280', '-screen-height', '900', '-screen-fullscreen', '0', ('-savedatafolder="' + $save + '"'), '-logFile', ('"' + (Join-Path $runtime 'smoke.log') + '"'))
+if ($Functional) { $launchArgs[1] = '-mx-functional' }
 $process = Start-Process -FilePath (Join-Path $game 'RimWorldWin64.exe') -ArgumentList $launchArgs -WorkingDirectory $game -WindowStyle Hidden -PassThru
 $process.Id | Set-Content -LiteralPath (Join-Path $runtime 'process-id.txt')
 Write-Output ('Started isolated smoke test PID ' + $process.Id + '; result: ' + $result)

@@ -32,6 +32,8 @@
 
 `Tests/RuntimeSmoke.cs` 是单独编译的测试模组，不进入正式扩展DLL。`tools/runtime-smoke.ps1` 使用 `artifacts/runtime/game` 中准备好的隔离1.6运行环境和独立 `artifacts/runtime/save`，运行完成后自动退出。测试所需的游戏文件和依赖由用户自行提供；不要将启动脚本指向正式存档或生产模组目录。详见 [测试说明](docs/RUNTIME_TESTS.md)。
 
+加 `-Functional` 可运行 `Tests/RuntimeFunctional.cs`，覆盖真实取药、喂药、补货、缠风剑与连弩攻击、世界商队等操作。本轮发现的补货目标变更问题已修复，具体结果和覆盖范围见 [功能测试记录](docs/FUNCTIONAL_TEST_REPORT.md)。
+
 ## 文档
 
 - [萌螈丹药扩展设计 v0.1](萌螈丹药扩展设计_v0.1.md)：当前设计主文档，含有效参数入口、历史方案区分及第十三节核查结果。

@@ -21,7 +21,8 @@ namespace MoeLotlExpansion
                 if (pendant == null || (only != null && pendant != only) || !Safe(target)) continue;
                 var policy = PendantManager.Instance.For(target);
                 if (manualType == null && !policy.autoRefill && !policy.manualRefill) continue;
-                var inFlight = worker.Map.mapPawns.AllPawnsSpawned.Where(p => p.CurJob?.def == MXDefOf.MX_RestockPendant && p.CurJob.targetA.Thing == pendant).ToList();
+                var inFlight = worker.Map.mapPawns.AllPawnsSpawned.Where(p =>
+                    (p.CurJob?.def == MXDefOf.MX_RestockPendant || p.CurJob?.def == MXDefOf.MX_LoadPendantOne) && p.CurJob.targetA.Thing == pendant).ToList();
                 if (inFlight.Count > 0) continue; // One reserved transfer per pendant, no duplicate requests.
                 var candidates = manualType != null ? new[] { manualType } : policy.entries.Where(e => e.target > 0)
                     .OrderByDescending(e => e.medicine.defName == "MX_RescuePill").Select(e => e.medicine);
@@ -36,7 +37,7 @@ namespace MoeLotlExpansion
                     Thing source = worker.Map.listerThings.ThingsOfDef(medicine).Where(t => !t.IsForbidden(worker) &&
                         worker.CanReserveAndReach(t, PathEndMode.Touch, Danger.Some)).OrderBy(t => t.Position.DistanceToSquared(worker.Position)).FirstOrDefault();
                     if (source == null || !worker.CanReserve(target) || !worker.CanReach(target, PathEndMode.Touch, Danger.Some)) continue;
-                    Job job = JobMaker.MakeJob(MXDefOf.MX_RestockPendant, pendant, source, target);
+                    Job job = JobMaker.MakeJob(manualType == null ? MXDefOf.MX_RestockPendant : MXDefOf.MX_LoadPendantOne, pendant, source, target);
                     job.count = Math.Min(need, source.stackCount);
                     job.playerForced = manualType != null;
                     return job;
@@ -54,10 +55,13 @@ namespace MoeLotlExpansion
     {
         private MedicinePendant Pendant => TargetA.Thing as MedicinePendant;
         private Pawn Recipient => TargetC.Pawn;
+        // Ordered jobs also set playerForced=true, including refill-to-target jobs.
+        // A separate saved JobDef is the explicit one-dose request.
+        private bool LoadOne => job.def == MXDefOf.MX_LoadPendantOne;
         private int Desired(Thing item)
         {
             if (Pendant == null || item == null) return 0;
-            int wanted = job.playerForced ? job.count : PendantManager.Instance.For(Recipient).For(item.def).target - Pendant.Count(item.def);
+            int wanted = LoadOne ? 1 : PendantManager.Instance.For(Recipient).For(item.def).target - Pendant.Count(item.def);
             return Math.Max(0, Math.Min(Math.Min(wanted, item.stackCount), Pendant.Space(item.def)));
         }
         public override bool TryMakePreToilReservations(bool errorOnFailed) =>
@@ -66,7 +70,7 @@ namespace MoeLotlExpansion
         {
             this.FailOn(() => Pendant == null || Pendant.Destroyed || MedicinePendant.Active(Recipient) != Pendant ||
                 !PendantRestock.Safe(pawn) || !PendantRestock.Safe(Recipient) ||
-                (!job.playerForced && !PendantManager.Instance.For(Recipient).autoRefill && !PendantManager.Instance.For(Recipient).manualRefill));
+                (!LoadOne && !PendantManager.Instance.For(Recipient).autoRefill && !PendantManager.Instance.For(Recipient).manualRefill));
             yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
             yield return Toils_General.Do(() =>
             {

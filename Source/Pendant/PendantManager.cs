@@ -16,7 +16,9 @@ namespace MoeLotlExpansion
         public PendantManager(Game game) { }
         public static PendantManager Instance => Current.Game?.GetComponent<PendantManager>();
         public IEnumerable<PawnMedicinePolicy> Policies => policies;
-        public static bool Available(Pawn pawn) => pawn != null && (pawn.Spawned || pawn.IsCaravanMember());
+        public static bool Available(Pawn pawn) => pawn != null && (pawn.Spawned || pawn.IsCaravanMember() ||
+            // Jumping temporarily despawns the pawn into a map flyer, not storage.
+            (pawn.ParentHolder is PawnFlyer flyer && flyer.Spawned && flyer.FlyingPawn == pawn));
         public PawnMedicinePolicy For(Pawn pawn)
         {
             var policy = policies.FirstOrDefault(p => p.pawn == pawn);
