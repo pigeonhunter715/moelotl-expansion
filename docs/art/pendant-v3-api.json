@@ -1,0 +1,97 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "MX_MedicinePendant_guard.png"
+    }
+  },
+  "3": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "2",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "Hand-painted 2D inventory icon of a rounded green jade waist pendant. Preserve the diagonal bamboo and the deep green shadow along the jade rim. Carve round cloud scrolls into the open corners, a repeating angular fret band at the top and foot, and tiny leaf veins. Set a few muted gold strokes into the carving. Soft jade bevels, rich emerald surface, clear large forms, dark ink contour, pierced suspension ear, burgundy cord and single fan tassel, isolated on a flat magenta field."
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "photograph, photorealism, text, letters, logo, watermark, bottle, stopper, cap, padlock, square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, extra pendants, extra tassels, fuzzy edges, scratched noisy surface"
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "3",
+        0
+      ],
+      "seed": 2026112011,
+      "steps": 30,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.23
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ],
+      "filename_prefix": "MoeLotl_OriginalGuides/MX_MedicinePendant_guard"
+    }
+  }
+}

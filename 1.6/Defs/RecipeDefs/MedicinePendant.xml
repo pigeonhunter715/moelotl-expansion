@@ -3,7 +3,7 @@
   <RecipeDef>
     <defName>MX_MakeMedicinePendant</defName>
     <label>雕制药渡玉佩</label>
-    <description>以翡翠20、黄金2、玉琼粉8、布5制成一件药渡玉佩。艺术工作台制作，手工4级。</description>
+    <description>以翡翠20、黄金2、玉琼粉8、布5制成一件药渡玉佩。艺术工作台制作，手工4级；需气运丹田与巧织灵裳研究。</description>
     <jobString>正在雕制药渡玉佩。</jobString>
     <workAmount>6000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -14,7 +14,10 @@
     <recipeUsers>
       <li>TableSculpting</li>
     </recipeUsers>
-    <researchPrerequisite>Axolotl_Research_BasePlant</researchPrerequisite>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+      <li>Axolotl_Research_LotlQiClothing</li>
+    </researchPrerequisites>
     <products>
       <MX_MedicinePendant>1</MX_MedicinePendant>
     </products>

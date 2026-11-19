@@ -11,6 +11,11 @@ PROMPT = ('A small flat thick green jade pendant, softly tapered shoulders and r
 NEGATIVE = ('photograph, photorealism, text, letters, logo, watermark, bottle, stopper, cap, padlock, '
             'square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, '
             'extra pendants, extra tassels, fuzzy edges, scratched noisy surface')
+GUARD_PROMPT = ('Hand-painted 2D inventory icon of a rounded green jade waist pendant. Preserve the diagonal bamboo '
+                'and the deep green shadow along the jade rim. Carve round cloud scrolls into the open corners, a '
+                'repeating angular fret band at the top and foot, and tiny leaf veins. Set a few muted gold strokes '
+                'into the carving. Soft jade bevels, rich emerald surface, clear large forms, dark ink contour, '
+                'pierced suspension ear, burgundy cord and single fan tassel, isolated on a flat magenta field.')
 
 
 def curve(start, *segments):
@@ -98,3 +103,35 @@ def guide():
     line(curve((411,310),((460,298),(548,299),(598,311))),'#51846a',3)
     d.ellipse((598,323,610,347),fill='#e4e7be')
     return im
+
+
+def guard_guide():
+    image = guide()
+    draw = ImageDraw.Draw(image)
+
+    def incise(points, color='#9bc79b', width=7):
+        shadow = [(x, y + 3) for x, y in points]
+        draw.line(shadow, fill='#356c57', width=width + 3, joint='curve')
+        draw.line(points, fill=color, width=width, joint='curve')
+
+    # Wide scrolls echo the bamboo without crossing its stems or leaves.
+    incise(curve((389, 474), ((404, 469), (397, 449), (415, 443)),
+                 ((433, 435), (450, 447), (445, 461)),
+                 ((442, 472), (424, 474), (421, 462)),
+                 ((417, 455), (425, 448), (431, 452))), '#a0c696', 8)
+    incise(curve((520, 600), ((539, 584), (564, 599), (579, 580)),
+                 ((588, 568), (580, 551), (591, 538)),
+                 ((606, 518), (633, 531), (631, 548)),
+                 ((630, 559), (608, 563), (604, 549)),
+                 ((602, 542), (612, 538), (616, 543))), '#acd39c', 10)
+    incise(curve((510, 629), ((536, 607), (578, 628), (601, 601)),
+                 ((610, 593), (615, 581), (615, 575))), '#82b58a', 5)
+
+    # Stepped borders and small brass inlays sit inside the jade bevel.
+    for x in (465, 500, 535):
+        incise([(x, 325), (x, 337), (x + 22, 337), (x + 22, 325), (x + 10, 325)], '#c6b471', 5)
+    for x in (464, 500, 536, 572):
+        incise([(x, 660), (x, 677), (x + 25, 677), (x + 25, 660), (x + 12, 660)], '#a9c597', 6)
+    for x, y in ((449, 336), (570, 334), (447, 676), (608, 667)):
+        draw.polygon([(x, y - 6), (x + 6, y), (x, y + 6), (x - 6, y)], fill='#d6b977')
+    return image

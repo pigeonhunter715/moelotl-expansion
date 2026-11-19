@@ -163,11 +163,22 @@ def main():
     check(pendant.findtext('thingClass') == 'MoeLotlExpansion.MedicinePendant', 'Pendant physical container class')
     check(pendant.findtext('statBases/Mass') == '0.3' and pendant.findtext('statBases/MaxHitPoints') == '120', 'Pendant mass and durability')
     check(pendant.findtext('apparel/layers/li') == 'MX_PendantLayer' and pendant.findtext('apparel/bodyPartGroups/li') == 'Waist', 'Pendant layer and body part')
-    check(not any('Quality' in n.get('Class', '') for n in pendant.findall('comps/li')), 'Pendant quality must not alter capacity')
+    check(pendant.findtext('techLevel') == 'Medieval', 'Pendant tech level')
+    comps = pendant.findall('comps/li')
+    check(any((c.findtext('compClass') or '') == 'CompQuality' for c in comps), 'Pendant quality component')
+    shield = next((c for c in comps if c.get('Class') == 'Axolotl.CompProperties_Apparel_LotlQiShield'), None)
+    check(shield is not None and int(shield.findtext('LotlQiShieldCount')) == 16, 'Pendant native qi shield component')
+    check(shield.findtext('LotlQiShieldReSetOffset') in (None, '1'), 'Pendant native recharge offset')
+    check('品质' in pendant.findtext('description') and '护盾' in pendant.findtext('description'), 'Pendant quality and shield description')
     check(pendant_recipe.findtext('workAmount') == '6000' and pendant_recipe.findtext('skillRequirements/Crafting') == '4', 'Pendant crafting work and level')
-    check(pendant_recipe.findtext('recipeUsers/li') == 'TableSculpting' and pendant_recipe.findtext('researchPrerequisite') == 'Axolotl_Research_BasePlant', 'Pendant bench and research')
+    check(pendant_recipe.findtext('recipeUsers/li') == 'TableSculpting', 'Pendant bench')
+    pendant_researches = [n.text for n in pendant_recipe.findall('researchPrerequisites/li')]
+    check(pendant_recipe.find('researchPrerequisite') is None and pendant_researches ==
+          ['Axolotl_Research_Alchemy', 'Axolotl_Research_LotlQiClothing'], 'Pendant research prerequisites')
+    check(all(name in pendant_recipe.findtext('description') for name in ('气运丹田', '巧织灵裳')), 'Pendant research description')
     check(pendant_recipe.findtext('products/MX_MedicinePendant') == '1', 'Pendant output')
     external |= {('ThingDef', name) for name in cost}
+    external |= {('ResearchProjectDef', name) for name in pendant_researches}
     external |= {('ThingDef', 'TableSculpting'), ('ApparelLayerDef', 'OnSkin'), ('BodyPartGroupDef', 'Waist'), ('ThingCategoryDef', 'Apparel'), ('WorkTypeDef', 'Hauling')}
     cn = ET.parse(ROOT / "Languages/ChineseSimplified/Keyed/Medicines.xml").getroot()
     en = ET.parse(ROOT / "Languages/English/Keyed/Medicines.xml").getroot()

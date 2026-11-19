@@ -132,8 +132,8 @@ namespace MoeLotlExpansionTests
             }
             SmokeLog.Check(!MedicineService.CanUse(Pill("Warming"), zombie).Accepted, "living medicine rejects zombie");
             pendant = (MedicinePendant)ThingMaker.MakeThing(Def("MX_MedicinePendant"));
+            VerifyPendantQualityAndReduction(pendant);
             float emptyValue = pendant.MarketValue;
-            living.apparel.Wear(pendant);
             var policy = PendantManager.Instance.For(living);
             SmokeLog.Check(!policy.autoUse && !policy.autoRefill && policy.entries.All(e => e.target == 0 && e.mode == AutoMedicineMode.Off), "all automation defaults off");
             var warming = Pill("Warming", 25);
@@ -147,9 +147,44 @@ namespace MoeLotlExpansionTests
             var item = pendant.Contents.First();
             SmokeLog.Check(PendantManager.Instance.Start(pendant, item, true).Accepted, "manual delivery starts with auto off");
             savedCount = pendant.Total; savedRemaining = ((Hediff_TimedMedicine)living.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed("MX_WarmingEffect"))).RemainingTicks;
+            // Awful is the only vanilla quality without a <quality> node; the explicit
+            // marker must preserve it instead of treating the pendant as legacy.
+            pendant.GetComp<CompQuality>().SetQuality(QualityCategory.Awful, null);
             stage = 2; GameDataSaveLoader.SaveGame("MX-isolated-smoke");
             SmokeLog.Check(File.Exists(GenFilePaths.FilePathForSavedGame("MX-isolated-smoke")), "isolated save written");
             stage = 1;
+        }
+        private void VerifyPendantQualityAndReduction(MedicinePendant target)
+        {
+            var qi = living.TryGetComp<CompAxolotlEnergy>();
+            int baselineShield = qi.ShieldMax;
+            var baselineCut = new DamageInfo(DamageDefOf.Cut, 100f, armorPenetration: 999f);
+            living.PreApplyDamage(ref baselineCut, out bool baselineAbsorbed);
+            float baselineAmount = baselineCut.Amount;
+            SmokeLog.Check(!baselineAbsorbed && baselineAmount > 0f, "baseline melee cut is external");
+            var quality = target.GetComp<CompQuality>();
+            SmokeLog.Check(quality != null, "pendant has quality comp");
+            quality.SetQuality(QualityCategory.Normal, null);
+            living.apparel.Wear(target);
+            SmokeLog.Check(qi.ShieldMax == baselineShield + 16, "normal pendant adds sixteen native shield");
+            var normalCut = new DamageInfo(DamageDefOf.Cut, 100f, armorPenetration: 999f);
+            living.PreApplyDamage(ref normalCut, out bool normalAbsorbed);
+            SmokeLog.Check(!normalAbsorbed, "normal pendant leaves melee cut unabsorbed");
+            SmokeLog.Near(normalCut.Amount, baselineAmount * 0.93f, "normal pendant reduces leftover cut by seven percent");
+            quality.SetQuality(QualityCategory.Legendary, null);
+            SmokeLog.Check(qi.ShieldMax == baselineShield + 32, "legendary pendant adds thirty-two native shield");
+            var legendaryCut = new DamageInfo(DamageDefOf.Cut, 100f, armorPenetration: 999f);
+            living.PreApplyDamage(ref legendaryCut, out bool legendaryAbsorbed);
+            SmokeLog.Check(!legendaryAbsorbed, "legendary pendant leaves melee cut unabsorbed");
+            SmokeLog.Near(legendaryCut.Amount, baselineAmount * 0.85f, "legendary pendant reduces leftover cut by fifteen percent");
+            qi.Shield = qi.ShieldMax;
+            float chargedShield = qi.Shield;
+            var bullet = new DamageInfo(DamageDefOf.Bullet, 20f);
+            living.PreApplyDamage(ref bullet, out bool bulletAbsorbed);
+            SmokeLog.Check(bulletAbsorbed && qi.Shield < chargedShield, "native qi shield absorbs a bullet and spends its charge");
+            qi.Shield = 0f;
+            quality.SetQuality(QualityCategory.Normal, null);
+            SmokeLog.Check(qi.ShieldMax == baselineShield + 16, "normal quality restores sixteen native shield");
         }
         private void ProbeAttack(bool paid)
         {
@@ -166,6 +201,8 @@ namespace MoeLotlExpansionTests
         {
             SmokeLog.Check(living != null && zombie != null && pendant != null && MedicinePendant.Active(living) == pendant, "pawn and apparel references restored");
             SmokeLog.Check(pendant.Total == savedCount, "physical contents survive reload");
+            var reloadedQuality = pendant.GetComp<CompQuality>();
+            SmokeLog.Check(reloadedQuality != null && reloadedQuality.Quality == QualityCategory.Awful, "explicit awful quality survives reload");
             var policy = PendantManager.Instance.For(living);
             SmokeLog.Check(!policy.autoUse && !policy.autoRefill && policy.For(Def("MX_WarmingPill")).target == 10, "policy persists independently");
             SmokeLog.Check(policy.pendingMedicine != null && pendant.Contents.Contains(policy.pendingMedicine) && policy.pendingManual, "pending delivery reference restored");

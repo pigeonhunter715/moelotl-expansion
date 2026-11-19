@@ -233,22 +233,19 @@
   {
     "name": "MX_MedicinePendant",
     "label": "药渡玉佩",
-    "seed": 2026111952,
-    "prompt_id": "d753a3b2-961d-45e2-a257-bb8793a0d306",
-    "prompt": "A small flat thick green jade pendant, softly tapered shoulders and rounded bottom corners, carved narrow bamboo border, three pointed bamboo leaves in shallow green relief, one curved diagonal jointed stem, sparse fine warm gold inlaid lines, smooth waxy jade with broad pale green highlights, small integrated pierced suspension ear, natural curved burgundy braided cord, one short soft burgundy tassel, front view, restrained hand-painted 2D game item illustration, clear dark outer contour, fine interior carving, large quiet green areas, isolated on flat magenta background.",
-    "sha256": "35de8335063043c949331f3de3b92e09a9d34e6e94ded61a2aa598be7479339f",
-    "denoise": 0.28,
-    "version": 2,
+    "seed": 2026112011,
+    "prompt_id": "6a926d81-c040-475b-b088-d64d7bbfc01e",
+    "prompt": "Hand-painted 2D inventory icon of a rounded green jade waist pendant. Preserve the diagonal bamboo and the deep green shadow along the jade rim. Carve round cloud scrolls into the open corners, a repeating angular fret band at the top and foot, and tiny leaf veins. Set a few muted gold strokes into the carving. Soft jade bevels, rich emerald surface, clear large forms, dark ink contour, pierced suspension ear, burgundy cord and single fan tassel, isolated on a flat magenta field.",
+    "sha256": "c684a4f6d1fd6d77ffb557b3d90311fb4e31d75f5bac7200bfdaab31e636acf7",
+    "denoise": 0.23,
+    "version": 3,
     "checkpoint": "sd_xl_base_1.0.safetensors",
     "steps": 30,
     "cfg": 5.5,
     "sampler": "dpmpp_2m",
     "scheduler": "karras",
-    "guide_sha256": "fa41b52ebd40b5686285fec6a5a131e4c3cbb57de002fbde1cb6d44094d4a083",
-    "final_sha256": "5102a36731014f94445ff8ce5866401fd2ddf4811929137c037acfecef147bf9",
-    "api_workflow": "pendant-v2-api.json",
-    "gui_workflow": "pendant-v2-workflow.json",
-    "guide_source": "tools/pendant_art.py",
-    "qc": "PASS at 64px; fine carving and inlay reduced at 32px; no in-game screenshot check"
+    "negative_prompt": "photograph, photorealism, text, letters, logo, watermark, bottle, stopper, cap, padlock, square inset panel, central hole, gold frame, metallic body, elaborate filigree, scenery, extra pendants, extra tassels, fuzzy edges, scratched noisy surface",
+    "guide_sha256": "4b491ea257cf973259576a38da47109eef53ae14b53d78f5bdc9fe2239bcfe6e",
+    "final_sha256": "e60b78901482e5220664a90654f36d8ef327475f1b8ab333793ee15ab54c518e"
   }
 ]

@@ -68,5 +68,6 @@
   <MX_Condition_Axolotl_LotlqiPellet>低于指定经脉等级，仍须满足本体使用条件。</MX_Condition_Axolotl_LotlqiPellet>
   <MX_Condition_Axolotl_ReversalMeridianPill>仅手动；保留本体经脉修复限制。</MX_Condition_Axolotl_ReversalMeridianPill>
   <MX_Condition_Axolotl_YakshaPearl>正常己方螈僵；安魂后须手动重新开启。</MX_Condition_Axolotl_YakshaPearl>
+  <MX_PendantProtection>螈气护盾容量 +{0}，外部伤害 -{1}%</MX_PendantProtection>
   <MX_StoredMedicine>药仓：{0}／60枚，{1}／6种。</MX_StoredMedicine>
 </LanguageData>

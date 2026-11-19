@@ -10,6 +10,9 @@ namespace MoeLotlExpansion
     public sealed class MedicinePendant : Apparel, IThingHolder
     {
         private ThingOwner<Thing> contents;
+        // New pendants are explicit. Vanilla CompQuality omits the Awful node, so this
+        // marker distinguishes a saved Awful pendant from a pre-quality legacy pendant.
+        private bool qualityExplicit = true;
         public MedicinePendant() { contents = new ThingOwner<Thing>(this); }
         public ThingOwner<Thing> Contents => contents;
         public int Total => contents.Sum(t => t.stackCount);
@@ -53,6 +56,12 @@ namespace MoeLotlExpansion
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref qualityExplicit, "mxQualityExplicit", false);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !qualityExplicit)
+            {
+                this.TryGetComp<CompQuality>()?.SetQuality(QualityCategory.Normal, null);
+                qualityExplicit = true;
+            }
             Scribe_Deep.Look(ref contents, "medicineContents", this);
             if (contents == null) contents = new ThingOwner<Thing>(this);
         }
@@ -69,6 +78,12 @@ namespace MoeLotlExpansion
             if (Spawned && contents.Count > 0) yield return new Command_Action
             { defaultLabel = "MX_Unload".Translate(), defaultDesc = "MX_PendantDescription".Translate(), icon = def.uiIcon, action = Unload };
         }
-        public override string GetInspectString() => base.GetInspectString() + "\n" + "MX_StoredMedicine".Translate(Total, contents.Select(t => t.def).Distinct().Count());
+        public override string GetInspectString()
+        {
+            QualityCategory quality = PendantQuality.QualityOf(this);
+            return base.GetInspectString() + "\n" +
+                "MX_StoredMedicine".Translate(Total, contents.Select(t => t.def).Distinct().Count()) + "\n" +
+                "MX_PendantProtection".Translate(PendantQuality.ShieldCapacity(quality), PendantQuality.DamageReductionPercent(quality));
+        }
     }
 }

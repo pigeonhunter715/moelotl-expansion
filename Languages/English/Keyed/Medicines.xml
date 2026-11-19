@@ -68,5 +68,6 @@
   <MX_Condition_Axolotl_LotlqiPellet>Below selected meridian level; native restrictions apply.</MX_Condition_Axolotl_LotlqiPellet>
   <MX_Condition_Axolotl_ReversalMeridianPill>Manual only; native meridian repair restrictions apply.</MX_Condition_Axolotl_ReversalMeridianPill>
   <MX_Condition_Axolotl_YakshaPearl>Owned non-berserk zombie; re-enable manually after rescue.</MX_Condition_Axolotl_YakshaPearl>
+  <MX_PendantProtection>Qi shield capacity +{0} | External damage -{1}%</MX_PendantProtection>
   <MX_StoredMedicine>Medicine: {0}/60 doses, {1}/6 types.</MX_StoredMedicine>
 </LanguageData>

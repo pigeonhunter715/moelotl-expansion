@@ -8,7 +8,7 @@
   <ThingDef>
     <defName>MX_MedicinePendant</defName>
     <label>药渡玉佩</label>
-    <description>翡翠为佩、黄金勾纹、玉琼粉引药的随身丹药容器。最多6种、总计60枚、每种25枚。初始自动用药与自动补货全部关闭，补货目标0；穿戴后打开药仓手动设置。内装药物计入重量和财富。</description>
+    <description>翡翠为佩、黄金勾纹、玉琼粉引药的随身丹药容器。最多6种、总计60枚、每种25枚。由最低品质到传奇，螈气护盾容量依次增加8/12/16/20/24/28/32点，外部伤害减免依次为3/5/7/9/11/13/15%。有灵螈脉络的活体萌螈可按本体规则为护盾充能，螈僵可获得减伤。每位佩戴者仅一件有效玉佩参与防护。初始自动用药与自动补货全部关闭，补货目标0。穿戴后可打开药仓设置，内装药物计入重量和财富。</description>
     <thingClass>MoeLotlExpansion.MedicinePendant</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -22,7 +22,7 @@
     <tradeability>All</tradeability>
     <pathCost>15</pathCost>
     <drawGUIOverlay>true</drawGUIOverlay>
-    <techLevel>Neolithic</techLevel>
+    <techLevel>Medieval</techLevel>
     <graphicData>
       <texPath>Things/Item/MoeLotl/MX_MedicinePendant</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -57,6 +57,12 @@
     </apparel>
     <comps>
       <li Class="CompProperties_Forbiddable" />
+      <li>
+        <compClass>CompQuality</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_Apparel_LotlQiShield">
+        <LotlQiShieldCount>16</LotlQiShieldCount>
+      </li>
     </comps>
   </ThingDef>
 </Defs>
