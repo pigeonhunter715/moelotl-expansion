@@ -92,10 +92,10 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeIndustryPills</defName>
-    <label>捣制百工丹（5枚）</label>
-    <description>在捣药台研磨、调和并直接制成5枚百工丹，无需丹炉。</description>
+    <label>捣制百工丹（3枚）</label>
+    <description>在捣药台研磨、调和并直接制成3枚百工丹，无需丹炉。</description>
     <jobString>正在捣制百工丹。</jobString>
-    <workAmount>4200</workAmount>
+    <workAmount>4800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -124,7 +124,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>8</count>
+        <count>10</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -135,7 +135,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <MX_IndustryPill>5</MX_IndustryPill>
+      <MX_IndustryPill>3</MX_IndustryPill>
     </products>
     <recipeUsers>
       <li>Axolotl_GrindingTable</li>
@@ -210,7 +210,7 @@
   <RecipeDef>
     <defName>MX_MakeCombatPreparation</defName>
     <label>配制临战丹剂</label>
-    <description>在捣药台配成1份丹剂；炼丹设备需集齐5份，炼成40枚临战丹。</description>
+    <description>在捣药台配成1份丹剂；炼丹设备需集齐5份，炼成25枚临战丹。</description>
     <jobString>正在配制临战丹剂。</jobString>
     <workAmount>3600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -273,7 +273,7 @@
   <RecipeDef>
     <defName>MX_MakeCapacityPreparation</defName>
     <label>配制纳煞丹剂</label>
-    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成5枚纳煞丹。</description>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成3枚纳煞丹。</description>
     <jobString>正在配制纳煞丹药。</jobString>
     <workAmount>2400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -330,7 +330,7 @@
   <RecipeDef>
     <defName>MX_MakePurifyPreparation</defName>
     <label>配制涤煞丹剂</label>
-    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成5枚涤煞丹。</description>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成3枚涤煞丹。</description>
     <jobString>正在配制涤煞丹药。</jobString>
     <workAmount>2000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -594,7 +594,7 @@
   <RecipeDef>
     <defName>MX_MakeDispelPreparation</defName>
     <label>配制镇煞丹剂</label>
-    <description>在捣药台配成1份镇煞丹剂。丹炉每5份炼成45枚镇煞丹。</description>
+    <description>在捣药台配成1份镇煞丹剂。丹炉每5份炼成25枚镇煞丹。</description>
     <jobString>正在配制镇煞丹剂。</jobString>
     <workAmount>3200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

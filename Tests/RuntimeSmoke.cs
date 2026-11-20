@@ -121,7 +121,7 @@ namespace MoeLotlExpansionTests
             {
                 var furnace = (Building_AlchemyStove_Base)ThingMaker.MakeThing(Def(furnaceName));
                 GenSpawn.Spawn(furnace, CellFinder.RandomClosewalkCellNear(map.Center, map, 15), map);
-                foreach (var batch in new[] { (Key: "Recovery", Yield: 50), (Key: "Dispel", Yield: 45) })
+                foreach (var batch in new[] { (Key: "Recovery", Yield: 50), (Key: "Dispel", Yield: 25), (Key: "Combat", Yield: 25), (Key: "Capacity", Yield: 3), (Key: "Purify", Yield: 3) })
                 {
                     var pill = Def("MX_" + batch.Key + "Pill");
                     string context = furnaceName + " " + batch.Key;

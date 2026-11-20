@@ -17,26 +17,26 @@ EXPECTED = {
     "Cooling": {"label": "清暑丹", "ticks": 120000, "work": 1000, "skill": 2, "price": 12, "output": 5,
                 "ingredients": {"RM_OvercastWood": 4, "MedicineHerbal": 1},
                 "offsets": {"ComfyTemperatureMax": 15}, "factors": {}},
-    "Industry": {"label": "百工丹", "ticks": 60000, "work": 4200, "skill": 4, "price": 25, "output": 5,
-                 "ingredients": {"PsychoidLeaves": 6, "MedicineHerbal": 2, "Axolotl_JadeEssencePowder": 8},
+    "Industry": {"label": "百工丹", "ticks": 60000, "work": 4800, "skill": 4, "price": 25, "output": 3,
+                 "ingredients": {"PsychoidLeaves": 6, "MedicineHerbal": 2, "Axolotl_JadeEssencePowder": 10},
                  "offsets": {}, "factors": {"WorkSpeedGlobal": 1.2, "ResearchSpeed": 1.1}},
     "Recovery": {"label": "回气丹", "ticks": 15000, "work": 2400, "skill": 4, "price": 60, "progress": 6, "output": 50,
                  "ingredients": {"PsychoidLeaves": 8, "Axolotl_JadeEssencePowder": 8, "MedicineHerbal": 1, "Uranium": 1},
                  "offsets": {}, "factors": {}},
-    "Combat": {"label": "临战丹", "ticks": 35000, "work": 3600, "skill": 6, "price": 100, "progress": 10, "output": 40,
+    "Combat": {"label": "临战丹", "ticks": 35000, "work": 3600, "skill": 6, "price": 100, "progress": 10, "output": 25,
                "ingredients": {"RM_AxoPeachWood": 6, "PsychoidLeaves": 8, "Axolotl_JadeEssencePowder": 10, "Uranium": 1},
                "offsets": {}, "factors": {"MeleeDamageFactor": 1.2, "MoveSpeed": 1.15, "AimingDelayFactor": 0.85, "IncomingDamageFactor": 0.9, "WorkSpeedGlobal": 0.9}},
 }
 
 
 ZOMBIE_SPECS = {
-    'Capacity': ('纳煞丹', 600000, 2400, 8, 200, 40, 5, 'Axolotl_Research_Alchemy_Industrial', {'RM_OvercastWood': 6, 'RM_UnrottenBone': 2, 'Axolotl_JadeEssencePowder': 8}),
-    'Purify': ('涤煞丹', 600000, 2000, 6, 140, 32, 5, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 6, 'RM_ChickenBlood': 1, 'Gold': 1, 'Axolotl_JadeEssencePowder': 5}),
+    'Capacity': ('纳煞丹', 600000, 2400, 8, 200, 40, 3, 'Axolotl_Research_Alchemy_Industrial', {'RM_OvercastWood': 6, 'RM_UnrottenBone': 2, 'Axolotl_JadeEssencePowder': 8}),
+    'Purify': ('涤煞丹', 600000, 2000, 6, 140, 32, 3, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 6, 'RM_ChickenBlood': 1, 'Gold': 1, 'Axolotl_JadeEssencePowder': 5}),
     'Gather': ('聚煞丹', 15000, 2000, 5, 70, 6, 30, 'Axolotl_Research_Alchemy', {'RM_OvercastWood': 4, 'RM_InsectBlood': 1, 'Axolotl_JadeEssencePowder': 5}),
     'Release': ('归真丹', 0, 2000, 4, 40, 0, 3, 'Axolotl_Research_BasePlant', {'RM_AxoPeachWood': 4, 'RM_OvercastWood': 4, 'MedicineHerbal': 2, 'Axolotl_JadeEssencePowder': 12}),
     'Rescue': ('安魂丹', 0, 2400, 6, 180, 12, 10, 'Axolotl_Research_Alchemy', {'RM_AxoPeachWood': 10, 'RM_ChickenBlood': 2, 'Gold': 2, 'Axolotl_JadeEssencePowder': 10, 'MedicineHerbal': 2}),
 }
-EXPECTED['Dispel'] = dict(label='镇煞丹', ticks=30000, work=3200, skill=6, price=100, progress=10, output=45,
+EXPECTED['Dispel'] = dict(label='镇煞丹', ticks=30000, work=3200, skill=6, price=100, progress=10, output=25,
     ingredients={'RM_AxoPeachWood':6, 'RM_ChickenBlood':1, 'Gold':1, 'Axolotl_JadeEssencePowder':8}, offsets={}, factors={})
 for key, (label, ticks, work, skill, price, progress, output, research, ingredients) in ZOMBIE_SPECS.items():
     EXPECTED[key] = dict(label=label, ticks=ticks, work=work, skill=skill, price=price, output=output, research=research, ingredients=ingredients, offsets={}, factors={}, zombie=True)

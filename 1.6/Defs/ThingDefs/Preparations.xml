@@ -39,7 +39,7 @@
   <ThingDef>
     <defName>MX_CombatPreparation</defName>
     <label>临战丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成40枚临战丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成25枚临战丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -75,7 +75,7 @@
   <ThingDef>
     <defName>MX_CapacityPreparation</defName>
     <label>纳煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成5枚纳煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成3枚纳煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -111,7 +111,7 @@
   <ThingDef>
     <defName>MX_PurifyPreparation</defName>
     <label>涤煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成5枚涤煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成3枚涤煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -219,7 +219,7 @@
   <ThingDef>
     <defName>MX_DispelPreparation</defName>
     <label>镇煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成45枚镇煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成25枚镇煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

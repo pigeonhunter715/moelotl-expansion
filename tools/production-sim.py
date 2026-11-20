@@ -8,12 +8,14 @@ The model reads the real 1.6 Defs at runtime:
   * RecipeDefs/MedicineBatch.xml: one x5 bench bill supplies the five
     preparations consumed by one ordinary furnace batch.
 
-Historical inputs stay fixed for comparability: five living MoeLotl plus one
-zombie, four industrial furnaces, 80% uptime, 360 days, and the old initial
-stock targets. Taiyin and emergency Release are outside recurring demand.
+Both profiles use five living MoeLotl plus one zombie, four industrial
+furnaces, 80% uptime and a 360-day horizon. Standard demand includes one
+five-pawn battle every three days. The continuous profile uses the historical
+maximum-frequency battle doses and inventories.
 """
 from __future__ import annotations
 
+import argparse
 import heapq
 import math
 import xml.etree.ElementTree as ET
@@ -44,8 +46,8 @@ PILLS = {
     "Capacity": (0.1, 3),
     "Rescue": (0.3, 9),
 }
-TARGETS = {name: spec[1] for name, spec in PILLS.items()}
-TARGETS["Qi"] = 5
+FIGHTERS = 5
+BATTLE_INTERVAL_DAYS = 3
 DEMAND_GROUP = {"Recovery": "B", "Gather": "B"}
 DEMAND_GROUP.update({name: "CD" for name in PILLS if name not in ("Recovery", "Gather")})
 
@@ -113,16 +115,18 @@ def load_batch_inputs(recipes: dict[str, dict]) -> dict[str, dict]:
     return result
 
 
-def scenario_demands():
-    # Stagger each of five pawns' 14-hour Combat dose; this avoids an
-    # unrealistic same-tick burst while preserving the exact daily rate.
+def scenario_demands(demand, continuous_combat):
     streams = []
-    for name, (per_day, _target) in PILLS.items():
+    for name, (per_day, _target) in demand.items():
         period = 24.0 / per_day
-        if name == "Combat":
-            individual_period = 14.0
-            for pawn in range(5):
-                streams.append((name, 2.8 * (pawn + 1), individual_period))
+        if not continuous_combat and name in ("Combat", "Dispel"):
+            # Each fighter takes one of each battle pill at the same engagement.
+            battle_hours = 24.0 * BATTLE_INTERVAL_DAYS
+            streams.extend([(name, battle_hours, battle_hours)] * FIGHTERS)
+        elif name == "Combat":
+            # Stagger the five fighters across the sustained 14-hour cycle.
+            for fighter in range(FIGHTERS):
+                streams.append((name, 2.8 * (fighter + 1), 14.0))
         elif name in ("Purify", "Capacity"):
             due = period if name == "Purify" else 120.0
             streams.append((name, due, period))
@@ -136,11 +140,17 @@ def scenario_demands():
     return streams
 
 
-def run():
+def run(continuous_combat=False):
     recipes = load_batch_recipes()
     inputs = load_batch_inputs(recipes)
 
-    stock = Counter(TARGETS)
+    demand = PILLS.copy()
+    if not continuous_combat:
+        battle_rate = FIGHTERS / BATTLE_INTERVAL_DAYS
+        demand.update(Combat=(battle_rate, 10), Dispel=(battle_rate, 10), Purify=(0.1, 2), Capacity=(0.1, 2))
+    targets = {name: target for name, (_per_day, target) in demand.items()}
+    targets["Qi"] = 5
+    stock = Counter(targets)
     used = Counter()
     produced = Counter()
     batches = Counter()
@@ -152,7 +162,7 @@ def run():
     resource_totals = Counter()
 
     demand_heap = []
-    streams = scenario_demands()
+    streams = scenario_demands(demand, continuous_combat)
     for stream_id, (name, due, period) in enumerate(streams):
         if due <= HORIZON:
             heapq.heappush(demand_heap, (due, stream_id, name, period))
@@ -168,12 +178,12 @@ def run():
 
     def candidates(group):
         values = []
-        for name, (per_day, _target) in PILLS.items():
+        for name, (per_day, target) in demand.items():
             if DEMAND_GROUP[name] != group:
                 continue
             spec = inputs[name]
             projected = stock[name] + active_by_name[name] * spec["yield"]
-            if projected < TARGETS[name]:
+            if projected < target:
                 cover = stock[name] / per_day if per_day else float("inf")
                 values.append((cover, name))
         return values
@@ -216,7 +226,7 @@ def run():
             free_times[line] = finish
 
     def update_minimum():
-        for name in TARGETS:
+        for name in targets:
             minimum[name] = min(minimum[name], stock[name])
 
     dispatch()
@@ -289,8 +299,9 @@ def run():
 
     physical_capacity = len(free_times) * STOVE_PROGRESS_PER_DAY * DAYS
     planned_capacity = len(free_times) * LINE_RATE * DAYS
-    print("Scenario: 5 living MoeLotl + 1 zombie, high-frequency pressure, 4 industrial furnaces, 4 pillars each, 80% uptime")
-    print(f"Horizon: {DAYS:.0f} game days; historical starting inventories and stock targets")
+    print("Scenario: 5 living MoeLotl + 1 zombie, 4 industrial furnaces, 4 pillars each, 80% uptime")
+    profile = "historical continuous combat" if continuous_combat else f"one five-pawn battle every {BATTLE_INTERVAL_DAYS} days"
+    print(f"Horizon: {DAYS:.0f} game days; {profile}")
     print(f"Demand progress: {demand_progress:.1f}; completed-batch progress: {completed_progress:.1f}; started-batch progress: {started_progress:.1f}")
     print(f"Four-furnace capacity: physical {physical_capacity:.1f}; 80%-uptime plan {planned_capacity:.1f}")
     print(f"Utilization of physical capacity: demand {demand_progress / physical_capacity:.1%}, started {started_progress / physical_capacity:.1%}")
@@ -304,7 +315,7 @@ def run():
             progress, yield_count = inputs[name]["progress"], inputs[name]["yield"]
         pair = f"{progress:g}/{yield_count}"
         print(
-            f"{name:14} {pair:>14} {TARGETS[name]:>9} {used[name]:>7} "
+            f"{name:14} {pair:>14} {targets[name]:>9} {used[name]:>7} "
             f"{started_batches[name]:>8} {batches[name]:>6} {produced[name]:>9} "
             f"{minimum[name]:>10} {stock[name]:>10} {stockouts[name]:>10} "
             f"{started_batches[name] - batches[name]:>6}")
@@ -328,11 +339,13 @@ def run():
         print(f"{material:30} {amount:10.1f} total  {amount / DAYS:8.3f}/day")
     print(f"\nRefined batch fuel incl. whole-unit headroom: {fuel_units} Chemfuel / {fuel_units / DAYS:.2f} per day")
 
-    print("\nThe model uses the historical high-frequency demand scenario and excludes Taiyin and Release from recurring demand.")
+    print("\nRecurring demand covers the pills listed in the schedule and the three direct-work medicines.")
     print("Limitations: deterministic batch/stock model; no pawns, hauling, maps, crops, trade, random outages, or fuel delivery. Upstream Jade Essence Powder milling is not modeled; the 80% uptime is an input.")
     if stockouts:
         raise SystemExit("FAIL: stockouts occurred: " + ", ".join(f"{k}={v}" for k, v in sorted(stockouts.items())))
 
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--continuous-combat", action="store_true", help="Use the historical sustained battle-dose scenario.")
+    run(parser.parse_args().continuous_combat)

@@ -253,7 +253,7 @@
         <StuffDef>MX_CombatPreparation</StuffDef>
         <StuffCount>5</StuffCount>
         <RefineNeedCount>10</RefineNeedCount>
-        <FinishGetCount>40</FinishGetCount>
+        <FinishGetCount>25</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -320,7 +320,7 @@
         <StuffDef>MX_CapacityPreparation</StuffDef>
         <StuffCount>5</StuffCount>
         <RefineNeedCount>40</RefineNeedCount>
-        <FinishGetCount>5</FinishGetCount>
+        <FinishGetCount>3</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -388,7 +388,7 @@
         <StuffDef>MX_PurifyPreparation</StuffDef>
         <StuffCount>5</StuffCount>
         <RefineNeedCount>32</RefineNeedCount>
-        <FinishGetCount>5</FinishGetCount>
+        <FinishGetCount>3</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -637,7 +637,7 @@
         <StuffDef>MX_DispelPreparation</StuffDef>
         <StuffCount>5</StuffCount>
         <RefineNeedCount>10</RefineNeedCount>
-        <FinishGetCount>45</FinishGetCount>
+        <FinishGetCount>25</FinishGetCount>
       </li>
     </comps>
     <modExtensions>

@@ -92,10 +92,10 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeIndustryPillsx5</defName>
-    <label>批量捣制百工丹（25枚）</label>
-    <description>在捣药台批量研磨、调和并直接制成25枚百工丹，无需丹炉；消耗5倍原料。</description>
+    <label>批量捣制百工丹（15枚）</label>
+    <description>在捣药台批量研磨、调和并直接制成15枚百工丹，无需丹炉；消耗5倍原料。</description>
     <jobString>正在批量捣制百工丹。</jobString>
-    <workAmount>16800</workAmount>
+    <workAmount>19200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -124,7 +124,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>40</count>
+        <count>50</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -135,7 +135,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <MX_IndustryPill>25</MX_IndustryPill>
+      <MX_IndustryPill>15</MX_IndustryPill>
     </products>
     <recipeUsers>
       <li>Axolotl_GrindingTable</li>
@@ -210,7 +210,7 @@
   <RecipeDef>
     <defName>MX_MakeCombatPreparationx5</defName>
     <label>批量配制临战丹剂（5份）</label>
-    <description>在捣药台批量配成5份临战丹剂；炼丹设备需集齐5份，炼成40枚临战丹。</description>
+    <description>在捣药台批量配成5份临战丹剂；炼丹设备需集齐5份，炼成25枚临战丹。</description>
     <jobString>正在批量配制临战丹剂。</jobString>
     <workAmount>14400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -273,7 +273,7 @@
   <RecipeDef>
     <defName>MX_MakeCapacityPreparationx5</defName>
     <label>批量配制纳煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份纳煞丹剂；炼丹设备需集齐5份，炼成5枚纳煞丹。</description>
+    <description>在捣药台批量配成5份纳煞丹剂；炼丹设备需集齐5份，炼成3枚纳煞丹。</description>
     <jobString>正在批量配制纳煞丹药。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -330,7 +330,7 @@
   <RecipeDef>
     <defName>MX_MakePurifyPreparationx5</defName>
     <label>批量配制涤煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份涤煞丹剂；炼丹设备需集齐5份，炼成5枚涤煞丹。</description>
+    <description>在捣药台批量配成5份涤煞丹剂；炼丹设备需集齐5份，炼成3枚涤煞丹。</description>
     <jobString>正在批量配制涤煞丹药。</jobString>
     <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -594,7 +594,7 @@
   <RecipeDef>
     <defName>MX_MakeDispelPreparationx5</defName>
     <label>批量配制镇煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份镇煞丹剂，供丹炉炼成45枚镇煞丹。</description>
+    <description>在捣药台批量配成5份镇煞丹剂，供丹炉炼成25枚镇煞丹。</description>
     <jobString>正在批量配制镇煞丹剂。</jobString>
     <workAmount>12800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
