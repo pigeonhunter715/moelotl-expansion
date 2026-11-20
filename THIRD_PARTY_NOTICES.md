@@ -2,7 +2,7 @@
 
 运行依赖RimWorld、Harmony、MoeLotl Race、MoeLotl: Rigor Mortis及其前置模组。发行包不包含游戏文件、这些模组的程序集或贴图，也不包含测试模组。
 
-十一种丹药和药渡玉佩PNG基于本项目原创底稿，通过本机ComfyUI及SDXL Base 1.0图生图辅助制作。SDXL模型权重适用CreativeML Open RAIL++-M；模型及ComfyUI不随发行包分发。生成过程、提示词和哈希保留在源码仓库docs/art中。
+丹药与药渡玉佩的 PNG 基于本项目原创底稿，通过 ComfyUI 与 SDXL Base 1.0 辅助制作。SDXL 模型权重适用 CreativeML Open RAIL++-M。发行包提供成品图像。生成过程、提示词和哈希保留在源码仓库的 docs/art 目录。
 
 中国纹样与玉佩形制参考故宫博物院公开藏品资料，用于形状和寓意研究；未将馆藏照片或第三方Mod图像像素／遮罩复制到成品。传统纹样与药效的对应属于游戏设计。
 

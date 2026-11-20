@@ -1,15 +1,15 @@
 # 萌螈丹药扩展 v0.2.1
 
-适用 RimWorld 1.6。需要 Harmony、MoeLotl Race、MoeLotl: Rigor Mortis，以及它们要求的前置模组（含 HAR、Custom Quest Framework）。不支持直接用于 RimWorld 1.7。
+适用 RimWorld 1.6。需要 Harmony、MoeLotl Race、MoeLotl: Rigor Mortis，以及它们的前置模组 HAR 和 Custom Quest Framework。
 
 ## 安装
 
-1. 下载 `moelotl-expansion-v0.2.1-rimworld1.6.zip`，不要用GitHub自动生成的Source code压缩包代替：源码包没有编译DLL。
+1. 下载包含编译程序集的安装包。[下载 v0.2.1 ZIP](https://github.com/pigeonhunter715/moelotl-expansion/releases/download/v0.2.1/moelotl-expansion-v0.2.1-rimworld1.6.zip)
 2. 解压后把完整 `MoeLotlExpansion` 文件夹放入游戏的 `Mods` 目录。正确路径是 `Mods/MoeLotlExpansion/About/About.xml`，不要多套一层同名目录。
 3. 安装前置模组，在游戏模组菜单中将本扩展排在Harmony、萌螈本体与螈僵扩展之后；依赖本身的先后顺序遵循各自说明。
 4. 启用后重启游戏。已有旧版时用新文件夹完整替换旧扩展目录，避免同时启用两份相同packageId。
 
-本扩展packageId：`pigeonhunter715.moelotl.expansion`。
+模组的 `packageId` 为 `pigeonhunter715.moelotl.expansion`。
 
 ## 使用
 
@@ -19,11 +19,6 @@
 
 旧存档的炉内丹剂和已有炼制进度会保留，可补足五份后接着炼。旧版回气冷却会自动清理。太阴丹所需的螈僵击杀数从安装带有太阴丹的版本后开始统计。升级前可备份老存档。
 
-## 发行范围
+## 更新与反馈
 
-发行包包含本扩展编译 DLL、Def、中英文界面键、十二种丹药和玉佩的独立 PNG。物品说明以中文为主。丹剂和丹胚引用前置模组纹理。
-
-已在隔离1.6环境执行规则、功能和回归检查；具体版本及覆盖范围见仓库发行记录。未承诺RimWorld 1.7、全部第三方组合、完整殖民地长期供给或商业交易平衡。
-
-项目与更新：https://github.com/pigeonhunter715/moelotl-expansion
-反馈请提供游戏版本、模组列表、复现步骤和Player.log。
+提交问题时请提供游戏版本、模组列表、复现步骤与 `Player.log`。[查看发行版本](https://github.com/pigeonhunter715/moelotl-expansion/releases) · [提交问题](https://github.com/pigeonhunter715/moelotl-expansion/issues)
