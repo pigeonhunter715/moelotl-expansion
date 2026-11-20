@@ -186,7 +186,7 @@
             <li>PsychoidLeaves</li>
           </thingDefs>
         </filter>
-        <count>8</count>
+        <count>16</count>
       </li>
       <li>
         <filter>
@@ -194,7 +194,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>8</count>
+        <count>16</count>
       </li>
       <li>
         <filter>
@@ -202,7 +202,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
       <li>
         <filter>
@@ -210,7 +210,7 @@
             <li>Uranium</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -249,7 +249,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>6</count>
+        <count>12</count>
       </li>
       <li>
         <filter>
@@ -257,7 +257,7 @@
             <li>PsychoidLeaves</li>
           </thingDefs>
         </filter>
-        <count>8</count>
+        <count>16</count>
       </li>
       <li>
         <filter>
@@ -265,7 +265,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>16</count>
       </li>
       <li>
         <filter>
@@ -273,7 +273,7 @@
             <li>Uranium</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -438,7 +438,7 @@
             <li>RM_OvercastWood</li>
           </thingDefs>
         </filter>
-        <count>4</count>
+        <count>12</count>
       </li>
       <li>
         <filter>
@@ -446,7 +446,7 @@
             <li>RM_InsectBlood</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
       <li>
         <filter>
@@ -454,7 +454,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>5</count>
+        <count>15</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -636,7 +636,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>6</count>
+        <count>12</count>
       </li>
       <li>
         <filter>
@@ -644,7 +644,7 @@
             <li>RM_ChickenBlood</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>3</count>
       </li>
       <li>
         <filter>
@@ -652,7 +652,7 @@
             <li>Gold</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
       <li>
         <filter>
@@ -660,7 +660,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>8</count>
+        <count>16</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
