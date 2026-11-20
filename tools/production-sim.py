@@ -1,70 +1,115 @@
 #!/usr/bin/env python3
-"""Reproducible 360-day batch-production pressure model for the design's four-stove plan."""
+"""Reproducible 360-day batch-production pressure model for the four-furnace plan.
+
+The model reads the real 1.6 Defs at runtime:
+  * ThingDefs/Medicines.xml: Axolotl.CompProperties_PillStuffNeed supplies the
+    required preparation count, furnace progress (RefineNeedCount), and
+    finished-pill yield (FinishGetCount).
+  * RecipeDefs/MedicineBatch.xml: one x5 bench bill supplies the five
+    preparations consumed by one ordinary furnace batch.
+
+Historical inputs stay fixed for comparability: five living MoeLotl plus one
+zombie, four industrial furnaces, 80% uptime, 360 days, and the old initial
+stock targets. Taiyin and emergency Release are outside recurring demand.
+"""
 from __future__ import annotations
 
 import heapq
-import xml.etree.ElementTree as ET
 import math
-from collections import Counter, defaultdict
+import xml.etree.ElementTree as ET
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HORIZON = 360 * 24.0
+DAYS = 360.0
+HORIZON = DAYS * 24.0  # Game hours; all event times in this model use hours.
 STOVE_PROGRESS_PER_DAY = 50.0 / 9.0
 UPTIME = 0.8
 LINE_RATE = STOVE_PROGRESS_PER_DAY * UPTIME
-REFINED_PROGRESS_PER_UNIT = 1.999994 / 2.0  # Measured in the actual 60-tick furnace path.
+REFINED_PROGRESS_PER_UNIT = 1.999994 / 2.0  # Measured 60-tick furnace path.
+WORK_PER_GAME_HOUR = 2500.0  # workAmount is in ticks at 100% work speed.
 
-# Pill demand, initial/target inventory, one-preparation batch yield, and
-# furnace progress. Rates mirror the accepted high-frequency design scenario.
+# Historical high-frequency pressure: (pills/day, initial/target stock).
+# Furnace progress and yield deliberately come from the ThingDefs, not here.
+# Planned post-update context requested for this review; the parallel XML is
+# authoritative and is read live below. Requested values: Recovery 6/50,
+# Gather 6/30, Combat 10/40, Dispel 10/40, Capacity 40/5, Purify 32/5,
+# Rescue 12/10.
 PILLS = {
-    "Recovery": (20.0, 48, 12, 2.0),
-    "Gather": (4.0, 12, 12, 2.0),
-    "Combat": (60.0 / 7.0, 60, 12, 4.0),
-    "Dispel": (10.0, 72, 12, 4.0),
-    "Purify": (0.1, 3, 3, 20.0),
-    "Capacity": (0.1, 3, 3, 25.0),
-    "Rescue": (0.3, 9, 3, 10.0),
-}
-PREPARATIONS = {
-    "Recovery": "MX_RecoveryPreparation",
-    "Gather": "MX_GatherPreparation",
-    "Combat": "MX_CombatPreparation",
-    "Dispel": "MX_DispelPreparation",
-    "Purify": "MX_PurifyPreparation",
-    "Capacity": "MX_CapacityPreparation",
-    "Rescue": "MX_RescuePreparation",
+    "Recovery": (20.0, 48),
+    "Gather": (4.0, 12),
+    "Combat": (60.0 / 7.0, 60),
+    "Dispel": (10.0, 72),
+    "Purify": (0.1, 3),
+    "Capacity": (0.1, 3),
+    "Rescue": (0.3, 9),
 }
 TARGETS = {name: spec[1] for name, spec in PILLS.items()}
-TARGETS.update(Qi=5)
+TARGETS["Qi"] = 5
 DEMAND_GROUP = {"Recovery": "B", "Gather": "B"}
 DEMAND_GROUP.update({name: "CD" for name in PILLS if name not in ("Recovery", "Gather")})
 
+# Native Axolotl Qi line (runtime Def snapshot): one LotlqiPellet consumes ten
+# Axolotl_ingredient and 50 progress. Two MakeAxolotlIngredientx5 bills (8000
+# work each) supply those ten preparations. This is the native upkeep baseline.
+QI_PROGRESS = 50.0
+QI_YIELD = 1
+QI_STUFF_COUNT = 10
+QI_X5_WORK = 8000.0
+QI_X5_PER_PILL = QI_STUFF_COUNT // 5
+QI_X5_INGREDIENTS = {
+    "PsychoidLeaves": 60.0,
+    "Gold": 2.5,
+    "Uranium": 10.0,
+    "Axolotl_JadeEssencePowder": 10.0,
+}
+# One growth pill every 270 game hours (11.25 days): 32 pills over 360 days.
+QI_DEMAND_PERIOD_HOURS = 270.0
 
-def recipe_inputs() -> dict[str, Counter[str]]:
-    result: dict[str, Counter[str]] = {}
-    for path in (ROOT / "1.6/Defs/RecipeDefs/Medicines.xml",):
-        defs = ET.parse(path).getroot()
-        for recipe in defs.findall("RecipeDef"):
-            output = recipe.find("products")
-            if output is None:
-                continue
-            products = list(output)
-            if len(products) != 1:
-                continue
-            resources: Counter[str] = Counter()
-            ingredients = recipe.find("ingredients")
-            if ingredients is not None:
-                for ingredient in ingredients.findall("li"):
-                    amount = float(ingredient.findtext("count", "0"))
-                    defs_node = ingredient.find("filter/thingDefs")
-                    names = [] if defs_node is None else [node.text for node in defs_node.findall("li")]
-                    if len(names) == 1:
-                        resources[names[0]] += amount
-                    elif names:
-                        resources["choice:" + "|".join(names)] += amount
-            product = products[0]
-            result[product.tag] = resources
+# Direct bench pills at the historical pressure values. Round up once for the
+# full 360-day horizon so each bill is charged in whole batches.
+DIRECT = (
+    ("MX_WarmingPill", 2.5, "MX_MakeWarmingPillsx5"),
+    ("MX_CoolingPill", 2.5, "MX_MakeCoolingPillsx5"),
+    ("MX_IndustryPill", 5.0, "MX_MakeIndustryPillsx5"),
+)
+
+def load_batch_recipes() -> dict[str, dict]:
+    path = ROOT / "1.6/Defs/RecipeDefs/MedicineBatch.xml"
+    bills = {}
+    for recipe in ET.parse(path).getroot().findall("RecipeDef"):
+        name = recipe.findtext("defName")
+        products = {product.tag: int(product.text) for product in recipe.findall("products/*")}
+        resources: Counter[str] = Counter()
+        for ingredient in recipe.findall("ingredients/li"):
+            names = [node.text for node in ingredient.findall("filter/thingDefs/li")]
+            if not names:
+                raise SystemExit(f"FAIL: {name}: ingredient has no explicit ThingDef")
+            material = names[0] if len(names) == 1 else "choice:" + "|".join(names)
+            resources[material] += int(ingredient.findtext("count"))
+        bills[name] = {"work": int(recipe.findtext("workAmount")), "products": products, "ingredients": resources}
+    return bills
+
+
+def load_batch_inputs(recipes: dict[str, dict]) -> dict[str, dict]:
+    path = ROOT / "1.6/Defs/ThingDefs/Medicines.xml"
+    defs = {thing.findtext("defName"): thing for thing in ET.parse(path).getroot().findall("ThingDef")}
+    result = {}
+    for name in PILLS:
+        pill = defs[f"MX_{name}Pill"]
+        comp = pill.find("comps/li[@Class='Axolotl.CompProperties_PillStuffNeed']")
+        stuff = f"MX_{name}Preparation"
+        bill = recipes[f"MX_Make{name}Preparationx5"]
+        if comp is None or comp.findtext("StuffDef") != stuff or comp.findtext("StuffCount") != "5":
+            raise SystemExit(f"FAIL: {name} furnace batch does not require five {stuff}")
+        if bill["products"] != {stuff: 5}:
+            raise SystemExit(f"FAIL: {name} x5 bench bill does not supply one full furnace batch")
+        result[name] = {
+            "progress": int(comp.findtext("RefineNeedCount")),
+            "yield": int(comp.findtext("FinishGetCount")),
+            "work": bill["work"],
+            "ingredients": bill["ingredients"],
+        }
     return result
 
 
@@ -72,7 +117,7 @@ def scenario_demands():
     # Stagger each of five pawns' 14-hour Combat dose; this avoids an
     # unrealistic same-tick burst while preserving the exact daily rate.
     streams = []
-    for name, (per_day, *_rest) in PILLS.items():
+    for name, (per_day, _target) in PILLS.items():
         period = 24.0 / per_day
         if name == "Combat":
             individual_period = 14.0
@@ -87,12 +132,14 @@ def scenario_demands():
                 streams.append((name, 80.0 * (dose + 1), period))
         else:
             streams.append((name, period, period))
-    # Five colonists progress one level every 56.25 days in aggregate.
-    streams.append(("Qi", 270.0, 270.0))
+    streams.append(("Qi", QI_DEMAND_PERIOD_HOURS, QI_DEMAND_PERIOD_HOURS))
     return streams
 
 
 def run():
+    recipes = load_batch_recipes()
+    inputs = load_batch_inputs(recipes)
+
     stock = Counter(TARGETS)
     used = Counter()
     produced = Counter()
@@ -101,7 +148,7 @@ def run():
     fuel_units = 0
     stockouts = Counter()
     minimum = Counter(stock)
-    prep_resources = recipe_inputs()
+    demand_events = Counter()
     resource_totals = Counter()
 
     demand_heap = []
@@ -121,27 +168,30 @@ def run():
 
     def candidates(group):
         values = []
-        for name, (per_day, _target, yield_count, progress) in PILLS.items():
+        for name, (per_day, _target) in PILLS.items():
             if DEMAND_GROUP[name] != group:
                 continue
-            projected = stock[name] + active_by_name[name] * yield_count
+            spec = inputs[name]
+            projected = stock[name] + active_by_name[name] * spec["yield"]
             if projected < TARGETS[name]:
                 cover = stock[name] / per_day if per_day else float("inf")
-                values.append((cover, name, yield_count, progress))
+                values.append((cover, name))
         return values
 
     def dispatch():
         nonlocal fuel_units
         # Dedicated Qi line: launch immediately and repeat on completion.
         if free_times["A"] <= now and not any(line == "A" for _, line, _ in active):
-            duration = 50.0 / (LINE_RATE * REFINED_PROGRESS_PER_UNIT) * 24.0
+            duration = QI_PROGRESS / (LINE_RATE * REFINED_PROGRESS_PER_UNIT) * 24.0
             finish = now + duration
             active.append((finish, "A", "Qi"))
-            heapq.heappush(event_heap, (finish, "production", "A", "Qi"))
+            heapq.heappush(event_heap, (finish, "production", "A", ("Qi", QI_YIELD)))
             free_times["A"] = finish
-            line_progress["A"] += 50.0
+            line_progress["A"] += QI_PROGRESS
             started_batches["Qi"] += 1
-            fuel_units += math.ceil(50.0 * 15.0 + 0.01)
+            fuel_units += math.ceil(QI_PROGRESS * 15.0 + 0.01)
+            for material, amount in QI_X5_INGREDIENTS.items():
+                resource_totals[material] += QI_X5_PER_PILL * amount
 
         for line in ("B", "C", "D"):
             if free_times[line] > now:
@@ -150,19 +200,19 @@ def run():
             options = candidates(group)
             if not options:
                 continue
-            _cover, name, yield_count, progress = min(options)
-            duration = progress / (LINE_RATE * REFINED_PROGRESS_PER_UNIT) * 24.0
+            _cover, name = min(options)
+            spec = inputs[name]
+            duration = spec["progress"] / (LINE_RATE * REFINED_PROGRESS_PER_UNIT) * 24.0
             finish = now + duration
             active.append((finish, line, name))
             active_by_name[name] += 1
-            line_progress[line] += progress
+            line_progress[line] += spec["progress"]
             started_batches[name] += 1
-            # The vanilla stove accumulates float progress every 60 ticks.
-            # A tiny shortfall at the threshold can require one more fuel unit.
-            fuel_units += math.ceil(progress * 15.0 + 0.01)
-            for material, amount in prep_resources.get(PREPARATIONS[name], {}).items():
+            # One x5 bench bill is one furnace batch: five preparations.
+            fuel_units += math.ceil(spec["progress"] * 15.0 + 0.01)
+            for material, amount in spec["ingredients"].items():
                 resource_totals[material] += amount
-            heapq.heappush(event_heap, (finish, "production", line, (name, yield_count)))
+            heapq.heappush(event_heap, (finish, "production", line, (name, spec["yield"])))
             free_times[line] = finish
 
     def update_minimum():
@@ -185,8 +235,8 @@ def run():
             active = [entry for entry in active if entry[1] != line]
             free_times[line] = now
             if line == "A":
-                stock["Qi"] += 1
-                produced["Qi"] += 1
+                stock["Qi"] += QI_YIELD
+                produced["Qi"] += QI_YIELD
                 batches["Qi"] += 1
             else:
                 name, yield_count = payload
@@ -197,52 +247,89 @@ def run():
 
         while demand_heap and abs(demand_heap[0][0] - now) < 1e-6:
             _time, stream_id, name, period = heapq.heappop(demand_heap)
+            demand_events[name] += 1
             if stock[name] > 0:
                 stock[name] -= 1
                 used[name] += 1
                 update_minimum()
             else:
                 stockouts[name] += 1
+                minimum[name] = 0
             nxt = now + period
             if nxt <= HORIZON + 1e-8:
                 heapq.heappush(demand_heap, (nxt, stream_id, name, period))
         if now < HORIZON:
             dispatch()
 
-    # Direct-work medicines and the upstream Jade Essence Powder route.
-    for name, daily, recipe, yield_count in (
-        ("MX_WarmingPill", 2.5, "MX_MakeWarmingPill", 5),
-        ("MX_CoolingPill", 2.5, "MX_MakeCoolingPills", 5),
-        ("MX_IndustryPill", 5.0, "MX_MakeIndustryPills", 5),
-    ):
-        batches_per_year = daily * 360.0 / yield_count
-        for material, amount in prep_resources.get(name, {}).items():
-            resource_totals[material] += amount * batches_per_year
+    # Direct bench work is outside the furnace schedule but shares the bench.
+    # Round up once, after aggregating the whole 360-day demand into x5 bills.
+    direct_work = 0
+    for product, daily, recipe_name in DIRECT:
+        bill = recipes[recipe_name]
+        batches_needed = math.ceil(daily * DAYS / bill["products"][product])
+        direct_work += batches_needed * bill["work"]
+        for material, amount in bill["ingredients"].items():
+            resource_totals[material] += amount * batches_needed
 
-    # Runtime Defs: one LotlqiPellet takes 10 Axolotl_ingredient; the
-    # MakeAxolotlIngredientx5 recipe makes 5 from 60 leaves, 2.5 Gold,
-    # 10 Uranium, and 10 Jade Essence Powder. Two batches make one pill.
-    for material, per_pill in {
-        "PsychoidLeaves": 120,
-        "Gold": 5,
-        "Uranium": 20,
-        "Axolotl_JadeEssencePowder": 20,
-    }.items():
-        resource_totals[material] += per_pill * started_batches["Qi"]
+    # Native Qi preparation work and materials are charged per started pill.
+    qi_bills = started_batches["Qi"] * QI_X5_PER_PILL
+    qi_work = qi_bills * QI_X5_WORK
 
-    total_progress = sum(progress * batches[name] for name, (*_head, progress) in PILLS.items()) + 50 * batches["Qi"]
-    expected_progress = 17.1349 * 360
-    print("Scenario: 5 living MoeLotl + 1 zombie, high-frequency pressure, 4 industrial stoves, 4 pillars each, 80% uptime")
-    print(f"Horizon: 360 game days; design demand progress={expected_progress:.1f}; completed-batch progress={total_progress:.1f}; started-batch progress={sum(line_progress.values()):.1f}")
-    print("Pill            used   produced  batches  min-stock  end-stock  stockouts   WIP")
-    for name in ("Qi", *PILLS.keys()):
-        wip = started_batches[name] - batches[name]
-        print(f"{name:14} {used[name]:6} {produced[name]:9} {batches[name]:8} {minimum[name]:10} {stock[name]:10} {stockouts[name]:10} {wip:5}")
-    print("\nBatch resources consumed (preparation recipes, generated from current XML):")
+    qi_demand_progress = demand_events["Qi"] * QI_PROGRESS / QI_YIELD
+    pill_demand_progress = {
+        name: demand_events[name] * inputs[name]["progress"] / inputs[name]["yield"]
+        for name in PILLS
+    }
+    demand_progress = qi_demand_progress + sum(pill_demand_progress.values())
+    completed_progress = (
+        sum(inputs[name]["progress"] * batches[name] for name in PILLS)
+        + QI_PROGRESS * batches["Qi"]
+    )
+    started_progress = sum(line_progress.values())
+
+    physical_capacity = len(free_times) * STOVE_PROGRESS_PER_DAY * DAYS
+    planned_capacity = len(free_times) * LINE_RATE * DAYS
+    print("Scenario: 5 living MoeLotl + 1 zombie, high-frequency pressure, 4 industrial furnaces, 4 pillars each, 80% uptime")
+    print(f"Horizon: {DAYS:.0f} game days; historical starting inventories and stock targets")
+    print(f"Demand progress: {demand_progress:.1f}; completed-batch progress: {completed_progress:.1f}; started-batch progress: {started_progress:.1f}")
+    print(f"Four-furnace capacity: physical {physical_capacity:.1f}; 80%-uptime plan {planned_capacity:.1f}")
+    print(f"Utilization of physical capacity: demand {demand_progress / physical_capacity:.1%}, started {started_progress / physical_capacity:.1%}")
+    print(f"Utilization of 80% plan: demand {demand_progress / planned_capacity:.1%}, started {started_progress / planned_capacity:.1%}")
+
+    print("\nPill            prog/yield      target    used  started   done  produced  min-stock  end-stock  stockouts    WIP")
+    for name in ("Qi", *PILLS):
+        if name == "Qi":
+            progress, yield_count = QI_PROGRESS, QI_YIELD
+        else:
+            progress, yield_count = inputs[name]["progress"], inputs[name]["yield"]
+        pair = f"{progress:g}/{yield_count}"
+        print(
+            f"{name:14} {pair:>14} {TARGETS[name]:>9} {used[name]:>7} "
+            f"{started_batches[name]:>8} {batches[name]:>6} {produced[name]:>9} "
+            f"{minimum[name]:>10} {stock[name]:>10} {stockouts[name]:>10} "
+            f"{started_batches[name] - batches[name]:>6}")
+
+    ordinary_progress = sum(pill_demand_progress.values())
+    print(f"\nDemand uses {ordinary_progress / (3 * LINE_RATE * DAYS):.1%} of the three ordinary furnaces' 80%-uptime budget.")
+    for group, lines in (("B", ("B",)), ("CD", ("C", "D"))):
+        progress = sum(pill_demand_progress[name] for name, assigned in DEMAND_GROUP.items() if assigned == group)
+        capacity = len(lines) * LINE_RATE * DAYS
+        print(f"  {'/'.join(lines)} demand: {progress / capacity:.1%} of its budget")
+
+    ordinary_work = sum(started_batches[name] * inputs[name]["work"] for name in PILLS)
+    total_work = ordinary_work + direct_work + qi_work
+    print("\nBench work per game day at 100% work speed (excludes milling):")
+    for label, work in (("Ordinary furnace preparations", ordinary_work), ("Direct-work pills", direct_work),
+                        ("Native Qi preparations", qi_work), ("Total", total_work)):
+        print(f"{label:30} {work / (WORK_PER_GAME_HOUR * DAYS):8.3f} h/day")
+
+    print("\nBatch resources consumed (one x5 bill per ordinary furnace batch; x5 direct bills; native Qi baseline):")
     for material, amount in sorted(resource_totals.items()):
-        print(f"{material:30} {amount:10.1f} total  {amount / 360.0:8.3f}/day")
-    print(f"\nRefined batch fuel incl. whole-unit headroom: {fuel_units} Chemfuel / {fuel_units / 360.0:.2f} per day")
-    print("\nLimitations: this is a deterministic batch/stock model, not a simulation of pawns, hauling, maps, crop yields, trading, random outages, or furnace fuel delivery.")
+        print(f"{material:30} {amount:10.1f} total  {amount / DAYS:8.3f}/day")
+    print(f"\nRefined batch fuel incl. whole-unit headroom: {fuel_units} Chemfuel / {fuel_units / DAYS:.2f} per day")
+
+    print("\nThe model uses the historical high-frequency demand scenario and excludes Taiyin and Release from recurring demand.")
+    print("Limitations: deterministic batch/stock model; no pawns, hauling, maps, crops, trade, random outages, or fuel delivery. Upstream Jade Essence Powder milling is not modeled; the 80% uptime is an input.")
     if stockouts:
         raise SystemExit("FAIL: stockouts occurred: " + ", ".join(f"{k}={v}" for k, v in sorted(stockouts.items())))
 

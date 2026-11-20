@@ -5,7 +5,7 @@
     <label>批量捣制暖脉丹（25枚）</label>
     <description>在捣药台批量研磨、调和并直接制成25枚暖脉丹，无需丹炉；消耗5倍原料。</description>
     <jobString>正在批量捣制暖脉丹。</jobString>
-    <workAmount>4800</workAmount>
+    <workAmount>4000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -18,7 +18,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>25</count>
+        <count>20</count>
       </li>
       <li>
         <filter>
@@ -26,7 +26,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -50,7 +50,7 @@
     <label>批量捣制清暑丹（25枚）</label>
     <description>在捣药台批量研磨、调和并直接制成25枚清暑丹，无需丹炉；消耗5倍原料。</description>
     <jobString>正在批量捣制清暑丹。</jobString>
-    <workAmount>4800</workAmount>
+    <workAmount>4000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -63,7 +63,7 @@
             <li>RM_OvercastWood</li>
           </thingDefs>
         </filter>
-        <count>25</count>
+        <count>20</count>
       </li>
       <li>
         <filter>
@@ -71,7 +71,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -95,7 +95,7 @@
     <label>批量捣制百工丹（25枚）</label>
     <description>在捣药台批量研磨、调和并直接制成25枚百工丹，无需丹炉；消耗5倍原料。</description>
     <jobString>正在批量捣制百工丹。</jobString>
-    <workAmount>24000</workAmount>
+    <workAmount>16800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -124,7 +124,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>50</count>
+        <count>40</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -147,9 +147,9 @@
   <RecipeDef>
     <defName>MX_MakeRecoveryPreparationx5</defName>
     <label>批量配制回气丹剂（5份）</label>
-    <description>在捣药台批量配成5份回气丹剂；炼丹设备需集齐5份，炼成60枚回气丹。</description>
+    <description>在捣药台批量配成5份回气丹剂；炼丹设备需集齐5份，炼成50枚回气丹。</description>
     <jobString>正在批量配制回气丹剂。</jobString>
-    <workAmount>28800</workAmount>
+    <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -168,7 +168,7 @@
             <li>PsychoidLeaves</li>
           </thingDefs>
         </filter>
-        <count>60</count>
+        <count>40</count>
       </li>
       <li>
         <filter>
@@ -176,7 +176,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>60</count>
+        <count>40</count>
       </li>
       <li>
         <filter>
@@ -184,7 +184,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -210,9 +210,9 @@
   <RecipeDef>
     <defName>MX_MakeCombatPreparationx5</defName>
     <label>批量配制临战丹剂（5份）</label>
-    <description>在捣药台批量配成5份临战丹剂；炼丹设备需集齐5份，炼成60枚临战丹。</description>
+    <description>在捣药台批量配成5份临战丹剂；炼丹设备需集齐5份，炼成40枚临战丹。</description>
     <jobString>正在批量配制临战丹剂。</jobString>
-    <workAmount>38400</workAmount>
+    <workAmount>14400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -231,7 +231,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>40</count>
+        <count>30</count>
       </li>
       <li>
         <filter>
@@ -239,7 +239,7 @@
             <li>PsychoidLeaves</li>
           </thingDefs>
         </filter>
-        <count>60</count>
+        <count>40</count>
       </li>
       <li>
         <filter>
@@ -247,7 +247,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>80</count>
+        <count>50</count>
       </li>
       <li>
         <filter>
@@ -255,7 +255,7 @@
             <li>Uranium</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -273,9 +273,9 @@
   <RecipeDef>
     <defName>MX_MakeCapacityPreparationx5</defName>
     <label>批量配制纳煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份纳煞丹剂；炼丹设备需集齐5份，炼成15枚纳煞丹。</description>
+    <description>在捣药台批量配成5份纳煞丹剂；炼丹设备需集齐5份，炼成5枚纳煞丹。</description>
     <jobString>正在批量配制纳煞丹药。</jobString>
-    <workAmount>12000</workAmount>
+    <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -297,7 +297,7 @@
             <li>RM_OvercastWood</li>
           </thingDefs>
         </filter>
-        <count>75</count>
+        <count>30</count>
       </li>
       <li>
         <filter>
@@ -305,7 +305,7 @@
             <li>RM_UnrottenBone</li>
           </thingDefs>
         </filter>
-        <count>30</count>
+        <count>10</count>
       </li>
       <li>
         <filter>
@@ -313,7 +313,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>100</count>
+        <count>40</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -330,9 +330,9 @@
   <RecipeDef>
     <defName>MX_MakePurifyPreparationx5</defName>
     <label>批量配制涤煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份涤煞丹剂；炼丹设备需集齐5份，炼成15枚涤煞丹。</description>
+    <description>在捣药台批量配成5份涤煞丹剂；炼丹设备需集齐5份，炼成5枚涤煞丹。</description>
     <jobString>正在批量配制涤煞丹药。</jobString>
-    <workAmount>9600</workAmount>
+    <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -354,7 +354,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>75</count>
+        <count>30</count>
       </li>
       <li>
         <filter>
@@ -370,7 +370,7 @@
             <li>Gold</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -378,7 +378,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>50</count>
+        <count>25</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -396,9 +396,9 @@
   <RecipeDef>
     <defName>MX_MakeGatherPreparationx5</defName>
     <label>批量配制聚煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份聚煞丹剂；炼丹设备需集齐5份，炼成60枚聚煞丹。</description>
+    <description>在捣药台批量配成5份聚煞丹剂；炼丹设备需集齐5份，炼成30枚聚煞丹。</description>
     <jobString>正在批量配制聚煞丹药。</jobString>
-    <workAmount>28800</workAmount>
+    <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -420,7 +420,7 @@
             <li>RM_OvercastWood</li>
           </thingDefs>
         </filter>
-        <count>40</count>
+        <count>20</count>
       </li>
       <li>
         <filter>
@@ -428,7 +428,7 @@
             <li>RM_InsectBlood</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -436,7 +436,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>40</count>
+        <count>25</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -455,7 +455,7 @@
     <label>批量配制归真丹（15枚）</label>
     <description>在捣药台批量直接制成15枚归真丹；消耗5倍原料。</description>
     <jobString>正在批量配制归真丹药。</jobString>
-    <workAmount>9600</workAmount>
+    <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -477,7 +477,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>25</count>
+        <count>20</count>
       </li>
       <li>
         <filter>
@@ -485,7 +485,7 @@
             <li>RM_OvercastWood</li>
           </thingDefs>
         </filter>
-        <count>25</count>
+        <count>20</count>
       </li>
       <li>
         <filter>
@@ -493,7 +493,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>15</count>
+        <count>10</count>
       </li>
       <li>
         <filter>
@@ -501,7 +501,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>100</count>
+        <count>60</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -519,9 +519,9 @@
   <RecipeDef>
     <defName>MX_MakeRescuePreparationx5</defName>
     <label>批量配制安魂丹剂（5份）</label>
-    <description>在捣药台批量配成5份安魂丹剂；炼丹设备需集齐5份，炼成15枚安魂丹。</description>
+    <description>在捣药台批量配成5份安魂丹剂；炼丹设备需集齐5份，炼成10枚安魂丹。</description>
     <jobString>正在批量配制安魂丹药。</jobString>
-    <workAmount>12000</workAmount>
+    <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -543,7 +543,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>100</count>
+        <count>50</count>
       </li>
       <li>
         <filter>
@@ -551,7 +551,7 @@
             <li>RM_ChickenBlood</li>
           </thingDefs>
         </filter>
-        <count>15</count>
+        <count>10</count>
       </li>
       <li>
         <filter>
@@ -559,7 +559,7 @@
             <li>Gold</li>
           </thingDefs>
         </filter>
-        <count>30</count>
+        <count>10</count>
       </li>
       <li>
         <filter>
@@ -567,7 +567,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>100</count>
+        <count>50</count>
       </li>
       <li>
         <filter>
@@ -575,7 +575,7 @@
             <li>MedicineHerbal</li>
           </thingDefs>
         </filter>
-        <count>20</count>
+        <count>10</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -594,9 +594,9 @@
   <RecipeDef>
     <defName>MX_MakeDispelPreparationx5</defName>
     <label>批量配制镇煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份镇煞丹剂；炼丹设备需集齐5份，炼成60枚镇煞丹。</description>
+    <description>在捣药台批量配成5份镇煞丹剂，供丹炉炼成45枚镇煞丹。</description>
     <jobString>正在批量配制镇煞丹剂。</jobString>
-    <workAmount>38400</workAmount>
+    <workAmount>12800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <skillRequirements>
@@ -618,7 +618,7 @@
             <li>RM_AxoPeachWood</li>
           </thingDefs>
         </filter>
-        <count>40</count>
+        <count>30</count>
       </li>
       <li>
         <filter>
@@ -626,7 +626,7 @@
             <li>RM_ChickenBlood</li>
           </thingDefs>
         </filter>
-        <count>10</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -642,7 +642,7 @@
             <li>Axolotl_JadeEssencePowder</li>
           </thingDefs>
         </filter>
-        <count>60</count>
+        <count>40</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>

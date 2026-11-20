@@ -3,7 +3,7 @@
   <ThingDef>
     <defName>MX_RecoveryPreparation</defName>
     <label>回气丹剂</label>
-    <description>在捣药台配成的完整药批。集齐5份投入通天鼎或通天仪，炼成60枚回气丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成50枚回气丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -39,7 +39,7 @@
   <ThingDef>
     <defName>MX_CombatPreparation</defName>
     <label>临战丹剂</label>
-    <description>在捣药台配成的完整药批。集齐5份投入通天鼎或通天仪，炼成60枚临战丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成40枚临战丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -75,7 +75,7 @@
   <ThingDef>
     <defName>MX_CapacityPreparation</defName>
     <label>纳煞丹剂</label>
-    <description>完整药批；集齐5份投入通天鼎或通天仪，炼成15枚纳煞丹；不能直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成5枚纳煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -111,7 +111,7 @@
   <ThingDef>
     <defName>MX_PurifyPreparation</defName>
     <label>涤煞丹剂</label>
-    <description>完整药批；集齐5份投入通天鼎或通天仪，炼成15枚涤煞丹；不能直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成5枚涤煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -147,7 +147,7 @@
   <ThingDef>
     <defName>MX_GatherPreparation</defName>
     <label>聚煞丹剂</label>
-    <description>完整药批；集齐5份投入通天鼎或通天仪，炼成60枚聚煞丹；不能直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成30枚聚煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -183,7 +183,7 @@
   <ThingDef>
     <defName>MX_RescuePreparation</defName>
     <label>安魂丹剂</label>
-    <description>完整药批；集齐5份投入通天鼎或通天仪，炼成15枚安魂丹；不能直接服用。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成10枚安魂丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -219,7 +219,7 @@
   <ThingDef>
     <defName>MX_DispelPreparation</defName>
     <label>镇煞丹剂</label>
-    <description>完整药批；集齐5份投入通天鼎或通天仪，炼成60枚镇煞丹。</description>
+    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成45枚镇煞丹；丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

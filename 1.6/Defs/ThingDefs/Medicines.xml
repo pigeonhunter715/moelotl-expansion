@@ -187,8 +187,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_RecoveryPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>8</RefineNeedCount>
-        <FinishGetCount>60</FinishGetCount>
+        <RefineNeedCount>6</RefineNeedCount>
+        <FinishGetCount>50</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -252,8 +252,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_CombatPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>16</RefineNeedCount>
-        <FinishGetCount>60</FinishGetCount>
+        <RefineNeedCount>10</RefineNeedCount>
+        <FinishGetCount>40</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -319,8 +319,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_CapacityPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>100</RefineNeedCount>
-        <FinishGetCount>15</FinishGetCount>
+        <RefineNeedCount>40</RefineNeedCount>
+        <FinishGetCount>5</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -387,8 +387,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_PurifyPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>80</RefineNeedCount>
-        <FinishGetCount>15</FinishGetCount>
+        <RefineNeedCount>32</RefineNeedCount>
+        <FinishGetCount>5</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -455,8 +455,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_GatherPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>8</RefineNeedCount>
-        <FinishGetCount>60</FinishGetCount>
+        <RefineNeedCount>6</RefineNeedCount>
+        <FinishGetCount>30</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -573,8 +573,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_RescuePreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>40</RefineNeedCount>
-        <FinishGetCount>15</FinishGetCount>
+        <RefineNeedCount>12</RefineNeedCount>
+        <FinishGetCount>10</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -636,8 +636,8 @@
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_DispelPreparation</StuffDef>
         <StuffCount>5</StuffCount>
-        <RefineNeedCount>16</RefineNeedCount>
-        <FinishGetCount>60</FinishGetCount>
+        <RefineNeedCount>10</RefineNeedCount>
+        <FinishGetCount>45</FinishGetCount>
       </li>
     </comps>
     <modExtensions>

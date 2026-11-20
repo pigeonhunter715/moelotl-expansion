@@ -121,13 +121,22 @@ namespace MoeLotlExpansionTests
             {
                 var furnace = (Building_AlchemyStove_Base)ThingMaker.MakeThing(Def(furnaceName));
                 GenSpawn.Spawn(furnace, CellFinder.RandomClosewalkCellNear(map.Center, map, 15), map);
-                furnace.Action_ResetTargetPill(Def("MX_RecoveryPill"));
-                SmokeLog.Check(furnace.CurrentTargetPill_StuffCountMax == 5 && furnace.CurrentTargetPill_FinishCount == 60, furnaceName + " batch input and yield");
-                Thing preparation = ThingMaker.MakeThing(Def("MX_RecoveryPreparation")); preparation.stackCount = 6;
-                furnace.Action_AddRefineStuff(preparation); SmokeLog.Check(preparation.stackCount == 1 && furnace.CurrentTargetPill_StuffCount == 5, furnaceName + " consumes five preparations");
-                int prior = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
-                furnace.Action_FinishRefine();
-                SmokeLog.Check(map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == prior + 60, furnaceName + " produces sixty physical pills");
+                foreach (var batch in new[] { (Key: "Recovery", Yield: 50), (Key: "Dispel", Yield: 45) })
+                {
+                    var pill = Def("MX_" + batch.Key + "Pill");
+                    string context = furnaceName + " " + batch.Key;
+                    furnace.Action_ResetTargetPill(pill);
+                    SmokeLog.Check(furnace.CurrentTargetPill_StuffCountMax == 5 && furnace.CurrentTargetPill_FinishCount == batch.Yield, context + " batch input and yield");
+                    Thing preparation = ThingMaker.MakeThing(Def("MX_" + batch.Key + "Preparation"));
+                    preparation.stackCount = 6;
+                    furnace.Action_AddRefineStuff(preparation);
+                    SmokeLog.Check(preparation.stackCount == 1 && furnace.CurrentTargetPill_StuffCount == 5, context + " consumes five preparations");
+                    int prior = map.listerThings.ThingsOfDef(pill).Sum(t => t.stackCount);
+                    furnace.Action_FinishRefine();
+                    SmokeLog.Check(map.listerThings.ThingsOfDef(pill).Sum(t => t.stackCount) == prior + batch.Yield,
+                        context + " produces " + batch.Yield + " physical pills");
+                    preparation.Destroy();
+                }
                 furnace.Destroy();
             }
             SmokeLog.Check(!MedicineService.CanUse(Pill("Warming"), zombie).Accepted, "living medicine rejects zombie");

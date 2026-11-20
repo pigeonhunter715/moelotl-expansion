@@ -123,24 +123,24 @@ namespace MoeLotlExpansionTests
             stove.Action_ResetTargetPill(Def("MX_RecoveryPill"));
             var preparation = Make("MX_RecoveryPreparation", 5);
             stove.Action_AddRefineStuff(preparation);
-            stove.Comp_Refuelable.Refuel(122f);
+            stove.Comp_Refuelable.Refuel(92f);
             stove.Action_UpdateAlstState();
-            Check(stove.IsStart && stove.CurrentTargetPill_StuffCount == 5 && stove.CurrentTargetPill_ProgressMax == 8f && stove.Comp_Refuelable.Fuel == 122f,
+            Check(stove.IsStart && stove.CurrentTargetPill_StuffCount == 5 && stove.CurrentTargetPill_ProgressMax == 6f && stove.Comp_Refuelable.Fuel == 92f,
                 "four-pillar stove starts a five-preparation recovery batch with exact fuel");
             int recoveryBefore = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
             int batchStart = Find.TickManager.TicksGame;
             var stoveTick = AccessTools.Method(typeof(Building_AlchemyStove_Industrial), "UpdateAlstProgressAndConsumeConnectDestFuel");
             int progressIntervals = 0;
-            for (; progressIntervals < 1443 && map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == recoveryBefore; progressIntervals++)
+            for (; progressIntervals < 1083 && map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == recoveryBefore; progressIntervals++)
                 stoveTick.Invoke(stove, new object[] { 60 });
             int recoveryAfter = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
             int progressTicks = progressIntervals * 60;
             SmokeLog.Write("STOVE_BATCH progressTicks=" + progressTicks + " mapTickDelta=" + (Find.TickManager.TicksGame - batchStart) +
                 " produced=" + (recoveryAfter - recoveryBefore) + " fuelLeft=" + stove.Comp_Refuelable.Fuel +
                 " progress=" + stove.CurrentTargetPill_Progress + " max=" + stove.CurrentTargetPill_ProgressMax + " running=" + stove.IsStart);
-            Check(recoveryAfter == recoveryBefore + 60, "native stove produces a full sixty-pill batch over " + progressTicks + " simulated ticks");
+            Check(recoveryAfter == recoveryBefore + 50, "native stove produces a full fifty-pill batch over " + progressTicks + " simulated ticks");
             Check(stove.Comp_Refuelable.Fuel > 1.7f && stove.Comp_Refuelable.Fuel < 2.2f,
-                "native stove consumes about 120 fuel for an eight-progress batch");
+                "native stove consumes about 90 fuel for a six-progress batch");
 
             var taiyinPill = Def("MX_TaiyinPill");
             stove.Action_ResetTargetPill(taiyinPill);
