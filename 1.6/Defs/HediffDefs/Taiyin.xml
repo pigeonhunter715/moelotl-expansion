@@ -3,6 +3,7 @@
   <HediffDef>
     <defName>MX_TaiyinEffect</defName>
     <label>太阴仙体</label>
+    <defaultLabelColor>(1, 0.84, 0.30)</defaultLabelColor>
     <description>飞僵服下太阴丹后蜕成的仙体。承伤×0.50，自愈速度×3.00，倒地后的再生停顿由30秒缩短为10秒，近战伤害×1.50，近战冷却×0.50，移动速度×1.35，意识+100个百分点，饥饿速率×0.50，并获得沉鱼落雁与博闻强识。失去苏醒、善良或飞僵身份，或死亡时，药效暂停；击杀数不再复核。</description>
     <hediffClass>MoeLotlExpansion.Hediff_Taiyin</hediffClass>
     <isBad>false</isBad>

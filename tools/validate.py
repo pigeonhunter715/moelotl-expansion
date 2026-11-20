@@ -66,6 +66,14 @@ def ingredient_counts(recipe):
     return {n.findtext("filter/thingDefs/li"): int(n.findtext("count")) for n in recipe.findall("ingredients/li")}
 
 
+def check_recipe_quantity_text(recipe, product_label):
+    product, = recipe.findall('products/*')
+    output = f'{product_label} ×{int(product.text)}'
+    name = recipe.findtext('defName')
+    check(recipe.findtext('label').endswith(output), f'{name}: displayed bill quantity differs from its product')
+    check(output in recipe.findtext('description'), f'{name}: displayed description quantity differs from its product')
+
+
 def research_requirements(node):
     single = node.findtext('researchPrerequisite')
     return ([single] if single else []) + [r.text for r in node.findall('researchPrerequisites/li')]
@@ -144,6 +152,9 @@ def main():
               x5.findtext('skillRequirements/Crafting') == str(spec['skill']) and
               x5.findtext('recipeUsers/li') == 'Axolotl_GrindingTable' and
               {n.text for n in x5.findall('fixedIngredientFilter/thingDefs/li')} == set(ingredients), f'{key}: x5 gates')
+        product = preparations[f'MX_{key}Preparation'] if refined else item
+        for bill in (recipe, x5):
+            check_recipe_quantity_text(bill, product.findtext('label'))
         if refined:
             check(recipe.findtext(f"products/MX_{key}Preparation") == "1", f"{key}: prepared batch output")
             prep = preparations[f"MX_{key}Preparation"]
@@ -151,6 +162,9 @@ def main():
             stove = next(c for c in comps if c.get("Class") == "Axolotl.CompProperties_PillStuffNeed")
             check(stove.findtext("StuffDef") == f"MX_{key}Preparation" and stove.findtext("StuffCount") == "5", f"{key}: five preparations per batch")
             check(int(stove.findtext("FinishGetCount")) == spec["output"] and int(stove.findtext("RefineNeedCount")) == spec["progress"], f"{key}: furnace yield/timing")
+            furnace_output = f'{item.findtext("label")} ×{spec["output"]}'
+            for entry in (recipe, x5, prep):
+                check(furnace_output in entry.findtext('description'), f'{key}: displayed furnace quantity')
             unlock = item.find("modExtensions/li[@Class='MoeLotlExpansion.AlchemyRecipeExtension']")
             check([n.text for n in unlock.findall("researches/li")] == researches, f"{key}: furnace research")
             check(research_requirements(item) == researches, f'{key}: finished pills must appear in research')
@@ -182,6 +196,9 @@ def main():
     taiyin_items = indexed('1.6/Defs/ThingDefs/Taiyin.xml', 'ThingDef')
     taiyin = taiyin_items['MX_TaiyinPill']
     taiyin_recipe = indexed('1.6/Defs/RecipeDefs/Taiyin.xml', 'RecipeDef')['MX_MakeTaiyinPreparation']
+    check_recipe_quantity_text(taiyin_recipe, taiyin_items['MX_TaiyinPreparation'].findtext('label'))
+    for entry in (taiyin_recipe, taiyin_items['MX_TaiyinPreparation']):
+        check('太阴丹 ×1' in entry.findtext('description'), 'Taiyin: displayed furnace quantity')
     check(ingredient_counts(taiyin_recipe) == taiyin_ingredients, 'Taiyin recipe ingredients')
     check(taiyin_recipe.findtext('products/MX_TaiyinPreparation') == '1' and
           taiyin_recipe.findtext('recipeUsers/li') == 'Axolotl_GrindingTable' and

@@ -3,7 +3,7 @@
   <ThingDef>
     <defName>MX_TaiyinPreparation</defName>
     <label>太阴丹胚</label>
-    <description>在捣药台配成的太阴丹胚。投入通天仪，累计炼制一年后产出一枚太阴丹。</description>
+    <description>在捣药台配成太阴丹胚 ×1。将太阴丹胚 ×1 投入通天仪，累计有效炼制时间满一个游戏年后可炼成太阴丹 ×1。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

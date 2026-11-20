@@ -3,7 +3,7 @@
   <ThingDef>
     <defName>MX_RecoveryPreparation</defName>
     <label>回气丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成50枚回气丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制回气丹剂 ×1。将回气丹剂 ×5 投入通天鼎或通天仪，可炼成回气丹 ×50。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -39,7 +39,7 @@
   <ThingDef>
     <defName>MX_CombatPreparation</defName>
     <label>临战丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成25枚临战丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制临战丹剂 ×1。将临战丹剂 ×5 投入通天鼎或通天仪，可炼成临战丹 ×25。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -75,7 +75,7 @@
   <ThingDef>
     <defName>MX_CapacityPreparation</defName>
     <label>纳煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成3枚纳煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制纳煞丹剂 ×1。将纳煞丹剂 ×5 投入通天鼎或通天仪，可炼成纳煞丹 ×3。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -111,7 +111,7 @@
   <ThingDef>
     <defName>MX_PurifyPreparation</defName>
     <label>涤煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成3枚涤煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制涤煞丹剂 ×1。将涤煞丹剂 ×5 投入通天鼎或通天仪，可炼成涤煞丹 ×3。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -147,7 +147,7 @@
   <ThingDef>
     <defName>MX_GatherPreparation</defName>
     <label>聚煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成30枚聚煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制聚煞丹剂 ×1。将聚煞丹剂 ×5 投入通天鼎或通天仪，可炼成聚煞丹 ×30。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -183,7 +183,7 @@
   <ThingDef>
     <defName>MX_RescuePreparation</defName>
     <label>安魂丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成10枚安魂丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制安魂丹剂 ×1。将安魂丹剂 ×5 投入通天鼎或通天仪，可炼成安魂丹 ×10。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -219,7 +219,7 @@
   <ThingDef>
     <defName>MX_DispelPreparation</defName>
     <label>镇煞丹剂</label>
-    <description>在捣药台配制。集齐5份投入通天鼎或通天仪，炼成25枚镇煞丹；丹剂不可直接服用。</description>
+    <description>在捣药台配制镇煞丹剂 ×1。将镇煞丹剂 ×5 投入通天鼎或通天仪，可炼成镇煞丹 ×25。丹剂不可直接服用。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

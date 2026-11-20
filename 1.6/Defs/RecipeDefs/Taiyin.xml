@@ -2,8 +2,8 @@
 <Defs>
   <RecipeDef>
     <defName>MX_MakeTaiyinPreparation</defName>
-    <label>配制太阴丹胚</label>
-    <description>在捣药台研磨三尾飞僵之尾、三十尾毛僵之尾、三百阴沉木、三千虫血与三千玉琼粉，配成一份太阴丹胚。丹胚交给通天鼎或通天仪，以一年炉期炼成1枚太阴丹。</description>
+    <label>配制太阴丹胚 ×1</label>
+    <description>在捣药台研磨飞僵之尾 ×3、毛僵之尾 ×30、阴沉木 ×300、虫血 ×3000与玉琼粉 ×3000，配成太阴丹胚 ×1。丹胚投入通天仪，累计有效炼制时间满一个游戏年后炼成太阴丹 ×1。</description>
     <jobString>正在配制太阴丹胚。</jobString>
     <workAmount>12000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

@@ -2,8 +2,8 @@
 <Defs>
   <RecipeDef>
     <defName>MX_MakeWarmingPillsx5</defName>
-    <label>批量捣制暖脉丹（25枚）</label>
-    <description>在捣药台批量研磨、调和并直接制成25枚暖脉丹，无需丹炉；消耗5倍原料。</description>
+    <label>批量捣制暖脉丹 ×25</label>
+    <description>在捣药台批量研磨、调和并直接制成暖脉丹 ×25，无需丹炉。原料消耗为单次配制的5倍。</description>
     <jobString>正在批量捣制暖脉丹。</jobString>
     <workAmount>4000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -47,8 +47,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeCoolingPillsx5</defName>
-    <label>批量捣制清暑丹（25枚）</label>
-    <description>在捣药台批量研磨、调和并直接制成25枚清暑丹，无需丹炉；消耗5倍原料。</description>
+    <label>批量捣制清暑丹 ×25</label>
+    <description>在捣药台批量研磨、调和并直接制成清暑丹 ×25，无需丹炉。原料消耗为单次配制的5倍。</description>
     <jobString>正在批量捣制清暑丹。</jobString>
     <workAmount>4000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -92,8 +92,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeIndustryPillsx5</defName>
-    <label>批量捣制百工丹（15枚）</label>
-    <description>在捣药台批量研磨、调和并直接制成15枚百工丹，无需丹炉；消耗5倍原料。</description>
+    <label>批量捣制百工丹 ×15</label>
+    <description>在捣药台批量研磨、调和并直接制成百工丹 ×15，无需丹炉。原料消耗为单次配制的5倍。</description>
     <jobString>正在批量捣制百工丹。</jobString>
     <workAmount>19200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -146,8 +146,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeRecoveryPreparationx5</defName>
-    <label>批量配制回气丹剂（5份）</label>
-    <description>在捣药台批量配成5份回气丹剂；炼丹设备需集齐5份，炼成50枚回气丹。</description>
+    <label>批量配制回气丹剂 ×5</label>
+    <description>在捣药台批量配制回气丹剂 ×5。丹炉每批投入回气丹剂 ×5，炼成回气丹 ×50。</description>
     <jobString>正在批量配制回气丹剂。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -209,8 +209,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeCombatPreparationx5</defName>
-    <label>批量配制临战丹剂（5份）</label>
-    <description>在捣药台批量配成5份临战丹剂；炼丹设备需集齐5份，炼成25枚临战丹。</description>
+    <label>批量配制临战丹剂 ×5</label>
+    <description>在捣药台批量配制临战丹剂 ×5。丹炉每批投入临战丹剂 ×5，炼成临战丹 ×25。</description>
     <jobString>正在批量配制临战丹剂。</jobString>
     <workAmount>14400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -272,8 +272,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeCapacityPreparationx5</defName>
-    <label>批量配制纳煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份纳煞丹剂；炼丹设备需集齐5份，炼成3枚纳煞丹。</description>
+    <label>批量配制纳煞丹剂 ×5</label>
+    <description>在捣药台批量配制纳煞丹剂 ×5。丹炉每批投入纳煞丹剂 ×5，炼成纳煞丹 ×3。</description>
     <jobString>正在批量配制纳煞丹药。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -329,8 +329,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakePurifyPreparationx5</defName>
-    <label>批量配制涤煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份涤煞丹剂；炼丹设备需集齐5份，炼成3枚涤煞丹。</description>
+    <label>批量配制涤煞丹剂 ×5</label>
+    <description>在捣药台批量配制涤煞丹剂 ×5。丹炉每批投入涤煞丹剂 ×5，炼成涤煞丹 ×3。</description>
     <jobString>正在批量配制涤煞丹药。</jobString>
     <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -395,8 +395,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeGatherPreparationx5</defName>
-    <label>批量配制聚煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份聚煞丹剂；炼丹设备需集齐5份，炼成30枚聚煞丹。</description>
+    <label>批量配制聚煞丹剂 ×5</label>
+    <description>在捣药台批量配制聚煞丹剂 ×5。丹炉每批投入聚煞丹剂 ×5，炼成聚煞丹 ×30。</description>
     <jobString>正在批量配制聚煞丹药。</jobString>
     <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -452,8 +452,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeReleasePillsx5</defName>
-    <label>批量配制归真丹（15枚）</label>
-    <description>在捣药台批量直接制成15枚归真丹；消耗5倍原料。</description>
+    <label>批量配制归真丹 ×15</label>
+    <description>在捣药台批量直接制成归真丹 ×15。原料消耗为单次配制的5倍。</description>
     <jobString>正在批量配制归真丹药。</jobString>
     <workAmount>8000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -518,8 +518,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeRescuePreparationx5</defName>
-    <label>批量配制安魂丹剂（5份）</label>
-    <description>在捣药台批量配成5份安魂丹剂；炼丹设备需集齐5份，炼成10枚安魂丹。</description>
+    <label>批量配制安魂丹剂 ×5</label>
+    <description>在捣药台批量配制安魂丹剂 ×5。丹炉每批投入安魂丹剂 ×5，炼成安魂丹 ×10。</description>
     <jobString>正在批量配制安魂丹药。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -593,8 +593,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeDispelPreparationx5</defName>
-    <label>批量配制镇煞丹剂（5份）</label>
-    <description>在捣药台批量配成5份镇煞丹剂，供丹炉炼成25枚镇煞丹。</description>
+    <label>批量配制镇煞丹剂 ×5</label>
+    <description>在捣药台批量配制镇煞丹剂 ×5。丹炉每批投入镇煞丹剂 ×5，炼成镇煞丹 ×25。</description>
     <jobString>正在批量配制镇煞丹剂。</jobString>
     <workAmount>12800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

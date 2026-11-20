@@ -166,6 +166,14 @@ namespace MoeLotlExpansionTests
         }
         private void VerifyTaiyin(Map map)
         {
+            var medicineBills = new[] { "MX_MakeIndustryPillsx5", "MX_MakeRecoveryPreparation", "MX_MakeTaiyinPreparation" };
+            foreach (string name in medicineBills)
+            {
+                var recipe = DefDatabase<RecipeDef>.GetNamed(name);
+                var bill = new Bill_Production(recipe, null);
+                SmokeLog.Check(bill.LabelCap.EndsWith(" ×" + recipe.products.Single().count, StringComparison.Ordinal),
+                    name + " shows the quantity on the in-game bill");
+            }
             var research = DefDatabase<ResearchProjectDef>.GetNamed("Axolotl_Research_HeavenlyTopArmor");
             SmokeLog.Check(research.UnlockedDefs.Contains(Def("MX_TaiyinPill")), "late research shows finished Taiyin pill");
             research = DefDatabase<ResearchProjectDef>.GetNamed("Axolotl_Research_Alchemy");
@@ -211,8 +219,10 @@ namespace MoeLotlExpansionTests
                 string.Join(", ", TaiyinMedicine.ReasonLines(eligibility)));
             AcceptanceReport taken = MedicineService.TryUse(dose, taiyin);
             SmokeLog.Check(taken.Accepted, "qualified Taiyin dose accepted: " + taken.Reason);
-            SmokeLog.Check(!taiyin.Dead && dose.Destroyed && taiyin.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("MX_TaiyinEffect")),
+            Hediff taiyinEffect = taiyin.health.hediffSet.GetFirstHediffOfDef(TaiyinMedicine.EffectDef);
+            SmokeLog.Check(!taiyin.Dead && dose.Destroyed && taiyinEffect != null,
                 "qualified Taiyin dose transforms and is consumed");
+            SmokeLog.Check(taiyinEffect.LabelColor == new Color(1f, 0.84f, 0.30f), "Taiyin health label uses gold");
             SmokeLog.Check(!comp.Danger && comp.Malevolent == excess, "Taiyin prevents overcapacity berserk and preserves actual malice");
             SmokeLog.Check(taiyin.story.traits.HasTrait(DefDatabase<TraitDef>.GetNamed("Beauty"), 2) &&
                 taiyin.story.traits.allTraits.Any(trait => trait.def.defName == "PerfectMemory" || trait.def.defName == "MX_PerfectMemory"),
