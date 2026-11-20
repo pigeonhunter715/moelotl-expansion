@@ -10,11 +10,11 @@ if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
     raise ValueError("Invalid release version")
 files = {name: ROOT / name for name in (
     "About/About.xml", "LoadFolders.xml", "1.6/Assemblies/MoeLotlExpansion.dll",
-    "Languages/ChineseSimplified/Keyed/Medicines.xml", "Languages/English/Keyed/Medicines.xml",
     "VERSION", "CHANGELOG.md", "THIRD_PARTY_NOTICES.md",
 )}
 files["README.md"] = ROOT / "docs/INSTALL.md"
-for pattern in ("1.6/Defs/*/*.xml", "1.6/Textures/Things/Item/MoeLotl/MX_*.png"):
+for pattern in ("1.6/Defs/*/*.xml", "1.6/Textures/Things/Item/MoeLotl/MX_*.png",
+                "Languages/*/Keyed/*.xml"):
     matches = sorted(ROOT.glob(pattern))
     if not matches:
         raise FileNotFoundError(pattern)

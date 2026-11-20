@@ -1,5 +1,7 @@
 # 萌螈丹药扩展 v0.2.0 发行检查
 
+> 该安装包缺少太阴丹的中英文界面文本，现已由 [v0.2.1 发行包](RELEASE_0.2.1.md) 替代。
+
 适用 RimWorld 1.6。安装 ZIP 为 `moelotl-expansion-v0.2.0-rimworld1.6.zip`，大小 1,743,577 字节。解压后将 `MoeLotlExpansion` 文件夹放入游戏的 `Mods` 目录。[安装说明](INSTALL.md)
 
 ZIP 的 SHA-256 为 `4af433555d6a6e1b44e59734b71458946af0d54e06cc86628b58b7f56b8d74db`。

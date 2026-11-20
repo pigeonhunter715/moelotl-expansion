@@ -6,7 +6,7 @@
 
 ## 安装发行版
 
-当前版本 **v0.2.0，RimWorld 1.6**。从 [GitHub Releases](https://github.com/pigeonhunter715/moelotl-expansion/releases) 下载 `moelotl-expansion-v0.2.0-rimworld1.6.zip`，解压到游戏 `Mods` 目录。发行ZIP包含已编译DLL；GitHub自动提供的Source code包只包含源码，需要自行构建。
+当前版本 **v0.2.1，RimWorld 1.6**。从 [GitHub Releases](https://github.com/pigeonhunter715/moelotl-expansion/releases) 下载 `moelotl-expansion-v0.2.1-rimworld1.6.zip`，解压到游戏 `Mods` 目录。发行ZIP包含已编译DLL；GitHub自动提供的Source code包只包含源码，需要自行构建。
 
 依赖Harmony、MoeLotl Race、MoeLotl: Rigor Mortis及其前置模组。完整步骤和首次用药设置见 [安装说明](docs/INSTALL.md)。本扩展不支持RimWorld 1.7。
 
@@ -14,7 +14,7 @@
 
 捣药台提供单份和五倍配方，普通丹炉按五份丹剂炼一炉。太阴丹在通天仪耗时一年炼成，符合资格的飞僵服用后蜕变为太阴仙体。药渡玉佩的六格药仓可收纳实物丹药，仓内丹药免负重。玉佩按品质提供减伤，符合条件的活体萌螈同时获得螈气护盾。自动服药、续药、应急和补货默认关闭，补货目标默认为 0。
 
-已执行隔离RimWorld 1.6.4871测试，覆盖规则、真实取药与喂药、补货竞争、镇煞攻击及商队使用等场景。版本记录、实际覆盖和局限见 [发行检查](docs/RELEASE_0.2.0.md) 与 [实现进度](docs/IMPLEMENTATION.md)。
+已执行隔离RimWorld 1.6.4871测试，覆盖规则、真实取药与喂药、补货竞争、镇煞攻击及商队使用等场景。版本记录、实际覆盖和局限见 [发行检查](docs/RELEASE_0.2.1.md) 与 [实现进度](docs/IMPLEMENTATION.md)。
 
 ## 构建与验证
 

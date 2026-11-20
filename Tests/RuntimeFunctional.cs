@@ -223,8 +223,14 @@ namespace MoeLotlExpansionTests
             for (int i = 0; i < 65 && zpolicy.pendingMedicine == null; i++) yield return 1;
             Check(zpolicy.pendingMedicine?.def == Def("MX_RescuePill"), "automatic rescue schedules before jump");
             int jumpDeliveryAt = zpolicy.deliveryAt;
-            var flyer = PawnFlyer.MakeFlyer(Def("Axolotl_MoveFlyer"), zombie, Cell(12, 0), null, null);
-            GenSpawn.Spawn(flyer, Cell(15, 0), map);
+            // A berserk zombie can start a native jump while the pending dose is scheduled.
+            // Reuse its flight so the test never puts the pawn into two containers.
+            var flyer = zombie.ParentHolder as PawnFlyer;
+            if (flyer == null)
+            {
+                flyer = PawnFlyer.MakeFlyer(Def("Axolotl_MoveFlyer"), zombie, Cell(12, 0), null, null);
+                GenSpawn.Spawn(flyer, Cell(15, 0), map);
+            }
             // Extend only this test flight so its airborne interval covers delivery.
             AccessTools.Field(typeof(PawnFlyer), "ticksFlightTime").SetValue(flyer, 240);
             yield return 10;

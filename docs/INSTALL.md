@@ -1,10 +1,10 @@
-# 萌螈丹药扩展 v0.2.0
+# 萌螈丹药扩展 v0.2.1
 
 适用 RimWorld 1.6。需要 Harmony、MoeLotl Race、MoeLotl: Rigor Mortis，以及它们要求的前置模组（含 HAR、Custom Quest Framework）。不支持直接用于 RimWorld 1.7。
 
 ## 安装
 
-1. 下载 `moelotl-expansion-v0.2.0-rimworld1.6.zip`，不要用GitHub自动生成的Source code压缩包代替：源码包没有编译DLL。
+1. 下载 `moelotl-expansion-v0.2.1-rimworld1.6.zip`，不要用GitHub自动生成的Source code压缩包代替：源码包没有编译DLL。
 2. 解压后把完整 `MoeLotlExpansion` 文件夹放入游戏的 `Mods` 目录。正确路径是 `Mods/MoeLotlExpansion/About/About.xml`，不要多套一层同名目录。
 3. 安装前置模组，在游戏模组菜单中将本扩展排在Harmony、萌螈本体与螈僵扩展之后；依赖本身的先后顺序遵循各自说明。
 4. 启用后重启游戏。已有旧版时用新文件夹完整替换旧扩展目录，避免同时启用两份相同packageId。
