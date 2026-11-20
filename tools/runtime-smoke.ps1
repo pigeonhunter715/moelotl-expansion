@@ -17,10 +17,10 @@ if ($CoreOnly) {
     }
     $coreModsPath = Join-Path $save 'Config/ModsConfig.xml'
     [xml]$coreMods = Get-Content -LiteralPath $coreModsPath -Raw
-    foreach ($entry in @($coreMods.ModsConfigData.activeMods.li)) {
+    foreach ($entry in @($coreMods.SelectNodes('/ModsConfigData/activeMods/li'))) {
         if ($entry.InnerText -match '^ludeon\.rimworld\.(royalty|ideology|biotech|anomaly|odyssey)$') { $entry.ParentNode.RemoveChild($entry) | Out-Null }
     }
-    $coreMods.ModsConfigData.knownExpansions.RemoveAll()
+    # Retain known expansions so RimWorld does not enable them as newly installed DLC.
     $coreMods.Save($coreModsPath)
 }
 # This script uses a prepared, isolated game directory. Never use a player's game directory.
