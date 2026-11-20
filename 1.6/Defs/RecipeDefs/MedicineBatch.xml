@@ -28,11 +28,20 @@
         </filter>
         <count>5</count>
       </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Axolotl_JadeEssencePowder</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>RM_AxoPeachWood</li>
         <li>MedicineHerbal</li>
+        <li>Axolotl_JadeEssencePowder</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -73,11 +82,20 @@
         </filter>
         <count>5</count>
       </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Axolotl_JadeEssencePowder</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>RM_OvercastWood</li>
         <li>MedicineHerbal</li>
+        <li>Axolotl_JadeEssencePowder</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>

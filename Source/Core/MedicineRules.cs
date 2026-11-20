@@ -14,7 +14,7 @@ namespace MoeLotlExpansion.Core
         {
             if (float.IsNaN(capacity) || float.IsInfinity(capacity) || capacity <= 0 ||
                 float.IsNaN(current) || float.IsInfinity(current)) return 0f;
-            return Math.Max(0f, Math.Min(Math.Min(capacity * 0.4f, 200f), capacity - Math.Max(0f, current)));
+            return Math.Max(0f, Math.Min(Math.Min(capacity * 0.2f, 100f), capacity - Math.Max(0f, current)));
         }
 
         public static int FatigueRemaining(long combatExpiresAt, int now)
@@ -34,8 +34,10 @@ namespace MoeLotlExpansion.Core
             return Math.Max(0f, Math.Min(300f, capacity * (controlled ? 0.8f : 0.9f) - current));
         }
 
-        public static bool CanDispel(int targetsAlreadyHit, bool sameActionHit, int cooldownUntil, int now) =>
-            targetsAlreadyHit < 3 && !sameActionHit && now >= cooldownUntil;
+        public const int DispelPerHit = 10;
+        public const int DispelIntervalTicks = 30;
+        public static bool CanDispel(bool sameActionAdmitted, int cooldownUntil, int now) =>
+            sameActionAdmitted || now >= cooldownUntil;
         public static int StorageSpace(int total, int sameType, int kinds) =>
             sameType == 0 && kinds >= 6 ? 0 : Math.Max(0, Math.Min(60 - total, 25 - sameType));
         public static bool ValidTarget(int amount, int otherTargets, int resultingKinds) =>

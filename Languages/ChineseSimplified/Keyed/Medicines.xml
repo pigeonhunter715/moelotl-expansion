@@ -56,8 +56,8 @@
   <MX_MaliceStatus>煞气 {0}／容量 {1} ｜ 控制上限 {2} ｜ 聚煞预计补量 {3}</MX_MaliceStatus>
   <MX_Condition_MX_WarmingPill>低温持续5秒；无药效或维持到期。</MX_Condition_MX_WarmingPill>
   <MX_Condition_MX_CoolingPill>高温持续5秒；无药效或维持到期。</MX_Condition_MX_CoolingPill>
-  <MX_Condition_MX_RecoveryPill>螈气≤30%，容纳完整回复；6小时冷却。</MX_Condition_MX_RecoveryPill>
-  <MX_Condition_MX_CombatPill>实际敌对战斗；8小时药效＋6小时疲劳禁续。</MX_Condition_MX_CombatPill>
+  <MX_Condition_MX_RecoveryPill>螈气不超过30%且未满。</MX_Condition_MX_RecoveryPill>
+  <MX_Condition_MX_CombatPill>实际敌对战斗。12小时药效和6小时疲劳期间禁续。</MX_Condition_MX_CombatPill>
   <MX_Condition_MX_DispelPill>对螈僵执行耗气攻击；不因普通攻击服药。</MX_Condition_MX_DispelPill>
   <MX_Condition_MX_IndustryPill>清醒、未征召，正在工作或研究。</MX_Condition_MX_IndustryPill>
   <MX_Condition_MX_CapacityPill>己方螈僵；维持模式预约到期续服。</MX_Condition_MX_CapacityPill>

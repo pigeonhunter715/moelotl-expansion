@@ -31,22 +31,20 @@ LINE_RATE = STOVE_PROGRESS_PER_DAY * UPTIME
 REFINED_PROGRESS_PER_UNIT = 1.999994 / 2.0  # Measured 60-tick furnace path.
 WORK_PER_GAME_HOUR = 2500.0  # workAmount is in ticks at 100% work speed.
 
-# Historical high-frequency pressure: (pills/day, initial/target stock).
-# Furnace progress and yield deliberately come from the ThingDefs, not here.
-# Planned post-update context requested for this review; the parallel XML is
-# authoritative and is read live below. Requested values: Recovery 6/50,
-# Gather 6/30, Combat 10/40, Dispel 10/40, Capacity 40/5, Purify 32/5,
-# Rescue 12/10.
+FIGHTERS = 5
+COMBAT_CYCLE_HOURS = 18.0
+
+# High-frequency demand scenario: (pills/day, initial/target stock).
+# Recovery uses an assumed draw of 20 pills/day. Furnace parameters come from ThingDefs.
 PILLS = {
     "Recovery": (20.0, 48),
     "Gather": (4.0, 12),
-    "Combat": (60.0 / 7.0, 60),
+    "Combat": (FIGHTERS * 24.0 / COMBAT_CYCLE_HOURS, 60),
     "Dispel": (10.0, 72),
     "Purify": (0.1, 3),
     "Capacity": (0.1, 3),
     "Rescue": (0.3, 9),
 }
-FIGHTERS = 5
 BATTLE_INTERVAL_DAYS = 3
 DEMAND_GROUP = {"Recovery": "B", "Gather": "B"}
 DEMAND_GROUP.update({name: "CD" for name in PILLS if name not in ("Recovery", "Gather")})
@@ -124,9 +122,10 @@ def scenario_demands(demand, continuous_combat):
             battle_hours = 24.0 * BATTLE_INTERVAL_DAYS
             streams.extend([(name, battle_hours, battle_hours)] * FIGHTERS)
         elif name == "Combat":
-            # Stagger the five fighters across the sustained 14-hour cycle.
+            # Stagger the fighters across the effect and fatigue cycle.
             for fighter in range(FIGHTERS):
-                streams.append((name, 2.8 * (fighter + 1), 14.0))
+                first_dose = COMBAT_CYCLE_HOURS * (fighter + 1) / FIGHTERS
+                streams.append((name, first_dose, COMBAT_CYCLE_HOURS))
         elif name in ("Purify", "Capacity"):
             due = period if name == "Purify" else 120.0
             streams.append((name, due, period))

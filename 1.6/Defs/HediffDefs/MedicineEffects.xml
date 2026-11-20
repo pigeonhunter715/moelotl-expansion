@@ -35,7 +35,7 @@
   <HediffDef>
     <defName>MX_IndustryEffect</defName>
     <label>百工丹药效</label>
-    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度提高20%，研究速度额外提高10%，同条件研究综合提高32%，持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
+    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度×1.20，通用工作速度（含手工制作）与建造速度额外×1.15，研究速度额外×1.10（同条件研究综合×1.32），持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
     <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
@@ -45,14 +45,16 @@
         <statFactors>
           <WorkSpeedGlobal>1.2</WorkSpeedGlobal>
           <ResearchSpeed>1.1</ResearchSpeed>
+          <GeneralLaborSpeed>1.15</GeneralLaborSpeed>
+          <ConstructionSpeed>1.15</ConstructionSpeed>
         </statFactors>
       </li>
     </stages>
   </HediffDef>
   <HediffDef>
     <defName>MX_RecoveryEffect</defName>
-    <label>回气丹冷却</label>
-    <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
+    <label>回气丹药效（旧版）</label>
+    <description>旧版回气丹遗留的时限药效，载入后立即移除。当前回气丹为即时回复，无冷却。</description>
     <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
@@ -61,13 +63,19 @@
   <HediffDef>
     <defName>MX_CombatEffect</defName>
     <label>临战丹药效</label>
-    <description>持续8小时：近战伤害×1.20，移动×1.15，瞄准时间×0.85，受到伤害×0.90。随后6小时工作速度×0.90。药效与疲劳期间禁止再服；需一级以上仍有功能的灵螈脉络。</description>
+    <description>持续12小时。近战伤害×1.20，移速×1.15，瞄准时间×0.85，承伤×0.90。疼痛休克阈值+15个百分点，精神崩溃临界值降低10个百分点，近战命中和射击精度各+4点。随后6小时工作速度×0.90。药效和疲劳期间禁用。服用者须有一级以上仍可运转的灵螈脉络。</description>
     <hediffClass>MoeLotlExpansion.Hediff_CombatMedicine</hediffClass>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
     <stages>
       <li>
+        <statOffsets>
+          <PainShockThreshold>0.15</PainShockThreshold>
+          <MentalBreakThreshold>-0.10</MentalBreakThreshold>
+          <MeleeHitChance>4</MeleeHitChance>
+          <ShootingAccuracyPawn>4</ShootingAccuracyPawn>
+        </statOffsets>
         <statFactors>
           <MeleeDamageFactor>1.2</MeleeDamageFactor>
           <MoveSpeed>1.15</MoveSpeed>
@@ -104,17 +112,24 @@
   </HediffDef>
   <HediffDef>
     <defName>MX_GatherEffect</defName>
-    <label>聚煞丹冷却</label>
-    <description>即时增加最多300煞气，只补至容量90%，有涤煞药效时只补至80%。冷却6小时，不增加阴气、进化进度或容量。</description>
+    <label>聚煞丹药效</label>
+    <description>服用后6小时内煞气增长×1.50。服用时即时补充最多300点煞气，补至容量的90%为止。涤煞丹生效时，补至容量的80%为止。冷却6小时。</description>
     <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>
     <maxSeverity>1</maxSeverity>
+    <stages>
+      <li>
+        <statFactors>
+          <RM_MalevolentFactor>1.5</RM_MalevolentFactor>
+        </statFactors>
+      </li>
+    </stages>
   </HediffDef>
   <HediffDef>
     <defName>MX_DispelEffect</defName>
     <label>镇煞丹药效</label>
-    <description>药效12小时。实际消耗螈气的攻击直接命中螈僵时散去20基础煞气；同次攻击同目标一次，每次最多60，同一对角色间隔180 ticks。沿用飞僵和散煞倍率，不突破珍珠有效下限；护盾、位移、未命中和持续伤害不触发。</description>
+    <description>药效12小时。耗气攻击实中螈僵时，每次散去10点基础煞气，目标数量不限。同一目标的两次独立攻击至少间隔30游戏刻，同一次连击或齐射中的实际命中逐次结算。沿用本体飞僵和散煞倍率，以及夜叉珍珠的保底规则。攻击落空、护盾耗气、位移和持续伤害均不散煞。</description>
     <hediffClass>MoeLotlExpansion.Hediff_TimedMedicine</hediffClass>
     <isBad>false</isBad>
     <initialSeverity>1</initialSeverity>

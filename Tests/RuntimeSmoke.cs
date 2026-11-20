@@ -1,5 +1,6 @@
 // Compiled separately into an isolated test mod; never shipped in the expansion.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Axolotl;
@@ -90,14 +91,26 @@ namespace MoeLotlExpansionTests
             qi.PawnHediff.Severity = 3;
             float cold = living.GetStatValue(StatDefOf.ComfyTemperatureMin, true, 0);
             float hot = living.GetStatValue(StatDefOf.ComfyTemperatureMax, true, 0);
+            var labor = DefDatabase<StatDef>.GetNamed("GeneralLaborSpeed");
+            var construction = DefDatabase<StatDef>.GetNamed("ConstructionSpeed");
+            float laborBefore = living.GetStatValue(labor);
+            float constructionBefore = living.GetStatValue(construction);
             Dose("Warming", living); Dose("Cooling", living); Dose("Industry", living);
             SmokeLog.Near(living.GetStatValue(StatDefOf.ComfyTemperatureMin, true, 0), cold - 15, "warming stat");
             SmokeLog.Near(living.GetStatValue(StatDefOf.ComfyTemperatureMax, true, 0), hot + 15, "cooling stat");
-            qi.Energy = 0; float gain = MedicineService.RecoveryFor(living);
+            SmokeLog.Near(living.GetStatValue(labor), laborBefore * 1.2f * 1.15f, "industry improves crafting speed");
+            SmokeLog.Near(living.GetStatValue(construction), constructionBefore * 1.2f * 1.15f, "industry improves construction speed");
+            qi.Energy = 0;
+            float gain = Math.Min(qi.EnergyMax * 0.2f, 100f);
             Dose("Recovery", living); SmokeLog.Near(qi.Energy, gain, "real energy recovery");
-            SmokeLog.Check(!MedicineService.CanUse(Pill("Recovery"), living).Accepted, "recovery cooldown blocks repeat");
+            Dose("Recovery", living); SmokeLog.Near(qi.Energy, gain * 2f, "recovery can be taken twice in the same tick");
+            SmokeLog.Check(!living.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("MX_RecoveryEffect")), "recovery creates no cooldown status");
+            qi.Energy = qi.EnergyMax;
+            SmokeLog.Check(!MedicineService.CanUse(Pill("Recovery"), living).Accepted, "full qi rejects another pill");
             Dose("Combat", living); Dose("Dispel", living);
             SmokeLog.Check(!MedicineService.CanUse(Pill("Combat"), living).Accepted, "combat repeat blocked");
+            var combat = (Hediff_CombatMedicine)living.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed("MX_CombatEffect"));
+            SmokeLog.Check(combat.RemainingTicks == 45000 && !combat.IsFatigued, "combat opens a twelve-hour buff and six-hour fatigue clock");
             zombie = RMUtility.TryCreateZombie(DefDatabase<MutantDef>.GetNamed("RM_GreenZombie"), faction: Faction.OfPlayer);
             AccessTools.Field(typeof(CompYinAndMalevolent), "dontHateSunlight").SetValue(zombie.TryGetComp<CompYinAndMalevolent>(), true);
             GenSpawn.Spawn(zombie, CellFinder.RandomClosewalkCellNear(map.Center, map, 8), map);
@@ -112,11 +125,15 @@ namespace MoeLotlExpansionTests
             SmokeLog.Near(malice.Malevolent, before, "release preserves current malice");
             SmokeLog.Check(!zombie.health.hediffSet.HasHediff(RMDefOf.RM_HediffYakshaPearl) && !ZombieMedicineService.Active(zombie, MXDefOf.MX_PurifyEffect), "release removes both bindings");
             malice.Malevolent = 0; float dose = ZombieMedicineService.GatherAmount(zombie);
+            float maliceGrowth = malice.MalevolentFactor;
             Dose("Gather", zombie); SmokeLog.Near(malice.Malevolent, dose, "gather uses actual gain");
+            SmokeLog.Near(malice.MalevolentFactor, maliceGrowth * 1.5f, "gather improves native malice growth");
             malice.Malevolent = 500;
             ProbeAttack(false); SmokeLog.Near(malice.Malevolent, 500, "unpaid hit does not dispel");
-            ProbeAttack(true); SmokeLog.Near(malice.Malevolent, 480, "paid direct hit dispels twenty once");
+            ProbeAttack(true, false); SmokeLog.Near(malice.Malevolent, 500, "missed paid attack does not dispel");
+            ProbeAttack(true); SmokeLog.Near(malice.Malevolent, 480, "two hits in a paid action each dispel ten");
             ProbeAttack(true); SmokeLog.Near(malice.Malevolent, 480, "pair cooldown blocks repeated paid hit");
+            VerifyDispelAcrossFourTargets(map);
             foreach (string furnaceName in new[] { "Axolotl_AlchemyStove_Neolithic", "Axolotl_AlchemyStove_Industrial" })
             {
                 var furnace = (Building_AlchemyStove_Base)ThingMaker.MakeThing(Def(furnaceName));
@@ -144,12 +161,14 @@ namespace MoeLotlExpansionTests
             pendant = (MedicinePendant)ThingMaker.MakeThing(Def("MX_MedicinePendant"));
             VerifyPendantQualityAndReduction(pendant);
             float emptyValue = pendant.MarketValue;
+            float emptyGearMass = MassUtility.GearAndInventoryMass(living);
             var policy = PendantManager.Instance.For(living);
             SmokeLog.Check(!policy.autoUse && !policy.autoRefill && policy.entries.All(e => e.target == 0 && e.mode == AutoMedicineMode.Off), "all automation defaults off");
             var warming = Pill("Warming", 25);
             SmokeLog.Check(pendant.Load(warming, 25) == 25, "load physical stack");
             SmokeLog.Check(pendant.Load(Pill("Warming"), 1) == 0, "per type limit");
-            SmokeLog.Near(pendant.GetStatValue(StatDefOf.Mass), 1.55f, "contents contribute mass");
+            SmokeLog.Near(pendant.GetStatValue(StatDefOf.Mass), 0.3f, "pendant mass excludes stored pills");
+            SmokeLog.Near(MassUtility.GearAndInventoryMass(living), emptyGearMass, "stored pills add no actual pawn load");
             SmokeLog.Near(pendant.MarketValue, emptyValue + 25 * Def("MX_WarmingPill").BaseMarketValue, "contents contribute market value once");
             foreach (string key in new[] { "Cooling", "Recovery", "Combat", "Dispel", "Industry" }) SmokeLog.Check(policy.SetTarget(pendant, Def("MX_" + key + "Pill"), 1), "reserve slot " + key);
             SmokeLog.Check(pendant.Load(Pill("Gather"), 1) == 0, "reserved slots reject seventh medicine");
@@ -212,6 +231,7 @@ namespace MoeLotlExpansionTests
             SmokeLog.Check(taiyin.records.GetValue(record) == 1000f, "native kill notification awards qualifying zombie kill");
             float excess = comp.MalevolentCapacity + 1000f;
             comp.Malevolent = excess;
+            float nativeGrowth = comp.MalevolentFactor;
             SmokeLog.Check(comp.Danger, "flying zombie has overcapacity danger before Taiyin");
             Thing dose = Pill("Taiyin", 1);
             TaiyinEligibility eligibility = TaiyinMedicine.Evaluate(taiyin);
@@ -224,9 +244,14 @@ namespace MoeLotlExpansionTests
                 "qualified Taiyin dose transforms and is consumed");
             SmokeLog.Check(taiyinEffect.LabelColor == new Color(1f, 0.84f, 0.30f), "Taiyin health label uses gold");
             SmokeLog.Check(!comp.Danger && comp.Malevolent == excess, "Taiyin prevents overcapacity berserk and preserves actual malice");
+            SmokeLog.Near(comp.MalevolentFactor, nativeGrowth * 2f, "Taiyin doubles native malice growth");
+            taiyin.ChangeMalevolent(-20f);
+            RMUtility.StruckByLightning(taiyin);
+            SmokeLog.Near(comp.Malevolent, excess, "native dispel and lightning cannot drain Taiyin malice");
             SmokeLog.Check(taiyin.story.traits.HasTrait(DefDatabase<TraitDef>.GetNamed("Beauty"), 2) &&
                 taiyin.story.traits.allTraits.Any(trait => trait.def.defName == "PerfectMemory" || trait.def.defName == "MX_PerfectMemory"),
                 "Taiyin grants beautiful and perfect memory traits");
+            VerifyTaiyinCompassAndArmor(map, human);
 
             var bodyRepair = taiyin.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed("RM_Axolotl_BodyRepair"));
             var repair = bodyRepair.TryGetComp<CompZombieBodyRepair>();
@@ -237,6 +262,50 @@ namespace MoeLotlExpansionTests
             float amount = 3f * repair.Props.repairAmountPerDay * bodyRepair.Severity * repair.Props.repairTick / GenDate.TicksPerDay;
             SmokeLog.Check(healed, "native body repair reports successful healing");
             SmokeLog.Near(injury.Severity, 10f - amount, "Taiyin triples native wound repair");
+        }
+
+        private void VerifyTaiyinCompassAndArmor(Map map, Pawn target)
+        {
+            GenSpawn.Spawn(target, CellFinder.RandomClosewalkCellNear(taiyin.Position, map, 6), map);
+            var compass = (FiveElementCompass)ThingMaker.MakeThing(Def("RM_FiveElementCompass_Building"));
+            GenSpawn.Spawn(compass, CellFinder.RandomClosewalkCellNear(taiyin.Position, map, 6), map);
+            SmokeLog.Check(compass.PawnsInField.Contains(target) && !compass.PawnsInField.Contains(taiyin),
+                "compass field excludes Taiyin and retains ordinary occupants");
+            Pawn hostile = RMUtility.TryCreateZombie(DefDatabase<MutantDef>.GetNamed("RM_GreenZombie"), faction: Faction.OfAncientsHostile);
+            GenSpawn.Spawn(hostile, CellFinder.RandomClosewalkCellNear(taiyin.Position, map, 6), map);
+            taiyin.SetFaction(Faction.OfAncientsHostile);
+            SmokeLog.Check(compass.ZombiesInField.Contains(hostile) && !compass.ZombiesInField.Contains(taiyin),
+                "compass fire phase keeps its other hostile targets");
+            taiyin.SetFaction(Faction.OfPlayer);
+            hostile.DeSpawn();
+
+            var fire = DefDatabase<HediffDef>.GetNamed("RM_HediffFireField");
+            var execution = DefDatabase<HediffDef>.GetNamed("RM_CompassExecute");
+            taiyin.health.AddHediff(fire);
+            taiyin.health.AddHediff(execution);
+            taiyin.health.HealthTick();
+            SmokeLog.Check(!taiyin.Dead && !taiyin.health.hediffSet.HasHediff(fire) &&
+                !taiyin.health.hediffSet.HasHediff(execution), "Taiyin clears pre-existing compass effects safely");
+
+            var compassProgress = AccessTools.Field(typeof(FiveElementCompass), "progress");
+            var compassUser = AccessTools.Field(typeof(FiveElementCompass), "user");
+            compassProgress.SetValue(compass, FiveElementCompass.Timer);
+            compassUser.SetValue(compass, taiyin);
+            compass.Intercepted(out Pawn sacrifice);
+            SmokeLog.Check(sacrifice == null, "finishing a compass ritual cannot sacrifice Taiyin");
+            compassProgress.SetValue(compass, FiveElementCompass.Timer);
+            compassUser.SetValue(compass, target);
+            compass.Intercepted(out sacrifice);
+            SmokeLog.Check(sacrifice == target, "finishing a compass ritual still recognizes an ordinary caster");
+
+            IntVec3 position = taiyin.Position;
+            target.health.AddHediff(DefDatabase<HediffDef>.GetNamed("RM_HediffWaterField"));
+            ObserveTaiyinArmor.Attacker = taiyin;
+            target.TakeDamage(new DamageInfo(DamageDefOf.Cut, 10f, armorPenetration: 0f, instigator: taiyin));
+            SmokeLog.Check(ObserveTaiyinArmor.Seen, "Taiyin hit reaches the native injury worker with armor ignored");
+            SmokeLog.Check(taiyin.Spawned && taiyin.Position == position, "compass water counter cannot throw Taiyin");
+            ObserveTaiyinArmor.Attacker = null;
+            compass.Destroy();
         }
         private void VerifyPendantQualityAndReduction(MedicinePendant target)
         {
@@ -270,15 +339,34 @@ namespace MoeLotlExpansionTests
             quality.SetQuality(QualityCategory.Normal, null);
             SmokeLog.Check(qi.ShieldMax == baselineShield + 16, "normal quality restores sixteen native shield");
         }
-        private void ProbeAttack(bool paid)
+        private void VerifyDispelAcrossFourTargets(Map map)
+        {
+            var zombieDef = DefDatabase<MutantDef>.GetNamed("RM_GreenZombie");
+            var targets = new List<Pawn>();
+            for (int i = 0; i < 4; i++)
+            {
+                Pawn target = RMUtility.TryCreateZombie(zombieDef, faction: Faction.OfPlayer);
+                GenSpawn.Spawn(target, CellFinder.RandomClosewalkCellNear(map.Center, map, 8), map);
+                target.TryGetComp<CompYinAndMalevolent>().Malevolent = 500f;
+                targets.Add(target);
+            }
+
+            ProbeAttack(true, targets: targets);
+            SmokeLog.Check(targets.All(target => target.TryGetComp<CompYinAndMalevolent>().Malevolent == 490f),
+                "one paid action dispels all four targets");
+            foreach (Pawn target in targets) target.Destroy(DestroyMode.Vanish);
+        }
+
+        private void ProbeAttack(bool paid, bool hit = true, IEnumerable<Pawn> targets = null)
         {
             // Inject an attack scope, then exercise actual patched cost/damage APIs.
             // This is an integration probe, not a native weapon animation test.
             var scopeType = typeof(DispelTracker).Assembly.GetType("MoeLotlExpansion.AttackScope");
             object scope = Activator.CreateInstance(scopeType, DispelTracker.Instance.Begin(living));
             if (paid) AxolotlUtility.MoelotlEnergyUtility.DoEnergyCost(living, 1);
-            zombie.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 0f, instigator: living));
-            zombie.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 0f, instigator: living));
+            if (hit)
+                foreach (Pawn target in targets ?? new[] { zombie, zombie })
+                    target.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 0f, instigator: living));
             scopeType.GetMethod("Finish").Invoke(scope, new object[] { true });
         }
         private void VerifyReload()
@@ -363,6 +451,18 @@ namespace MoeLotlExpansionTests
             Scribe_Values.Look(ref savedCount, "savedCount"); Scribe_Values.Look(ref savedRemaining, "savedRemaining");
             Scribe_References.Look(ref living, "living"); Scribe_References.Look(ref zombie, "zombie"); Scribe_References.Look(ref pendant, "pendant");
             Scribe_References.Look(ref taiyin, "taiyin");
+        }
+    }
+    [HarmonyPatch(typeof(DamageWorker_AddInjury), "ApplyDamageToPart")]
+    internal static class ObserveTaiyinArmor
+    {
+        internal static Pawn Attacker;
+        internal static bool Seen;
+
+        [HarmonyPriority(Priority.Last)]
+        private static void Prefix(DamageInfo dinfo)
+        {
+            if (Attacker != null && dinfo.Instigator == Attacker) Seen |= dinfo.IgnoreArmor;
         }
     }
     [HarmonyPatch(typeof(ZombieMedicineService), nameof(ZombieMedicineService.Apply))]

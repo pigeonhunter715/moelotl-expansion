@@ -56,8 +56,8 @@
   <MX_MaliceStatus>Malice {0} / capacity {1} | control limit {2} | expected gain {3}</MX_MaliceStatus>
   <MX_Condition_MX_WarmingPill>Cold for 5s; absent effect or scheduled renewal.</MX_Condition_MX_WarmingPill>
   <MX_Condition_MX_CoolingPill>Heat for 5s; absent effect or scheduled renewal.</MX_Condition_MX_CoolingPill>
-  <MX_Condition_MX_RecoveryPill>Qi at most 30%, room for full dose; 6h cooldown.</MX_Condition_MX_RecoveryPill>
-  <MX_Condition_MX_CombatPill>Actual hostile combat; 8h buff plus 6h fatigue lockout.</MX_Condition_MX_CombatPill>
+  <MX_Condition_MX_RecoveryPill>Qi at most 30% with some qi missing.</MX_Condition_MX_RecoveryPill>
+  <MX_Condition_MX_CombatPill>Actual hostile combat. No repeat doses during the 12h effect or 6h fatigue.</MX_Condition_MX_CombatPill>
   <MX_Condition_MX_DispelPill>A qi attack targeting a zombie.</MX_Condition_MX_DispelPill>
   <MX_Condition_MX_IndustryPill>Awake, undrafted, actually working or researching.</MX_Condition_MX_IndustryPill>
   <MX_Condition_MX_CapacityPill>Owned zombie; maintain mode schedules expiry renewal.</MX_Condition_MX_CapacityPill>

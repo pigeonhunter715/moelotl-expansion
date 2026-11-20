@@ -19,8 +19,9 @@ namespace MoeLotlExpansion
                 return TaiyinMedicine.CanTake(medicine, target);
             if (config != null && config.zombieMedicine != ZombieMedicine.None)
                 return ZombieMedicineService.CanUse(medicine, target, config);
-            if (config?.effect == null || config.durationTicks <= 0 ||
-                !typeof(Hediff_TimedMedicine).IsAssignableFrom(config.effect.hediffClass))
+            bool instantRecovery = config != null && config.restoresQi;
+            if (!instantRecovery && (config?.effect == null || config.durationTicks <= 0 ||
+                !typeof(Hediff_TimedMedicine).IsAssignableFrom(config.effect.hediffClass)))
                 return "MX_InvalidMedicine".Translate().ToString();
 
             bool exists = target?.health != null;
@@ -40,6 +41,14 @@ namespace MoeLotlExpansion
                     return "MX_RequiresMeridians".Translate().ToString();
             }
 
+            // Instant recovery has no timed hediff or cooldown; it still requires the live
+            // MoeLotl/meridian gates above and a real missing-qi amount.
+            if (instantRecovery)
+            {
+                if (RecoveryFor(target) <= 0f) return "MX_QiFull".Translate().ToString();
+                return true;
+            }
+
             // Fail safely if another mod supplies an incompatible instance for this Def.
             foreach (Hediff existing in target.health.hediffSet.hediffs)
                 if (existing.def == config.effect && !(existing is Hediff_TimedMedicine))
@@ -47,8 +56,6 @@ namespace MoeLotlExpansion
             var timed = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;
             if (config.preventRefresh && timed != null && timed.RemainingTicks > 0)
                 return "MX_MedicineCooldown".Translate((timed.RemainingTicks / 2500f).ToString("0.0")).ToString();
-            if (config.restoresQi && RecoveryFor(target) <= 0f)
-                return "MX_QiFull".Translate().ToString();
             return true;
         }
 
@@ -67,6 +74,15 @@ namespace MoeLotlExpansion
                 return TaiyinMedicine.Apply(medicine, target);
             if (config.zombieMedicine != ZombieMedicine.None)
                 return ZombieMedicineService.Apply(medicine, target, config);
+            if (config.restoresQi)
+            {
+                var energy = target.TryGetComp<CompAxolotlEnergy>();
+                float restore = RecoveryFor(target);
+                if (energy == null || restore <= 0f) return "MX_QiFull".Translate().ToString();
+                energy.Energy += restore;
+                medicine.SplitOff(1).Destroy(DestroyMode.Vanish);
+                return true;
+            }
             var existing = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;
             if (existing != null)
             {
@@ -82,11 +98,6 @@ namespace MoeLotlExpansion
             var applied = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;
             if (applied == null || applied.RemainingTicks <= 0)
                 return "MX_InvalidMedicine".Translate().ToString();
-            if (config.restoresQi)
-            {
-                var energy = target.TryGetComp<CompAxolotlEnergy>();
-                energy.Energy += RecoveryFor(target);
-            }
 
             // One synchronous effect-and-consumption path; no second DestroySelf comp.
             medicine.SplitOff(1).Destroy(DestroyMode.Vanish);

@@ -211,6 +211,37 @@ namespace MoeLotlExpansion
                 traits.GainTrait(new Trait(fallback, 0));
         }
 
+        // These are applied directly by FiveElementCompass and JobDriver_UsingCompass rather than
+        // through the ordinary medicine/attack paths, so a pawn transformed while a field is
+        // already running can keep them. Only these compass defs are cleared.
+        private static readonly HashSet<string> LingeringCompassHediffDefs = new HashSet<string>
+        {
+            "RM_HediffWaterField",
+            "RM_HediffWoodField",
+            "RM_HediffEarthField",
+            "RM_HediffMetalField",
+            "RM_HediffFireField",
+            "RM_CompassExecute"
+        };
+
+        // Called once when the body first becomes active after a load, and again after a pause.
+        // Removing from a snapshot avoids mutating HediffSet.hediffs while enumerating it.
+        public static void RemoveLingeringCompassEffects(Pawn pawn)
+        {
+            if (pawn?.health?.hediffSet?.hediffs == null) return;
+            List<Hediff> lingering = null;
+            foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+            {
+                if (hediff?.def == null || !LingeringCompassHediffDefs.Contains(hediff.def.defName))
+                    continue;
+                if (lingering == null) lingering = new List<Hediff>();
+                lingering.Add(hediff);
+            }
+            if (lingering == null) return;
+            for (int i = 0; i < lingering.Count; i++)
+                pawn.health.RemoveHediff(lingering[i]);
+        }
+
         public static float ScaleRepair(float amount, Pawn user) =>
             Active(user) ? amount * 3f : amount;
 
@@ -220,9 +251,20 @@ namespace MoeLotlExpansion
 
     public class Hediff_Taiyin : Hediff
     {
+        // Leave unsaved so existing field effects are cleared on the first active tick after load.
+        private bool wasActive;
+
         public override bool ShouldRemove => false;
         public override HediffStage CurStage =>
             TaiyinMedicine.Paused(pawn) ? null : base.CurStage;
         public override bool TryMergeWith(Hediff other) => false;
+
+        public override void PostTick()
+        {
+            base.PostTick();
+            bool active = !TaiyinMedicine.Paused(pawn);
+            if (active && !wasActive) TaiyinMedicine.RemoveLingeringCompassEffects(pawn);
+            wasActive = active;
+        }
     }
 }

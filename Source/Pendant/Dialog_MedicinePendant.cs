@@ -43,7 +43,7 @@ namespace MoeLotlExpansion
             Pawn pawn = pendant.Wearer;
             if (pawn == null) { Widgets.Label(rect, "MX_WearToConfigure".Translate()); return; }
             var policy = PendantManager.Instance.For(pawn);
-            Widgets.Label(new Rect(0, 0, 960, 30), "MX_PendantHeader".Translate(pawn.LabelShort, pendant.Total, pendant.Contents.Select(t => t.def).Distinct().Count(), (0.3f + pendant.ContentsMass).ToString("0.00")));
+            Widgets.Label(new Rect(0, 0, 960, 30), "MX_PendantHeader".Translate(pawn.LabelShort, pendant.Total, pendant.Contents.Select(t => t.def).Distinct().Count(), pendant.GetStatValue(StatDefOf.Mass).ToString("0.00")));
             Widgets.CheckboxLabeled(new Rect(0, 35, 230, 28), "MX_AutoUse".Translate(), ref policy.autoUse);
             Widgets.CheckboxLabeled(new Rect(250, 35, 230, 28), "MX_AutoRefill".Translate(), ref policy.autoRefill);
             if (Widgets.ButtonText(new Rect(500, 35, 130, 28), "MX_RefillNow".Translate())) policy.manualRefill = true;

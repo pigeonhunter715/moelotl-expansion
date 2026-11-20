@@ -12,6 +12,7 @@ namespace MoeLotlExpansion
         public Pawn attacker;
         public Verb verb;
         public List<Projectile> projectiles = new List<Projectile>();
+        // Admitted target IDs for this action. Keep the existing scribe key for save compatibility.
         public List<int> hitTargets = new List<int>();
         public int createdAt;
         public void ExposeData()
@@ -67,15 +68,25 @@ namespace MoeLotlExpansion
         }
         public void Hit(DispelAction record, Pawn target)
         {
-            if (!Enabled(record.attacker) || target == null || target.Dead || !target.IsZombie(out _)) return;
+            if (record == null || !Enabled(record.attacker) || target == null || target.Dead || !target.IsZombie(out _)) return;
             int now = Find.TickManager.TicksGame;
-            int until = cooldowns.Where(c => c.attackerId == record.attacker.thingIDNumber && c.targetId == target.thingIDNumber)
+            int targetId = target.thingIDNumber;
+            bool admitted = record.hitTargets.Contains(targetId);
+            int until = cooldowns.Where(c => c.attackerId == record.attacker.thingIDNumber && c.targetId == targetId)
                 .Select(c => c.expiresAt).DefaultIfEmpty(0).Max();
-            if (!MedicineRules.CanDispel(record.hitTargets.Count, record.hitTargets.Contains(target.thingIDNumber), until, now)) return;
-            record.hitTargets.Add(target.thingIDNumber);
-            cooldowns.Add(new DispelCooldown { attackerId = record.attacker.thingIDNumber, targetId = target.thingIDNumber, expiresAt = now + 180 });
+            if (!MedicineRules.CanDispel(admitted, until, now)) return;
+            if (!admitted)
+            {
+                record.hitTargets.Add(targetId);
+                cooldowns.Add(new DispelCooldown
+                {
+                    attackerId = record.attacker.thingIDNumber,
+                    targetId = targetId,
+                    expiresAt = now + MedicineRules.DispelIntervalTicks
+                });
+            }
             // Use the dependency's flying-zombie and configured dispel multipliers.
-            target.ChangeMalevolent(-20f);
+            RMUtility.ChangeMalevolent(target, -MedicineRules.DispelPerHit);
         }
         public override void GameComponentTick()
         {
@@ -110,7 +121,7 @@ namespace MoeLotlExpansion
             Current = previous;
             if (!successful || record == null || !paid) return;
             record.projectiles.AddRange(projectiles.Where(p => p != null && !p.Destroyed));
-            foreach (Pawn hit in hits.Distinct()) DispelTracker.Instance.Hit(record, hit);
+            foreach (Pawn hit in hits) DispelTracker.Instance.Hit(record, hit);
         }
     }
 }

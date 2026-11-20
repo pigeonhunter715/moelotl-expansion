@@ -22,7 +22,7 @@ namespace MoeLotlExpansionTests
         private Pawn actor, other, zombie;
         private Map map;
         public static Pawn ObservedAttacker, ObservedTarget;
-        public static int Costs, DispelCalls;
+        public static int Costs, DispelCalls, ProjectileHits;
         public static float ActualDispel;
         public FunctionalGame(Game game) { }
         private static ThingDef Def(string name) => DefDatabase<ThingDef>.GetNamed(name);
@@ -56,7 +56,7 @@ namespace MoeLotlExpansionTests
             actor.equipment.AddEquipment((ThingWithComps)Make(name));
         }
         private static void Observe(Pawn attacker, Pawn target)
-        { ObservedAttacker = attacker; ObservedTarget = target; Costs = DispelCalls = 0; ActualDispel = 0; }
+        { ObservedAttacker = attacker; ObservedTarget = target; Costs = DispelCalls = ProjectileHits = 0; ActualDispel = 0; }
         public override void GameComponentUpdate()
         {
             if (!GenCommandLine.CommandLineArgPassed("mx-functional") || finished || Current.ProgramState != ProgramState.Playing || Find.CurrentMap == null || LongEventHandler.AnyEventNowOrWaiting) return;
@@ -258,7 +258,7 @@ namespace MoeLotlExpansionTests
                 yield return 200;
             }
             SmokeLog.Write("MELEE costs=" + Costs + " dispels=" + DispelCalls + " amount=" + ActualDispel);
-            Check(Costs > 0 && DispelCalls > 0 && ActualDispel > 0, "native qi sword hit dispels without injected attack scope");
+            Check(Costs > 0 && DispelCalls == 1 && ActualDispel > 0, "native qi sword hit dispels once without duplicate damage hooks");
 
             // Real four-shot volley and actual travelling projectiles.
             Move(actor, Cell(-4, 5)); Move(zombie, Cell(4, 5));
@@ -270,9 +270,9 @@ namespace MoeLotlExpansionTests
             var ranged = actor.equipment.Primary.TryGetComp<CompEquippable>().PrimaryVerb;
             Check(ranged.TryStartCastOn(zombie, preventFriendlyFire: false), "native crossbow starts volley");
             yield return 240;
-            SmokeLog.Write("RANGED costs=" + Costs + " dispels=" + DispelCalls + " amount=" + ActualDispel);
+            SmokeLog.Write("RANGED costs=" + Costs + " hits=" + ProjectileHits + " dispels=" + DispelCalls + " amount=" + ActualDispel);
             Check(Costs > 0, "native volley spends qi");
-            Check(DispelCalls == 1, "multi-projectile volley dispels same target once");
+            Check(ProjectileHits > 0 && DispelCalls == ProjectileHits, "paid volley dispels once per confirmed projectile hit");
             foreach (var h in zombie.health.hediffSet.hediffs.OfType<Hediff_Injury>().ToList()) zombie.health.RemoveHediff(h);
             Observe(actor, zombie); qi.IsChangeLotiWeaponMode = false;
             Check(ranged.TryStartCastOn(zombie, preventFriendlyFire: false), "ordinary volley starts"); yield return 240;
@@ -320,8 +320,18 @@ namespace MoeLotlExpansionTests
         private static void Prefix(CompYinAndMalevolent comp, out float __state) => __state = comp.Malevolent;
         private static void Postfix(CompYinAndMalevolent comp, float num, float __state)
         {
-            if (comp.Zombie == FunctionalGame.ObservedTarget && num == -20f)
+            if (comp.Zombie == FunctionalGame.ObservedTarget && num == -10f)
             { FunctionalGame.DispelCalls++; FunctionalGame.ActualDispel += __state - comp.Malevolent; }
+        }
+    }
+    [HarmonyPatch(typeof(Projectile), "Impact")]
+    internal static class ObserveFunctionalProjectileHit
+    {
+        private static void Prefix(Thing ___launcher, Thing hitThing, bool blockedByShield)
+        {
+            if (!blockedByShield && FunctionalGame.ObservedAttacker != null &&
+                ___launcher == FunctionalGame.ObservedAttacker && hitThing == FunctionalGame.ObservedTarget)
+                FunctionalGame.ProjectileHits++;
         }
     }
 }

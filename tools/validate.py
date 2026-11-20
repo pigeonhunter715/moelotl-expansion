@@ -12,20 +12,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
     "Warming": {"label": "暖脉丹", "ticks": 120000, "work": 1000, "skill": 2, "price": 12, "output": 5,
-                "ingredients": {"RM_AxoPeachWood": 4, "MedicineHerbal": 1},
+                "ingredients": {"RM_AxoPeachWood": 4, "MedicineHerbal": 1, "Axolotl_JadeEssencePowder": 2},
                 "offsets": {"ComfyTemperatureMin": -15}, "factors": {}},
     "Cooling": {"label": "清暑丹", "ticks": 120000, "work": 1000, "skill": 2, "price": 12, "output": 5,
-                "ingredients": {"RM_OvercastWood": 4, "MedicineHerbal": 1},
+                "ingredients": {"RM_OvercastWood": 4, "MedicineHerbal": 1, "Axolotl_JadeEssencePowder": 2},
                 "offsets": {"ComfyTemperatureMax": 15}, "factors": {}},
     "Industry": {"label": "百工丹", "ticks": 60000, "work": 4800, "skill": 4, "price": 25, "output": 3,
                  "ingredients": {"PsychoidLeaves": 6, "MedicineHerbal": 2, "Axolotl_JadeEssencePowder": 10},
-                 "offsets": {}, "factors": {"WorkSpeedGlobal": 1.2, "ResearchSpeed": 1.1}},
-    "Recovery": {"label": "回气丹", "ticks": 15000, "work": 2400, "skill": 4, "price": 60, "progress": 6, "output": 50,
+                 "offsets": {}, "factors": {"WorkSpeedGlobal": 1.2, "ResearchSpeed": 1.1, "GeneralLaborSpeed": 1.15, "ConstructionSpeed": 1.15}},
+    "Recovery": {"label": "回气丹", "ticks": 0, "work": 2400, "skill": 4, "price": 60, "progress": 6, "output": 50,
                  "ingredients": {"PsychoidLeaves": 8, "Axolotl_JadeEssencePowder": 8, "MedicineHerbal": 1, "Uranium": 1},
                  "offsets": {}, "factors": {}},
-    "Combat": {"label": "临战丹", "ticks": 35000, "work": 3600, "skill": 6, "price": 100, "progress": 10, "output": 25,
+    "Combat": {"label": "临战丹", "ticks": 45000, "work": 3600, "skill": 6, "price": 100, "progress": 10, "output": 25,
                "ingredients": {"RM_AxoPeachWood": 6, "PsychoidLeaves": 8, "Axolotl_JadeEssencePowder": 10, "Uranium": 1},
-               "offsets": {}, "factors": {"MeleeDamageFactor": 1.2, "MoveSpeed": 1.15, "AimingDelayFactor": 0.85, "IncomingDamageFactor": 0.9, "WorkSpeedGlobal": 0.9}},
+               "offsets": {"PainShockThreshold": 0.15, "MentalBreakThreshold": -0.10, "MeleeHitChance": 4, "ShootingAccuracyPawn": 4},
+               "factors": {"MeleeDamageFactor": 1.2, "MoveSpeed": 1.15, "AimingDelayFactor": 0.85, "IncomingDamageFactor": 0.9, "WorkSpeedGlobal": 0.9}},
 }
 
 
@@ -41,6 +42,7 @@ EXPECTED['Dispel'] = dict(label='镇煞丹', ticks=30000, work=3200, skill=6, pr
 for key, (label, ticks, work, skill, price, progress, output, research, ingredients) in ZOMBIE_SPECS.items():
     EXPECTED[key] = dict(label=label, ticks=ticks, work=work, skill=skill, price=price, output=output, research=research, ingredients=ingredients, offsets={}, factors={}, zombie=True)
     if progress: EXPECTED[key]['progress'] = progress
+EXPECTED['Gather']['factors'] = {'RM_MalevolentFactor': 1.5}
 
 
 def check(condition, message):
@@ -98,7 +100,8 @@ def main():
     recipes = indexed("1.6/Defs/RecipeDefs/Medicines.xml", "RecipeDef")
     group_recipes = indexed("1.6/Defs/RecipeDefs/MedicineBatch.xml", "RecipeDef")
     preparations = indexed("1.6/Defs/ThingDefs/Preparations.xml", "ThingDef")
-    check(len(items) == len(recipes) == len(EXPECTED) and len(effects) == sum(s['ticks'] > 0 for s in EXPECTED.values()), "Medicine count mismatch")
+    effect_names = {f'MX_{key}Effect' for key, spec in EXPECTED.items() if spec['ticks']}
+    check(len(items) == len(recipes) == len(EXPECTED) and set(effects) == effect_names | {'MX_RecoveryEffect'}, "Medicine count mismatch")
     check(set(group_recipes) == {name + 'x5' for name in recipes}, 'Bench batch recipes must match the eleven original recipes')
     check(len(preparations) == sum("progress" in s for s in EXPECTED.values()), "Preparation count mismatch")
     external = {("ThingDef", "Axolotl_GrindingTable"), ("ResearchProjectDef", "Axolotl_Research_BasePlant"),
@@ -138,6 +141,9 @@ def main():
             check(effect.findtext('hediffClass') == 'MoeLotlExpansion.' + effect_class, f'{key}: persistence class')
             check(modifiers(effect, 'statOffsets') == spec['offsets'], f'{key}: offsets')
             check(modifiers(effect, 'statFactors') == spec['factors'], f'{key}: factors')
+        elif key == 'Recovery':
+            check(extension.findtext('restoresQi') == 'true' and extension.find('effect') is None and
+                  extension.find('durationTicks') is None and extension.find('preventRefresh') is None, 'Recovery: immediate use without cooldown')
         else:
             check(effect is None and extension.find('effect') is None, f'{key}: instant action')
         ingredients = ingredient_counts(recipe)
@@ -169,7 +175,7 @@ def main():
             check([n.text for n in unlock.findall("researches/li")] == researches, f"{key}: furnace research")
             check(research_requirements(item) == researches, f'{key}: finished pills must appear in research')
             if not zombie:
-                check(extension.findtext("requiresMeridians") == "true" and (key == 'Dispel' or extension.findtext("preventRefresh") == "true"), f"{key}: use gates")
+                check(extension.findtext("requiresMeridians") == "true" and (key != 'Combat' or extension.findtext("preventRefresh") == "true"), f"{key}: use gates")
         else:
             check(recipe.findtext(f"products/MX_{key}Pill") == str(spec["output"]), f"{key}: batch output")
         check(int(recipe.findtext("workAmount")) == spec["work"], f"{key}: work")
@@ -221,7 +227,7 @@ def main():
     taiyin_effects = indexed('1.6/Defs/HediffDefs/Taiyin.xml', 'HediffDef')
     effect = taiyin_effects['MX_TaiyinEffect']
     check(modifiers(effect, 'statFactors') == {'IncomingDamageFactor': .50, 'MeleeDamageFactor': 1.50,
-                                               'MeleeCooldownFactor': .50, 'MoveSpeed': 1.35}, 'Taiyin stat factors')
+                                               'MeleeCooldownFactor': .50, 'MoveSpeed': 1.35, 'RM_MalevolentFactor': 2.0}, 'Taiyin stat factors')
     check(effect.findtext('stages/li/capMods/li/capacity') == 'Consciousness' and
           float(effect.findtext('stages/li/capMods/li/offset')) == 1.0, 'Taiyin consciousness')
     external |= {('ThingDef', material) for material in taiyin_ingredients}

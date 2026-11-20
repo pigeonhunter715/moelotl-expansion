@@ -145,4 +145,108 @@ namespace MoeLotlExpansion
                     matches + " 1800 constants; expected 1.");
         }
     }
+
+    // The comp overload is the single native choke point used by lightning, attacks and
+    // artifacts. Direct setters used by the extension's purification and rescue still work.
+    // Positive gains are deliberately left to native scaling, including the new x2 factor.
+    [HarmonyPatch(typeof(RMUtility), nameof(RMUtility.ChangeMalevolent),
+        new[] { typeof(CompYinAndMalevolent), typeof(float), typeof(bool) })]
+    internal static class TaiyinMalevolentDrainImmunity
+    {
+        private static bool Prefix(CompYinAndMalevolent comp, float num)
+        {
+            return num >= 0f || !TaiyinMedicine.Active(comp?.Zombie);
+        }
+    }
+
+    // ApplyDamageToPart is the native point that reads dinfo.IgnoreArmor. Setting it here keeps
+    // pre-damage shields and damage reactions ahead of us; only attacks instigated by an active
+    // Taiyin bypass armor.
+    [HarmonyPatch(typeof(DamageWorker_AddInjury), "ApplyDamageToPart",
+        new[] { typeof(DamageInfo), typeof(Pawn), typeof(DamageWorker.DamageResult) })]
+    internal static class TaiyinArmorPiercing
+    {
+        private static void Prefix(ref DamageInfo dinfo)
+        {
+            if (dinfo.Instigator is Pawn attacker && TaiyinMedicine.Active(attacker))
+                dinfo.SetIgnoreArmor(true);
+        }
+    }
+
+    // These getters are the only sources for the water/wood/metal/fire loops in Move. They
+    // return fresh lists, so filtering an active Taiyin cannot affect other pawns or the
+    // compass's benefits for them. ZombiesInField also contains flying pawns, which must be
+    // unwrapped so an airborne Taiyin is exempt from the fire finisher as well.
+    [HarmonyPatch(typeof(FiveElementCompass), nameof(FiveElementCompass.PawnsInField),
+        MethodType.Getter)]
+    internal static class TaiyinCompassPawnsFilter
+    {
+        private static void Postfix(ref List<Pawn> __result)
+        {
+            __result?.RemoveAll(TaiyinMedicine.Active);
+        }
+    }
+
+    [HarmonyPatch(typeof(FiveElementCompass), nameof(FiveElementCompass.ZombiesInField),
+        MethodType.Getter)]
+    internal static class TaiyinCompassZombiesFilter
+    {
+        private static void Postfix(ref List<Thing> __result)
+        {
+            __result?.RemoveAll(IsActiveTaiyin);
+        }
+
+        private static bool IsActiveTaiyin(Thing thing)
+        {
+            Pawn pawn = thing as Pawn;
+            if (pawn == null && thing is PawnFlyer flyer) pawn = flyer.FlyingPawn;
+            return TaiyinMedicine.Active(pawn);
+        }
+    }
+
+    // The water counter runs on the defender's hediff but reacts to the zombie attacker. Skip
+    // only the callback caused by an active Taiyin; ordinary defenders keep the native push,
+    // burn and malevolent drain against every other attacker.
+    [HarmonyPatch(typeof(HediffWaterField), nameof(HediffWaterField.Notify_PawnPostApplyDamage),
+        new[] { typeof(DamageInfo), typeof(float) })]
+    internal static class TaiyinWaterFieldCounter
+    {
+        private static bool Prefix(DamageInfo dinfo)
+        {
+            return !(dinfo.Instigator is Pawn attacker && TaiyinMedicine.Active(attacker));
+        }
+    }
+
+    // A preexisting fire field can tick before Hediff_Taiyin's first active cleanup. Suppress
+    // its burn/finisher for an active body without altering the field for anyone else.
+    [HarmonyPatch(typeof(HediffFireField), nameof(HediffFireField.PostTick))]
+    internal static class TaiyinFireFieldGuard
+    {
+        private static bool Prefix(HediffFireField __instance)
+        {
+            return !TaiyinMedicine.Active(__instance.pawn);
+        }
+    }
+
+    [HarmonyPatch(typeof(FiveElementCompass), nameof(FiveElementCompass.Intercepted))]
+    internal static class TaiyinCompassFinish
+    {
+        private static void Postfix(ref Pawn deadman)
+        {
+            if (TaiyinMedicine.Active(deadman)) deadman = null;
+        }
+    }
+
+    // Protect a Taiyin who already received the native execution hediff in an older save.
+    [HarmonyPatch(typeof(HediffAbility_CompassExecute), nameof(HediffAbility_CompassExecute.PostTick))]
+    internal static class TaiyinCompassExecuteGuard
+    {
+        private static bool Prefix(HediffAbility_CompassExecute __instance)
+        {
+            if (!TaiyinMedicine.Active(__instance.pawn)) return true;
+            if (__instance.pawn.health.hediffSet.hediffs.Contains(__instance))
+                __instance.pawn.health.RemoveHediff(__instance);
+            return false;
+        }
+    }
 }

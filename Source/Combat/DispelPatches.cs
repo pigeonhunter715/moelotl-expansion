@@ -37,23 +37,44 @@ namespace MoeLotlExpansion
             if (__result && costAmount > 0f && scope?.record?.attacker == pawn) scope.paid = true;
         }
     }
+    // Suppresses direct-damage signals while the native melee method itself reports the hit.
+    // Saving/restoring the depth keeps nested melee calls correct even when one throws.
+    internal static class NativeMeleeDamageScope
+    {
+        [ThreadStatic] private static int depth;
+        public static bool Active => depth > 0;
+        public static int Depth => depth;
+        public static void Enter() => depth++;
+        public static void Restore(int previousDepth) => depth = previousDepth;
+    }
     [HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
     internal static class DispelDirectDamage
     {
         private static void Prefix(Thing __instance, DamageInfo dinfo)
         {
+            if (NativeMeleeDamageScope.Active) return;
             var scope = AttackScope.Current;
-            if (__instance is Pawn target && scope?.record != null && dinfo.Instigator == scope.record.attacker)
+            if (__instance is Pawn target && scope?.record?.attacker != null && dinfo.Instigator == scope.record.attacker)
                 scope.hits.Add(target);
         }
     }
     [HarmonyPatch(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget")]
     internal static class DispelMeleeContact
     {
-        private static void Prefix(LocalTargetInfo target, Verb_MeleeAttackDamage __instance)
+        private static void Prefix(LocalTargetInfo target, Verb_MeleeAttackDamage __instance, out int __state)
         {
+            __state = NativeMeleeDamageScope.Depth;
             var scope = AttackScope.Current;
-            if (target.Pawn != null && scope?.record?.attacker == __instance.CasterPawn) scope.hits.Add(target.Pawn);
+            if (target.Pawn != null && scope?.record?.attacker != null && scope.record.attacker == __instance.CasterPawn)
+            {
+                scope.hits.Add(target.Pawn);
+                NativeMeleeDamageScope.Enter();
+            }
+        }
+        private static Exception Finalizer(Exception __exception, int __state)
+        {
+            NativeMeleeDamageScope.Restore(__state);
+            return __exception;
         }
     }
     [HarmonyPatch(typeof(Projectile), nameof(Projectile.Launch), new[] { typeof(Thing), typeof(Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo), typeof(ProjectileHitFlags), typeof(bool), typeof(Thing), typeof(ThingDef) })]
@@ -62,7 +83,7 @@ namespace MoeLotlExpansion
         private static void Postfix(Projectile __instance, Thing launcher)
         {
             var scope = AttackScope.Current;
-            if (scope?.record != null && launcher == scope.record.attacker) scope.projectiles.Add(__instance);
+            if (scope?.record?.attacker != null && launcher == scope.record.attacker) scope.projectiles.Add(__instance);
         }
     }
     [HarmonyPatch(typeof(Projectile), "Impact")]

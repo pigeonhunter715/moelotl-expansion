@@ -17,7 +17,6 @@ namespace MoeLotlExpansion
         public ThingOwner<Thing> Contents => contents;
         public int Total => contents.Sum(t => t.stackCount);
         public int Count(ThingDef def) => contents.Where(t => t.def == def).Sum(t => t.stackCount);
-        public float ContentsMass => contents.Sum(t => t.GetStatValue(StatDefOf.Mass) * t.stackCount);
         public float ContentsValue => contents.Sum(t => t.MarketValue * t.stackCount);
         public static MedicinePendant Active(Pawn pawn) => pawn?.apparel?.WornApparel.OfType<MedicinePendant>().FirstOrDefault(p => !p.Destroyed && p.HitPoints > 0);
         public int Space(ThingDef def)

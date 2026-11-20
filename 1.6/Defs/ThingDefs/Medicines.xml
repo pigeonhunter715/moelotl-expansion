@@ -99,7 +99,7 @@
   <ThingDef>
     <defName>MX_IndustryPill</defName>
     <label>百工丹</label>
-    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度提高20%，研究速度额外提高10%，同条件研究综合提高32%，持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
+    <description>温和提振专注的日常丹药。活体萌螈服用后全局工作速度×1.20，通用工作速度（含手工制作）与建造速度额外×1.15，研究速度额外×1.10（同条件研究综合×1.32），持续1天。无需开脉，不成瘾，重复使用只刷新时长。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -147,7 +147,7 @@
   <ThingDef>
     <defName>MX_RecoveryPill</defName>
     <label>回气丹</label>
-    <description>即时回复最大螈气的40%，每枚最多200点，不超过缺失量。冷却6小时。需一级以上仍有功能的灵螈脉络；不修复经脉或移除枯竭状态。</description>
+    <description>即时回复最大螈气的20%，每枚最多100点，按实际缺口结算。无冷却，可连续服用。服用者须有一级以上仍可运转的灵螈脉络。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -193,10 +193,7 @@
     </comps>
     <modExtensions>
       <li Class="MoeLotlExpansion.MedicineExtension">
-        <effect>MX_RecoveryEffect</effect>
-        <durationTicks>15000</durationTicks>
         <requiresMeridians>true</requiresMeridians>
-        <preventRefresh>true</preventRefresh>
         <restoresQi>true</restoresQi>
       </li>
       <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
@@ -212,7 +209,7 @@
   <ThingDef>
     <defName>MX_CombatPill</defName>
     <label>临战丹</label>
-    <description>持续8小时：近战伤害×1.20，移动×1.15，瞄准时间×0.85，受到伤害×0.90。随后6小时工作速度×0.90。药效与疲劳期间禁止再服；需一级以上仍有功能的灵螈脉络。</description>
+    <description>持续12小时。近战伤害×1.20，移速×1.15，瞄准时间×0.85，承伤×0.90。疼痛休克阈值+15个百分点，精神崩溃临界值降低10个百分点，近战命中和射击精度各+4点。随后6小时工作速度×0.90。药效和疲劳期间禁用。服用者须有一级以上仍可运转的灵螈脉络。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -259,7 +256,7 @@
     <modExtensions>
       <li Class="MoeLotlExpansion.MedicineExtension">
         <effect>MX_CombatEffect</effect>
-        <durationTicks>35000</durationTicks>
+        <durationTicks>45000</durationTicks>
         <requiresMeridians>true</requiresMeridians>
         <preventRefresh>true</preventRefresh>
       </li>
@@ -412,7 +409,7 @@
   <ThingDef>
     <defName>MX_GatherPill</defName>
     <label>聚煞丹</label>
-    <description>即时增加最多300煞气，只补至容量90%，有涤煞药效时只补至80%。冷却6小时，不增加阴气、进化进度或容量。</description>
+    <description>服用后6小时内煞气增长×1.50。服用时即时补充最多300点煞气，补至容量的90%为止。涤煞丹生效时，补至容量的80%为止。冷却6小时。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>
@@ -596,7 +593,7 @@
   <ThingDef>
     <defName>MX_DispelPill</defName>
     <label>镇煞丹</label>
-    <description>药效12小时。实际消耗螈气的攻击直接命中螈僵时散去20基础煞气；同次攻击同目标一次，每次最多60，同一对角色间隔180 ticks。沿用飞僵和散煞倍率，不突破珍珠有效下限；护盾、位移、未命中和持续伤害不触发。</description>
+    <description>药效12小时。耗气攻击实中螈僵时，每次散去10点基础煞气，目标数量不限。同一目标的两次独立攻击至少间隔30游戏刻，同一次连击或齐射中的实际命中逐次结算。沿用本体飞僵和散煞倍率，以及夜叉珍珠的保底规则。攻击落空、护盾耗气、位移和持续伤害均不散煞。</description>
     <thingClass>ThingWithComps</thingClass>
     <category>Item</category>
     <altitudeLayer>Item</altitudeLayer>

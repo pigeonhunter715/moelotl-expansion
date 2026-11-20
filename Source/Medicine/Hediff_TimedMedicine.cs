@@ -11,7 +11,9 @@ namespace MoeLotlExpansion
         public long ExpiresAtTick => expiresAtTick;
         public int RemainingTicks => MedicineRules.Remaining(expiresAtTick, Find.TickManager.TicksGame);
 
-        public override bool ShouldRemove => RemainingTicks <= 0 || base.ShouldRemove;
+        // Recovery is instant now. Any legacy saved cooldown hediff must expire on load.
+        public override bool ShouldRemove =>
+            def.defName == "MX_RecoveryEffect" || RemainingTicks <= 0 || base.ShouldRemove;
         public override HediffStage CurStage => RemainingTicks > 0 ? base.CurStage : null;
         protected override void OnStageIndexChanged(int stageIndex)
         {

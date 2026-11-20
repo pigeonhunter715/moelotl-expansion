@@ -155,7 +155,7 @@ namespace MoeLotlExpansion
                 case "MX_IndustryPill": return pawn.Spawned && !pawn.Drafted && pawn.Awake() && pawn.CurJob?.workGiverDef != null;
                 case "MX_RecoveryPill":
                     var qi = pawn.TryGetComp<CompAxolotlEnergy>();
-                    return qi != null && qi.Energy <= qi.EnergyMax * 0.3f && qi.EnergyMax - qi.Energy >= System.Math.Min(qi.EnergyMax * 0.4f, 200f);
+                    return qi != null && qi.Energy <= qi.EnergyMax * 0.3f && MedicineService.RecoveryFor(pawn) > 0f;
                 case "MX_CombatPill": return Combat(pawn);
                 case "MX_DispelPill": return Combat(pawn) && QiAttack(pawn) &&
                     (pawn.CurJob?.targetA.Pawn ?? pawn.mindState.enemyTarget as Pawn)?.IsZombie(out _) == true;

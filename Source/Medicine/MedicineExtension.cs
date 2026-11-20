@@ -16,7 +16,7 @@ namespace MoeLotlExpansion
         public override IEnumerable<string> ConfigErrors()
         {
             if (zombieMedicine == ZombieMedicine.Release || zombieMedicine == ZombieMedicine.Rescue ||
-                zombieMedicine == ZombieMedicine.Taiyin) yield break;
+                zombieMedicine == ZombieMedicine.Taiyin || restoresQi) yield break;
             if (effect == null) yield return "Medicine effect is missing.";
             else if (!typeof(Hediff_TimedMedicine).IsAssignableFrom(effect.hediffClass))
                 yield return "Medicine effect must use Hediff_TimedMedicine.";

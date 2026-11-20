@@ -3,7 +3,7 @@ using Verse;
 
 namespace MoeLotlExpansion
 {
-    // One saved clock covers 8h combat plus 6h fatigue, including off-map time.
+    // One saved clock covers 12h combat plus 6h fatigue, including off-map time.
     public sealed class Hediff_CombatMedicine : Hediff_TimedMedicine
     {
         private bool wasFatigued;
