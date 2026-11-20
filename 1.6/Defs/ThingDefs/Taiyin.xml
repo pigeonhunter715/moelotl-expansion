@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef>
+    <defName>MX_TaiyinPreparation</defName>
+    <label>太阴丹胚</label>
+    <description>在捣药台配成的太阴丹胚。投入通天仪，累计炼制一年后产出一枚太阴丹。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>1</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.6</Mass>
+      <MarketValue>9000</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Axolotl_Item/Axolotl_Ingredient</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Axolotl_Research_HeavenlyTopArmor</li>
+      <li>Axolotl_RM_Zombies</li>
+      <li>Axolotl_Research_Alchemy_Industrial</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+    </comps>
+  </ThingDef>
+  <ThingDef>
+    <defName>MX_TaiyinPill</defName>
+    <label>太阴丹</label>
+    <description>丹成之日，炉中霜厚三寸。握在掌心，隐约能听见哭声。&#xA;&#xA;飞僵吞下太阴丹，积煞立刻沿死脉暴涨，仿佛每一寸经脉都从里向外裂开，即便是它也来不及复原。它感受身体的撕裂，好似下一刻便要死去。更加痛苦的是——它曾夺去千条性命，如今阴煞将那些人死前的恐惧一一还给它。它听见濒死的人喊着母亲，看见恋人恐惧得攥紧身边人的手，闻见刺鼻的血腥弥漫口腔。它突然意识到，那些曾被它视作猎物的众生，那些被它戏谑虐杀的玩物也会怕痛，也舍不得死。&#xA;&#xA;它释然了，原来自己是这样的怪物吗，它不再挣扎，任由阴煞撕裂经脉，搅烂腑脏，碾碎骨骼——是时候死去了，其实它早该死去了，不是吗？&#xA;&#xA;……&#xA;&#xA;“我还活着？”待最后一声哭泣止息，它看向自己千疮百孔的身躯——它，活下来了。&#xA;&#xA;自此凡躯尽蜕，煞气再盛，亦不能夺走它的神志。那股曾令它屈服的嗜血之性，终于在这一炉至阴至煞之中褪尽。</description>
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <rotatable>false</rotatable>
+    <drawerType>MapMeshOnly</drawerType>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <tradeability>All</tradeability>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>1</stackLimit>
+    <pathCost>15</pathCost>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.05</Mass>
+      <MarketValue>18000</MarketValue>
+      <DeteriorationRate>1</DeteriorationRate>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Item/MoeLotl/MX_TaiyinPill</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <thingCategories>
+      <li>Axolotl_Speical</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>Axolotl_Research_HeavenlyTopArmor</li>
+      <li>Axolotl_RM_Zombies</li>
+      <li>Axolotl_Research_Alchemy_Industrial</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Forbiddable" />
+      <li Class="CompProperties_Usable">
+        <compClass>MoeLotlExpansion.CompFeedMedicine</compClass>
+        <useJob>MX_FeedMedicine</useJob>
+        <useLabel>服用 {0}</useLabel>
+        <useDuration>120</useDuration>
+        <allowedMutants>
+          <li>RM_PurpleZombie</li>
+          <li>RM_WhiteZombie</li>
+          <li>RM_GreenZombie</li>
+          <li>RM_BeastlyZombie</li>
+          <li>RM_FlyingZombie</li>
+        </allowedMutants>
+      </li>
+      <li Class="CompProperties_Targetable">
+        <compClass>MoeLotlExpansion.CompTargetableMedicine</compClass>
+      </li>
+      <li Class="Axolotl.CompProperties_PillStuffNeed">
+        <StuffDef>MX_TaiyinPreparation</StuffDef>
+        <StuffCount>1</StuffCount>
+        <RefineNeedCount>334</RefineNeedCount>
+        <FinishGetCount>1</FinishGetCount>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="MoeLotlExpansion.MedicineExtension">
+        <zombieMedicine>Taiyin</zombieMedicine>
+      </li>
+      <li Class="MoeLotlExpansion.AlchemyRecipeExtension">
+        <researches>
+          <li>Axolotl_Research_HeavenlyTopArmor</li>
+          <li>Axolotl_RM_Zombies</li>
+          <li>Axolotl_Research_Alchemy_Industrial</li>
+        </researches>
+        <industrialOnly>true</industrialOnly>
+        <fixedActiveTicks>3600000</fixedActiveTicks>
+      </li>
+    </modExtensions>
+  </ThingDef>
+</Defs>

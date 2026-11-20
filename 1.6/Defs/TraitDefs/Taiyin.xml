@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <TraitDef>
+    <defName>MX_PerfectMemory</defName>
+    <label>博闻强识</label>
+    <description>技能经验不会自然衰退。未启用《异常》时替代原版同名特性；启用《异常》时优先使用原版特性。</description>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>博闻强识</label>
+        <description>技能经验不会自然衰退。</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+</Defs>

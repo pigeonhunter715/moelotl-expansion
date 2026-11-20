@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RecordDef>
+    <defName>MX_TaiyinZombieHumanlikeKills</defName>
+    <label>螈僵人类击杀</label>
+    <description>成为螈僵后累计击杀的人类数量。只统计成为螈僵后取得的击杀，不追溯成为螈僵前的战绩；用于太阴丹资格判定。</description>
+    <type>Int</type>
+  </RecordDef>
+</Defs>

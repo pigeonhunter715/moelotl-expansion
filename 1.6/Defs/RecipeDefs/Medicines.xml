@@ -146,8 +146,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeRecoveryPreparation</defName>
-    <label>配制回气丹剂（炼成12枚）</label>
-    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚回气丹。</description>
+    <label>配制回气丹剂</label>
+    <description>在捣药台配成1份丹剂；炼丹设备需集齐5份，炼成60枚回气丹。</description>
     <jobString>正在配制回气丹剂。</jobString>
     <workAmount>7200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -209,8 +209,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeCombatPreparation</defName>
-    <label>配制临战丹剂（炼成12枚）</label>
-    <description>先在捣药台配成1份丹剂，再交由炼丹设备炼成12枚临战丹。</description>
+    <label>配制临战丹剂</label>
+    <description>在捣药台配成1份丹剂；炼丹设备需集齐5份，炼成60枚临战丹。</description>
     <jobString>正在配制临战丹剂。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -272,8 +272,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeCapacityPreparation</defName>
-    <label>配制纳煞丹剂（炼成3枚）</label>
-    <description>捣药台先配1份丹剂，交由丹炉炼成3枚纳煞丹。</description>
+    <label>配制纳煞丹剂</label>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成15枚纳煞丹。</description>
     <jobString>正在配制纳煞丹药。</jobString>
     <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -329,8 +329,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakePurifyPreparation</defName>
-    <label>配制涤煞丹剂（炼成3枚）</label>
-    <description>捣药台先配1份丹剂，交由丹炉炼成3枚涤煞丹。</description>
+    <label>配制涤煞丹剂</label>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成15枚涤煞丹。</description>
     <jobString>正在配制涤煞丹药。</jobString>
     <workAmount>2400</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -395,8 +395,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeGatherPreparation</defName>
-    <label>配制聚煞丹剂（炼成12枚）</label>
-    <description>捣药台先配1份丹剂，交由丹炉炼成12枚聚煞丹。</description>
+    <label>配制聚煞丹剂</label>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成60枚聚煞丹。</description>
     <jobString>正在配制聚煞丹药。</jobString>
     <workAmount>7200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -518,8 +518,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeRescuePreparation</defName>
-    <label>配制安魂丹剂（炼成3枚）</label>
-    <description>捣药台先配1份丹剂，交由丹炉炼成3枚安魂丹。</description>
+    <label>配制安魂丹剂</label>
+    <description>捣药台先配1份丹剂；丹炉需集齐5份，炼成15枚安魂丹。</description>
     <jobString>正在配制安魂丹药。</jobString>
     <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -593,8 +593,8 @@
   </RecipeDef>
   <RecipeDef>
     <defName>MX_MakeDispelPreparation</defName>
-    <label>配制镇煞丹剂（炼成12枚）</label>
-    <description>捣药台配成1份丹剂，再用丹炉炼成12枚镇煞丹。</description>
+    <label>配制镇煞丹剂</label>
+    <description>捣药台配成1份丹剂；丹炉需集齐5份，炼成60枚镇煞丹。</description>
     <jobString>正在配制镇煞丹剂。</jobString>
     <workAmount>9600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

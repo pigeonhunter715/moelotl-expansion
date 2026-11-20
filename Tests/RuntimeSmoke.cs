@@ -40,7 +40,7 @@ namespace MoeLotlExpansionTests
         private int stage, due, savedCount, savedRemaining;
         private int renewalAt;
         private long renewalExpiry;
-        private Pawn living, zombie;
+        private Pawn living, zombie, taiyin;
         private MedicinePendant pendant;
         private bool busy;
         private float captureAt;
@@ -122,15 +122,16 @@ namespace MoeLotlExpansionTests
                 var furnace = (Building_AlchemyStove_Base)ThingMaker.MakeThing(Def(furnaceName));
                 GenSpawn.Spawn(furnace, CellFinder.RandomClosewalkCellNear(map.Center, map, 15), map);
                 furnace.Action_ResetTargetPill(Def("MX_RecoveryPill"));
-                SmokeLog.Check(furnace.CurrentTargetPill_StuffCountMax == 1 && furnace.CurrentTargetPill_FinishCount == 12, furnaceName + " whole preparation and yield");
-                Thing preparation = ThingMaker.MakeThing(Def("MX_RecoveryPreparation")); preparation.stackCount = 2;
-                furnace.Action_AddRefineStuff(preparation); SmokeLog.Check(preparation.stackCount == 1 && furnace.CurrentTargetPill_StuffCount == 1, furnaceName + " consumes one preparation");
+                SmokeLog.Check(furnace.CurrentTargetPill_StuffCountMax == 5 && furnace.CurrentTargetPill_FinishCount == 60, furnaceName + " batch input and yield");
+                Thing preparation = ThingMaker.MakeThing(Def("MX_RecoveryPreparation")); preparation.stackCount = 6;
+                furnace.Action_AddRefineStuff(preparation); SmokeLog.Check(preparation.stackCount == 1 && furnace.CurrentTargetPill_StuffCount == 5, furnaceName + " consumes five preparations");
                 int prior = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
                 furnace.Action_FinishRefine();
-                SmokeLog.Check(map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == prior + 12, furnaceName + " produces twelve physical pills");
+                SmokeLog.Check(map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == prior + 60, furnaceName + " produces sixty physical pills");
                 furnace.Destroy();
             }
             SmokeLog.Check(!MedicineService.CanUse(Pill("Warming"), zombie).Accepted, "living medicine rejects zombie");
+            VerifyTaiyin(map);
             pendant = (MedicinePendant)ThingMaker.MakeThing(Def("MX_MedicinePendant"));
             VerifyPendantQualityAndReduction(pendant);
             float emptyValue = pendant.MarketValue;
@@ -153,6 +154,70 @@ namespace MoeLotlExpansionTests
             stage = 2; GameDataSaveLoader.SaveGame("MX-isolated-smoke");
             SmokeLog.Check(File.Exists(GenFilePaths.FilePathForSavedGame("MX-isolated-smoke")), "isolated save written");
             stage = 1;
+        }
+        private void VerifyTaiyin(Map map)
+        {
+            var research = DefDatabase<ResearchProjectDef>.GetNamed("Axolotl_Research_HeavenlyTopArmor");
+            SmokeLog.Check(research.UnlockedDefs.Contains(Def("MX_TaiyinPill")), "late research shows finished Taiyin pill");
+            research = DefDatabase<ResearchProjectDef>.GetNamed("Axolotl_Research_Alchemy");
+            SmokeLog.Check(research.UnlockedDefs.Contains(Def("MX_RecoveryPill")), "alchemy research shows finished recovery pill");
+
+            var human = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
+            foreach (string key in new[] { "Capacity", "Purify", "Gather", "Release", "Rescue" })
+            {
+                Thing pill = Pill(key);
+                SmokeLog.Check(!MedicineService.TryUse(pill, living).Accepted && !MedicineService.TryUse(pill, human).Accepted &&
+                    pill.stackCount == 2, key + " rejects living MoeLotl and human without consuming a pill");
+                pill.Destroy();
+            }
+
+            var flying = DefDatabase<MutantDef>.GetNamed("RM_FlyingZombie");
+            var unqualified = RMUtility.TryCreateZombie(flying, faction: Faction.OfPlayer);
+            GenSpawn.Spawn(unqualified, CellFinder.RandomClosewalkCellNear(map.Center, map, 8), map);
+            var unqualifiedMalice = unqualified.TryGetComp<CompYinAndMalevolent>();
+            unqualifiedMalice.Awake();
+            unqualifiedMalice.Malevolent = 2500f;
+            Thing lethal = Pill("Taiyin", 1);
+            MedicineService.TryUse(lethal, unqualified);
+            SmokeLog.Check(unqualified.Dead && lethal.Destroyed, "unqualified immortal flying zombie dies and consumes Taiyin");
+
+            taiyin = PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("AxolotlCombatant_Physics"), Faction.OfPlayer);
+            taiyin.health.GetOrAddHediff(AxolotlHediffDefOf.Axolotl_LotlQi).Severity = 5f;
+            taiyin.CorpseTransform(flying, awake: true);
+            GenSpawn.Spawn(taiyin, CellFinder.RandomClosewalkCellNear(map.Center, map, 8), map);
+            var comp = taiyin.TryGetComp<CompYinAndMalevolent>();
+            if (!taiyin.story.traits.HasTrait(TraitDefOf.Kind)) taiyin.story.traits.GainTrait(new Trait(TraitDefOf.Kind));
+            var record = DefDatabase<RecordDef>.GetNamed("MX_TaiyinZombieHumanlikeKills");
+            RecordsUtility.Notify_PawnKilled(human, living);
+            SmokeLog.Check(living.records.GetValue(record) == 0f, "living kills do not count toward Taiyin");
+            for (int i = 0; i < 999; i++) taiyin.records.Increment(record);
+            RecordsUtility.Notify_PawnKilled(human, taiyin);
+            SmokeLog.Check(taiyin.records.GetValue(record) == 1000f, "native kill notification awards qualifying zombie kill");
+            float excess = comp.MalevolentCapacity + 1000f;
+            comp.Malevolent = excess;
+            SmokeLog.Check(comp.Danger, "flying zombie has overcapacity danger before Taiyin");
+            Thing dose = Pill("Taiyin", 1);
+            TaiyinEligibility eligibility = TaiyinMedicine.Evaluate(taiyin);
+            SmokeLog.Check(eligibility.Eligible, "flying zombie meets Taiyin conditions: " +
+                string.Join(", ", TaiyinMedicine.ReasonLines(eligibility)));
+            AcceptanceReport taken = MedicineService.TryUse(dose, taiyin);
+            SmokeLog.Check(taken.Accepted, "qualified Taiyin dose accepted: " + taken.Reason);
+            SmokeLog.Check(!taiyin.Dead && dose.Destroyed && taiyin.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("MX_TaiyinEffect")),
+                "qualified Taiyin dose transforms and is consumed");
+            SmokeLog.Check(!comp.Danger && comp.Malevolent == excess, "Taiyin prevents overcapacity berserk and preserves actual malice");
+            SmokeLog.Check(taiyin.story.traits.HasTrait(DefDatabase<TraitDef>.GetNamed("Beauty"), 2) &&
+                taiyin.story.traits.allTraits.Any(trait => trait.def.defName == "PerfectMemory" || trait.def.defName == "MX_PerfectMemory"),
+                "Taiyin grants beautiful and perfect memory traits");
+
+            var bodyRepair = taiyin.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed("RM_Axolotl_BodyRepair"));
+            var repair = bodyRepair.TryGetComp<CompZombieBodyRepair>();
+            var injury = HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed("Cut"), taiyin, taiyin.RaceProps.body.corePart);
+            injury.Severity = 10f;
+            taiyin.health.AddHediff(injury);
+            repair.RePair(taiyin, out bool healed);
+            float amount = 3f * repair.Props.repairAmountPerDay * bodyRepair.Severity * repair.Props.repairTick / GenDate.TicksPerDay;
+            SmokeLog.Check(healed, "native body repair reports successful healing");
+            SmokeLog.Near(injury.Severity, 10f - amount, "Taiyin triples native wound repair");
         }
         private void VerifyPendantQualityAndReduction(MedicinePendant target)
         {
@@ -203,6 +268,9 @@ namespace MoeLotlExpansionTests
             SmokeLog.Check(pendant.Total == savedCount, "physical contents survive reload");
             var reloadedQuality = pendant.GetComp<CompQuality>();
             SmokeLog.Check(reloadedQuality != null && reloadedQuality.Quality == QualityCategory.Awful, "explicit awful quality survives reload");
+            SmokeLog.Check(taiyin != null && taiyin.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("MX_TaiyinEffect")) &&
+                taiyin.records.GetValue(DefDatabase<RecordDef>.GetNamed("MX_TaiyinZombieHumanlikeKills")) == 1000f,
+                "Taiyin transformation and zombie kill record survive reload");
             var policy = PendantManager.Instance.For(living);
             SmokeLog.Check(!policy.autoUse && !policy.autoRefill && policy.For(Def("MX_WarmingPill")).target == 10, "policy persists independently");
             SmokeLog.Check(policy.pendingMedicine != null && pendant.Contents.Contains(policy.pendingMedicine) && policy.pendingManual, "pending delivery reference restored");
@@ -275,6 +343,7 @@ namespace MoeLotlExpansionTests
             Scribe_Values.Look(ref stage, "stage"); Scribe_Values.Look(ref due, "due");
             Scribe_Values.Look(ref savedCount, "savedCount"); Scribe_Values.Look(ref savedRemaining, "savedRemaining");
             Scribe_References.Look(ref living, "living"); Scribe_References.Look(ref zombie, "zombie"); Scribe_References.Look(ref pendant, "pendant");
+            Scribe_References.Look(ref taiyin, "taiyin");
         }
     }
     [HarmonyPatch(typeof(ZombieMedicineService), nameof(ZombieMedicineService.Apply))]

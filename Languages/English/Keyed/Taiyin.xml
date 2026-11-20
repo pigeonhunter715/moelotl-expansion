@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <MX_TaiyinLivingHumanlikeOnly>Only a living humanlike can take this pill.</MX_TaiyinLivingHumanlikeOnly>
+  <MX_TaiyinAlreadyTransformed>This pawn already has the Taiyin Immortal Body and cannot take another Taiyin pill.</MX_TaiyinAlreadyTransformed>
+  <MX_TaiyinReasonNotPlayer>Not in the player faction.</MX_TaiyinReasonNotPlayer>
+  <MX_TaiyinReasonNotAxolotl>Not a MoeLotl.</MX_TaiyinReasonNotAxolotl>
+  <MX_TaiyinReasonNotFlying>Not a flying zombie.</MX_TaiyinReasonNotFlying>
+  <MX_TaiyinReasonNotAwoken>Not awakened.</MX_TaiyinReasonNotAwoken>
+  <MX_TaiyinReasonBerserk>Currently in zombie berserk.</MX_TaiyinReasonBerserk>
+  <MX_TaiyinReasonMeridians>Death meridians have not reached the eighth stage (current severity {0}; 5 required).</MX_TaiyinReasonMeridians>
+  <MX_TaiyinReasonNotKind>Missing the Kind trait.</MX_TaiyinReasonNotKind>
+  <MX_TaiyinReasonKills>Fewer than 1,000 humanlike kills while a zombie.</MX_TaiyinReasonKills>
+  <MX_TaiyinEligible>All eligibility conditions are met.</MX_TaiyinEligible>
+  <MX_TaiyinKillsStatus>Zombie humanlike kills: {0} / {1}</MX_TaiyinKillsStatus>
+  <MX_TaiyinResultImmortal>Transform into the Taiyin Immortal Body.</MX_TaiyinResultImmortal>
+  <MX_TaiyinResultDeath>Die on the spot.</MX_TaiyinResultDeath>
+  <MX_TaiyinConfirmText>Target: {0}&#xA;&#xA;Eligibility:&#xA;{1}&#xA;&#xA;Outcome: {2}&#xA;&#xA;One Taiyin pill will be consumed on confirmation.</MX_TaiyinConfirmText>
+  <MX_TaiyinConfirmTitle>Taiyin Pill</MX_TaiyinConfirmTitle>
+  <MX_TaiyinConfirm>Confirm dose</MX_TaiyinConfirm>
+  <MX_TaiyinCancel>Cancel</MX_TaiyinCancel>
+  <MX_TaiyinSuccessMessage>{0} takes the Taiyin pill and becomes the Taiyin Immortal Body.</MX_TaiyinSuccessMessage>
+  <MX_TaiyinLethalMessage>{0} takes the Taiyin pill; the yin malice tears through the meridians and kills them on the spot.</MX_TaiyinLethalMessage>
+</LanguageData>

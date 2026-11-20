@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <MX_TaiyinLivingHumanlikeOnly>只能由活着的类人生物服用。</MX_TaiyinLivingHumanlikeOnly>
+  <MX_TaiyinAlreadyTransformed>已经获得太阴仙体，不能再次服用太阴丹。</MX_TaiyinAlreadyTransformed>
+  <MX_TaiyinReasonNotPlayer>不属于玩家阵营。</MX_TaiyinReasonNotPlayer>
+  <MX_TaiyinReasonNotAxolotl>不是萌螈。</MX_TaiyinReasonNotAxolotl>
+  <MX_TaiyinReasonNotFlying>不是飞僵。</MX_TaiyinReasonNotFlying>
+  <MX_TaiyinReasonNotAwoken>尚未苏醒。</MX_TaiyinReasonNotAwoken>
+  <MX_TaiyinReasonBerserk>正处于螈僵狂暴。</MX_TaiyinReasonBerserk>
+  <MX_TaiyinReasonMeridians>死脉未达八脉（当前严重度 {0}，需要 5）。</MX_TaiyinReasonMeridians>
+  <MX_TaiyinReasonNotKind>缺少「善良」特性。</MX_TaiyinReasonNotKind>
+  <MX_TaiyinReasonKills>成为螈僵后累计击杀人类不足 1,000。</MX_TaiyinReasonKills>
+  <MX_TaiyinEligible>全部资格条件满足。</MX_TaiyinEligible>
+  <MX_TaiyinKillsStatus>螈僵人类击杀：{0} / {1}</MX_TaiyinKillsStatus>
+  <MX_TaiyinResultImmortal>蜕变为太阴仙体。</MX_TaiyinResultImmortal>
+  <MX_TaiyinResultDeath>当场死亡。</MX_TaiyinResultDeath>
+  <MX_TaiyinConfirmText>目标：{0}&#xA;&#xA;资格：&#xA;{1}&#xA;&#xA;结算：{2}&#xA;&#xA;确认后消耗 1 枚太阴丹。</MX_TaiyinConfirmText>
+  <MX_TaiyinConfirmTitle>太阴丹</MX_TaiyinConfirmTitle>
+  <MX_TaiyinConfirm>确认服用</MX_TaiyinConfirm>
+  <MX_TaiyinCancel>取消</MX_TaiyinCancel>
+  <MX_TaiyinSuccessMessage>{0} 服下太阴丹，蜕变为太阴仙体。</MX_TaiyinSuccessMessage>
+  <MX_TaiyinLethalMessage>{0} 服下太阴丹，阴煞冲毁经脉，当场死亡。</MX_TaiyinLethalMessage>
+</LanguageData>

@@ -121,26 +121,46 @@ namespace MoeLotlExpansionTests
                 Check(stove.Action_TryConnect(pillar), "industrial pillar connects");
             }
             stove.Action_ResetTargetPill(Def("MX_RecoveryPill"));
-            var preparation = Make("MX_RecoveryPreparation");
+            var preparation = Make("MX_RecoveryPreparation", 5);
             stove.Action_AddRefineStuff(preparation);
-            stove.Comp_Refuelable.Refuel(31f);
+            stove.Comp_Refuelable.Refuel(122f);
             stove.Action_UpdateAlstState();
-            Check(stove.IsStart && stove.CurrentTargetPill_ProgressMax == 2f && stove.Comp_Refuelable.Fuel == 31f,
-                "four-pillar stove starts one recovery batch with exact fuel");
+            Check(stove.IsStart && stove.CurrentTargetPill_StuffCount == 5 && stove.CurrentTargetPill_ProgressMax == 8f && stove.Comp_Refuelable.Fuel == 122f,
+                "four-pillar stove starts a five-preparation recovery batch with exact fuel");
             int recoveryBefore = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
             int batchStart = Find.TickManager.TicksGame;
             var stoveTick = AccessTools.Method(typeof(Building_AlchemyStove_Industrial), "UpdateAlstProgressAndConsumeConnectDestFuel");
             int progressIntervals = 0;
-            for (; progressIntervals < 361 && map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == recoveryBefore; progressIntervals++)
+            for (; progressIntervals < 1443 && map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount) == recoveryBefore; progressIntervals++)
                 stoveTick.Invoke(stove, new object[] { 60 });
             int recoveryAfter = map.listerThings.ThingsOfDef(Def("MX_RecoveryPill")).Sum(t => t.stackCount);
             int progressTicks = progressIntervals * 60;
             SmokeLog.Write("STOVE_BATCH progressTicks=" + progressTicks + " mapTickDelta=" + (Find.TickManager.TicksGame - batchStart) +
                 " produced=" + (recoveryAfter - recoveryBefore) + " fuelLeft=" + stove.Comp_Refuelable.Fuel +
                 " progress=" + stove.CurrentTargetPill_Progress + " max=" + stove.CurrentTargetPill_ProgressMax + " running=" + stove.IsStart);
-            Check(recoveryAfter == recoveryBefore + 12, "native stove TickInterval produces a full twelve-pill batch over " + progressTicks + " simulated ticks");
-            Check(stove.Comp_Refuelable.Fuel > 0.8f && stove.Comp_Refuelable.Fuel < 1.1f,
-                "native stove completes the two-progress batch within one extra refuel unit");
+            Check(recoveryAfter == recoveryBefore + 60, "native stove produces a full sixty-pill batch over " + progressTicks + " simulated ticks");
+            Check(stove.Comp_Refuelable.Fuel > 1.7f && stove.Comp_Refuelable.Fuel < 2.2f,
+                "native stove consumes about 120 fuel for an eight-progress batch");
+
+            var taiyinPill = Def("MX_TaiyinPill");
+            stove.Action_ResetTargetPill(taiyinPill);
+            stove.Action_AddRefineStuff(Make("MX_TaiyinPreparation"));
+            Check(stove.CurrentTargetPill_StuffCount == 1 && stove.CurrentTargetPill_ProgressMax == 3600000f,
+                "Taiyin takes one preparation and exactly one year");
+            stove.CurrentTargetPill_Progress = 3599880f;
+            stove.Comp_Refuelable.ConsumeFuel(stove.Comp_Refuelable.Fuel);
+            stove.Action_UpdateAlstState();
+            stoveTick.Invoke(stove, new object[] { 60 });
+            Check(stove.CurrentTargetPill_Progress == 3599880f, "Taiyin progress pauses without fuel");
+            int taiyinBefore = map.listerThings.ThingsOfDef(taiyinPill).Sum(t => t.stackCount);
+            stove.Comp_Refuelable.Refuel(1f);
+            stove.Action_UpdateAlstState();
+            stoveTick.Invoke(stove, new object[] { 60 });
+            Check(stove.CurrentTargetPill_Progress == 3599940f && map.listerThings.ThingsOfDef(taiyinPill).Sum(t => t.stackCount) == taiyinBefore,
+                "Taiyin keeps refining before the exact year boundary");
+            stoveTick.Invoke(stove, new object[] { 60 });
+            Check(stove.CurrentTargetPill_StuffCount == 0 && map.listerThings.ThingsOfDef(taiyinPill).Sum(t => t.stackCount) == taiyinBefore + 1,
+                "Taiyin produces one pill at the exact year boundary");
             stove.Destroy();
 
             // Actual UseItem job, not a direct service invocation.
@@ -272,6 +292,19 @@ namespace MoeLotlExpansionTests
             var grow = Make(MedicineCatalog.Growth); pendant.Load(grow, 1);
             Check(!MedicineCatalog.CanUse(grow, actor).Accepted, "native map-effect pill pauses in caravan");
             policy.autoUse = false;
+
+            // Enter through the usable comp and accept the actual confirmation action.
+            var unqualified = RMUtility.TryCreateZombie(DefDatabase<MutantDef>.GetNamed("RM_FlyingZombie"), faction: Faction.OfPlayer);
+            GenSpawn.Spawn(unqualified, Cell(-2, -5), map);
+            var lethalDose = Pill("Taiyin");
+            GenSpawn.Spawn(lethalDose, Cell(-1, -5), map);
+            lethalDose.TryGetComp<CompFeedMedicine>().TryStartUseJob(unqualified, unqualified);
+            var confirmation = Find.WindowStack.WindowOfType<Dialog_MessageBox>();
+            Check(confirmation?.buttonAAction != null, "flying zombie's self-dose shows a confirmation");
+            confirmation.buttonAAction();
+            confirmation.Close(false);
+            for (int i = 0; i < 60 && !unqualified.Dead; i++) yield return 10;
+            Check(unqualified.Dead && lethalDose.Destroyed, "confirmed self-dose runs the native job and consumes the lethal pill");
             SmokeLog.Write("FUNCTIONAL_SCENARIOS_FINISHED");
         }
     }

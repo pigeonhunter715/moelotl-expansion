@@ -10,7 +10,9 @@ namespace MoeLotlExpansion
     public static class MedicineCatalog
     {
         public const string Growth = "Axolotl_LotlqiPellet", Repair = "Axolotl_ReversalMeridianPill", Pearl = "Axolotl_YakshaPearl";
-        public static bool Allowed(ThingDef def) => def != null && (def.GetModExtension<MedicineExtension>() != null ||
+        // Taiyin is a deliberate manual-only transformation, never a pendant dose.
+        public static bool Allowed(ThingDef def) => def != null && !TaiyinMedicine.IsTaiyin(def) &&
+            (def.GetModExtension<MedicineExtension>() != null ||
             def.defName == Growth || def.defName == Repair || def.defName == Pearl);
         public static IEnumerable<ThingDef> All => DefDatabase<ThingDef>.AllDefsListForReading.Where(Allowed);
         public static bool Maintainable(ThingDef def) => new[] { "MX_WarmingPill", "MX_CoolingPill", "MX_IndustryPill", "MX_DispelPill", "MX_CapacityPill", "MX_PurifyPill", Pearl }.Contains(def.defName);
@@ -22,7 +24,7 @@ namespace MoeLotlExpansion
             if (item == null || item.Destroyed || item.stackCount <= 0 || pawn == null || pawn.Dead || !Allowed(item.def)) return false;
             if (item.def.GetModExtension<MedicineExtension>() != null) return MedicineService.CanUse(item, pawn);
             if (item.def.defName == Pearl)
-                return pawn.Faction == Faction.OfPlayer && pawn.IsZombie(out _) && !pawn.InMentalState;
+                return pawn.Faction == Faction.OfPlayer && pawn.IsMoeLotl() && pawn.IsZombie(out _) && !pawn.InMentalState;
             // Native effects create map flecks; pause these two adapters while travelling.
             if (!pawn.Spawned) return "MX_NativeNeedsMap".Translate().ToString();
             if (pawn.IsMutant || !pawn.IsMoeLotl()) return false;

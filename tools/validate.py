@@ -62,6 +62,15 @@ def modifiers(node, field):
     return {x.tag: float(x.text) for x in node.findall(f"stages/li/{field}/*")}
 
 
+def ingredient_counts(recipe):
+    return {n.findtext("filter/thingDefs/li"): int(n.findtext("count")) for n in recipe.findall("ingredients/li")}
+
+
+def research_requirements(node):
+    single = node.findtext('researchPrerequisite')
+    return ([single] if single else []) + [r.text for r in node.findall('researchPrerequisites/li')]
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--rimsearcher", type=Path)
@@ -79,8 +88,10 @@ def main():
     items = indexed("1.6/Defs/ThingDefs/Medicines.xml", "ThingDef")
     effects = indexed("1.6/Defs/HediffDefs/MedicineEffects.xml", "HediffDef")
     recipes = indexed("1.6/Defs/RecipeDefs/Medicines.xml", "RecipeDef")
+    group_recipes = indexed("1.6/Defs/RecipeDefs/MedicineBatch.xml", "RecipeDef")
     preparations = indexed("1.6/Defs/ThingDefs/Preparations.xml", "ThingDef")
     check(len(items) == len(recipes) == len(EXPECTED) and len(effects) == sum(s['ticks'] > 0 for s in EXPECTED.values()), "Medicine count mismatch")
+    check(set(group_recipes) == {name + 'x5' for name in recipes}, 'Bench batch recipes must match the eleven original recipes')
     check(len(preparations) == sum("refine" in s for s in EXPECTED.values()), "Preparation count mismatch")
     external = {("ThingDef", "Axolotl_GrindingTable"), ("ResearchProjectDef", "Axolotl_Research_BasePlant"),
                 ("ThingCategoryDef", "Axolotl_Speical"), ("JobDef", "UseItem"), ("SkillDef", "Crafting"),
@@ -122,18 +133,28 @@ def main():
             check(modifiers(effect, 'statFactors') == spec['factors'], f'{key}: factors')
         else:
             check(effect is None and extension.find('effect') is None, f'{key}: instant action')
-        ingredients = {n.findtext("filter/thingDefs/li"): int(n.findtext("count")) for n in recipe.findall("ingredients/li")}
+        ingredients = ingredient_counts(recipe)
         check(ingredients == spec["ingredients"], f"{key}: recipe ingredients")
         check({n.text for n in recipe.findall("fixedIngredientFilter/thingDefs/li")} == set(ingredients), f"{key}: ingredient filter")
+        x5 = group_recipes[recipe.findtext('defName') + 'x5']
+        check(ingredient_counts(x5) == {name: count * 5 for name, count in ingredients.items()}, f'{key}: x5 ingredients')
+        check({child.tag: int(child.text) for child in x5.findall('products/*')} ==
+              {child.tag: int(child.text) * 5 for child in recipe.findall('products/*')}, f'{key}: x5 products')
+        check(int(x5.findtext('workAmount')) == spec['work'] * 4, f'{key}: x5 work')
+        check(research_requirements(x5) == researches and x5.findtext('workSkill') == 'Crafting' and
+              x5.findtext('skillRequirements/Crafting') == str(spec['skill']) and
+              x5.findtext('recipeUsers/li') == 'Axolotl_GrindingTable' and
+              {n.text for n in x5.findall('fixedIngredientFilter/thingDefs/li')} == set(ingredients), f'{key}: x5 gates')
         if refined:
             check(recipe.findtext(f"products/MX_{key}Preparation") == "1", f"{key}: prepared batch output")
             prep = preparations[f"MX_{key}Preparation"]
             check(prep.find("ingestible") is None and prep.find("modExtensions") is None, f"{key}: preparation cannot be consumed")
             stove = next(c for c in comps if c.get("Class") == "Axolotl.CompProperties_PillStuffNeed")
-            check(stove.findtext("StuffDef") == f"MX_{key}Preparation" and stove.findtext("StuffCount") == "1", f"{key}: no duplicate ingredient charges")
-            check(int(stove.findtext("FinishGetCount")) == batch and int(stove.findtext("RefineNeedCount")) == spec["refine"], f"{key}: furnace yield/timing")
+            check(stove.findtext("StuffDef") == f"MX_{key}Preparation" and stove.findtext("StuffCount") == "5", f"{key}: five preparations per batch")
+            check(int(stove.findtext("FinishGetCount")) == batch * 5 and int(stove.findtext("RefineNeedCount")) == spec["refine"] * 4, f"{key}: furnace yield/timing")
             unlock = item.find("modExtensions/li[@Class='MoeLotlExpansion.AlchemyRecipeExtension']")
             check([n.text for n in unlock.findall("researches/li")] == researches, f"{key}: furnace research")
+            check(research_requirements(item) == researches, f'{key}: finished pills must appear in research')
             if not zombie:
                 check(extension.findtext("requiresMeridians") == "true" and (key == 'Dispel' or extension.findtext("preventRefresh") == "true"), f"{key}: use gates")
         else:
@@ -142,7 +163,7 @@ def main():
         check(recipe.findtext("workSkill") == "Crafting", f"{key}: must use crafting skill")
         check(int(recipe.findtext("skillRequirements/Crafting")) == spec["skill"], f"{key}: skill requirement")
         check([n.text for n in recipe.findall("recipeUsers/li")] == ["Axolotl_GrindingTable"], f"{key}: wrong workbench")
-        actual_researches = [r.text for r in recipe.findall('researchPrerequisites/li')] if zombie or key == 'Dispel' else [recipe.findtext('researchPrerequisite')]
+        actual_researches = research_requirements(recipe)
         check(actual_researches == researches, f'{key}: research')
         external |= {('ResearchProjectDef', r) for r in researches}
         matching = [line for line in design.splitlines() if line.startswith(f'| {spec["label"]} |') and "颗" in line and len(line.split("|")) == 8]
@@ -154,6 +175,40 @@ def main():
             check(int(cells[5]) == spec["refine"], f"{key}: furnace design mismatch")
         external |= {("ThingDef", name) for name in ingredients}
         external |= {("StatDef", name) for name in (*spec["offsets"], *spec["factors"])}
+    taiyin_ingredients = {'AxoZombieTailE': 3, 'AxoZombieTailD': 30, 'RM_OvercastWood': 300,
+                         'RM_InsectBlood': 3000, 'Axolotl_JadeEssencePowder': 3000}
+    taiyin_research = {'Axolotl_Research_HeavenlyTopArmor', 'Axolotl_RM_Zombies', 'Axolotl_Research_Alchemy_Industrial'}
+    taiyin_items = indexed('1.6/Defs/ThingDefs/Taiyin.xml', 'ThingDef')
+    taiyin = taiyin_items['MX_TaiyinPill']
+    taiyin_recipe = indexed('1.6/Defs/RecipeDefs/Taiyin.xml', 'RecipeDef')['MX_MakeTaiyinPreparation']
+    check(ingredient_counts(taiyin_recipe) == taiyin_ingredients, 'Taiyin recipe ingredients')
+    check(taiyin_recipe.findtext('products/MX_TaiyinPreparation') == '1' and
+          taiyin_recipe.findtext('recipeUsers/li') == 'Axolotl_GrindingTable' and
+          taiyin_recipe.findtext('skillRequirements/Crafting') == '10', 'Taiyin single preparation on the grinding table')
+    check(set(research_requirements(taiyin)) == set(research_requirements(taiyin_recipe)) == taiyin_research, 'Taiyin research visibility and prerequisites')
+    taiyin_alchemy = taiyin.find("modExtensions/li[@Class='MoeLotlExpansion.AlchemyRecipeExtension']")
+    check(taiyin_alchemy.findtext('fixedActiveTicks') == '3600000' and taiyin_alchemy.findtext('industrialOnly') == 'true' and
+          {row.text for row in taiyin_alchemy.findall('researches/li')} == taiyin_research, 'Taiyin special exact-year industrial batch')
+    taiyin_furnace = taiyin.find("comps/li[@Class='Axolotl.CompProperties_PillStuffNeed']")
+    check(taiyin_furnace.findtext('StuffCount') == taiyin_furnace.findtext('FinishGetCount') == '1' and
+          taiyin_furnace.findtext('StuffDef') == 'MX_TaiyinPreparation', 'Taiyin furnace result is one pill per preparation')
+    taiyin_self_users = {row.text for row in taiyin.findall('comps/li/allowedMutants/li')}
+    check(taiyin_self_users == {'RM_PurpleZombie', 'RM_WhiteZombie', 'RM_GreenZombie', 'RM_BeastlyZombie', 'RM_FlyingZombie'},
+          'Taiyin opens the manual use confirmation for native zombies')
+    check(taiyin.find('ingestible') is None and taiyin_items['MX_TaiyinPreparation'].find('ingestible') is None, 'Taiyin requires intentional medicine use')
+    description = (ROOT / 'docs/TAIYIN_PILL.md').read_text(encoding='utf-8').split('## 游戏内物品描述（定稿）', 1)[1].strip()
+    check(' '.join(taiyin.findtext('description').split()) == ' '.join(description.split()), 'Taiyin approved item text')
+    graphic = taiyin.findtext('graphicData/texPath')
+    check((ROOT / f'1.6/Textures/{graphic}.png').is_file(), 'Taiyin finished texture')
+    taiyin_effects = indexed('1.6/Defs/HediffDefs/Taiyin.xml', 'HediffDef')
+    effect = taiyin_effects['MX_TaiyinEffect']
+    check(modifiers(effect, 'statFactors') == {'IncomingDamageFactor': .50, 'MeleeDamageFactor': 1.50,
+                                               'MeleeCooldownFactor': .50, 'MoveSpeed': 1.35}, 'Taiyin stat factors')
+    check(effect.findtext('stages/li/capMods/li/capacity') == 'Consciousness' and
+          float(effect.findtext('stages/li/capMods/li/offset')) == 1.0, 'Taiyin consciousness')
+    external |= {('ThingDef', material) for material in taiyin_ingredients}
+    external |= {('ResearchProjectDef', research) for research in taiyin_research}
+    external |= {('MutantDef', user) for user in taiyin_self_users}
     check(abs(1.2 * 1.1 - 1.32) < 1e-9, "Research multiplier")
     pendant = indexed('1.6/Defs/ThingDefs/MedicinePendant.xml', 'ThingDef')['MX_MedicinePendant']
     pendant_recipe = indexed('1.6/Defs/RecipeDefs/MedicinePendant.xml', 'RecipeDef')['MX_MakeMedicinePendant']
@@ -180,10 +235,10 @@ def main():
     external |= {('ThingDef', name) for name in cost}
     external |= {('ResearchProjectDef', name) for name in pendant_researches}
     external |= {('ThingDef', 'TableSculpting'), ('ApparelLayerDef', 'OnSkin'), ('BodyPartGroupDef', 'Waist'), ('ThingCategoryDef', 'Apparel'), ('WorkTypeDef', 'Hauling')}
-    cn = ET.parse(ROOT / "Languages/ChineseSimplified/Keyed/Medicines.xml").getroot()
-    en = ET.parse(ROOT / "Languages/English/Keyed/Medicines.xml").getroot()
-    check({x.tag for x in cn} == {x.tag for x in en}, "Translation keys mismatch")
-    keys = {x.tag for x in cn}
+    cn = [node.tag for file in (ROOT / 'Languages/ChineseSimplified/Keyed').glob('*.xml') for node in ET.parse(file).getroot()]
+    en = [node.tag for file in (ROOT / 'Languages/English/Keyed').glob('*.xml') for node in ET.parse(file).getroot()]
+    keys = set(cn)
+    check(keys == set(en), 'Translation keys mismatch')
     source = '\n'.join(p.read_text(encoding='utf-8-sig') for p in (ROOT / 'Source').rglob('*.cs'))
     used_keys = set(re.findall(r'"(MX_[A-Za-z0-9_]+)"\.Translate\(', source))
     check(used_keys <= keys, 'Missing source translations: ' + str(used_keys - keys))
@@ -195,7 +250,7 @@ def main():
             info = json.loads(result.stdout)
             check(info.get("def_name") == name, f"Missing runtime reference: {name}")
         print(f"PASS: {len(external)} external Def references resolved against runtime snapshot")
-    print(f"PASS: {len(items)} medicines, {len(preparations)} preparations, effects, recipes, design parity, XML and localization checks")
+    print(f"PASS: {len(items) + 1} medicines, {len(preparations) + 1} preparations, {len(group_recipes)} x5 bills, effects, research visibility, design parity, XML and localization checks")
     print("Not an in-game load or save/reload test.")
 
 

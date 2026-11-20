@@ -13,6 +13,10 @@ namespace MoeLotlExpansion
             if (medicine == null || medicine.Destroyed || medicine.stackCount < 1)
                 return "MX_NoMedicine".Translate().ToString();
             MedicineExtension config = medicine.def.GetModExtension<MedicineExtension>();
+            // Taiyin is intentionally outside the normal zombie-species gate. Any living
+            // humanlike may deliberately take it; the final Apply decides transformation/death.
+            if (config != null && config.zombieMedicine == ZombieMedicine.Taiyin)
+                return TaiyinMedicine.CanTake(medicine, target);
             if (config != null && config.zombieMedicine != ZombieMedicine.None)
                 return ZombieMedicineService.CanUse(medicine, target, config);
             if (config?.effect == null || config.durationTicks <= 0 ||
@@ -59,6 +63,8 @@ namespace MoeLotlExpansion
             AcceptanceReport report = CanUse(medicine, target);
             if (!report.Accepted) return report;
             MedicineExtension config = medicine.def.GetModExtension<MedicineExtension>();
+            if (config.zombieMedicine == ZombieMedicine.Taiyin)
+                return TaiyinMedicine.Apply(medicine, target);
             if (config.zombieMedicine != ZombieMedicine.None)
                 return ZombieMedicineService.Apply(medicine, target, config);
             var existing = target.health.hediffSet.GetFirstHediffOfDef(config.effect) as Hediff_TimedMedicine;

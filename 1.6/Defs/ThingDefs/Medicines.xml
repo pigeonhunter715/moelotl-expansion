@@ -186,9 +186,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_RecoveryPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>2</RefineNeedCount>
-        <FinishGetCount>12</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>8</RefineNeedCount>
+        <FinishGetCount>60</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -205,6 +205,9 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_CombatPill</defName>
@@ -248,9 +251,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_CombatPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>4</RefineNeedCount>
-        <FinishGetCount>12</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>16</RefineNeedCount>
+        <FinishGetCount>60</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -266,6 +269,9 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_CapacityPill</defName>
@@ -312,9 +318,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_CapacityPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>25</RefineNeedCount>
-        <FinishGetCount>3</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>100</RefineNeedCount>
+        <FinishGetCount>15</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -330,6 +336,10 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy_Industrial</li>
+      <li>Axolotl_RM_Zombies</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_PurifyPill</defName>
@@ -376,9 +386,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_PurifyPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>20</RefineNeedCount>
-        <FinishGetCount>3</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>80</RefineNeedCount>
+        <FinishGetCount>15</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -394,6 +404,10 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+      <li>Axolotl_RM_Zombies</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_GatherPill</defName>
@@ -440,9 +454,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_GatherPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>2</RefineNeedCount>
-        <FinishGetCount>12</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>8</RefineNeedCount>
+        <FinishGetCount>60</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -458,6 +472,10 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+      <li>Axolotl_RM_Zombies</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_ReleasePill</defName>
@@ -554,9 +572,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_RescuePreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>10</RefineNeedCount>
-        <FinishGetCount>3</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>40</RefineNeedCount>
+        <FinishGetCount>15</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -570,6 +588,10 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+      <li>Axolotl_RM_Zombies</li>
+    </researchPrerequisites>
   </ThingDef>
   <ThingDef>
     <defName>MX_DispelPill</defName>
@@ -613,9 +635,9 @@
       </li>
       <li Class="Axolotl.CompProperties_PillStuffNeed">
         <StuffDef>MX_DispelPreparation</StuffDef>
-        <StuffCount>1</StuffCount>
-        <RefineNeedCount>4</RefineNeedCount>
-        <FinishGetCount>12</FinishGetCount>
+        <StuffCount>5</StuffCount>
+        <RefineNeedCount>16</RefineNeedCount>
+        <FinishGetCount>60</FinishGetCount>
       </li>
     </comps>
     <modExtensions>
@@ -631,5 +653,9 @@
         </researches>
       </li>
     </modExtensions>
+    <researchPrerequisites>
+      <li>Axolotl_Research_Alchemy</li>
+      <li>Axolotl_RM_Zombies</li>
+    </researchPrerequisites>
   </ThingDef>
 </Defs>

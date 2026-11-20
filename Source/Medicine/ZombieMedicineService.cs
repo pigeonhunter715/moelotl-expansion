@@ -1,4 +1,5 @@
 using System.Linq;
+using Axolotl;
 using MoeLotlExpansion.Core;
 using RigorMortis;
 using RimWorld;
@@ -26,7 +27,7 @@ namespace MoeLotlExpansion
 
         public static AcceptanceReport CanUse(Thing medicine, Pawn pawn, MedicineExtension config)
         {
-            if (pawn?.health == null || pawn.Dead || !pawn.IsZombie(out _) || pawn.TryGetComp<CompYinAndMalevolent>() == null)
+            if (pawn?.health == null || pawn.Dead || !pawn.IsMoeLotl() || !pawn.IsZombie(out _) || pawn.TryGetComp<CompYinAndMalevolent>() == null)
                 return "MX_ZombieOnly".Translate().ToString();
             if (config.zombieMedicine == ZombieMedicine.Rescue)
                 return pawn.Faction == Faction.OfPlayer && pawn.MentalState is MentalState_ZombieBerserk
