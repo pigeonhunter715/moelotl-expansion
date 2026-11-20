@@ -2,19 +2,19 @@
 
 面向 RimWorld 萌螈（MoeLotl）及螈僵扩展的独立设计与开发项目。
 
-当前重点是十一种新增丹药、药渡玉佩，以及五只活体萌螈加一只螈僵的制药产能和原料供给平衡。
+本扩展提供十二种丹药、太阴仙体、批量炼丹和可储药的药渡玉佩。
 
 ## 安装发行版
 
-当前版本 **v0.1.0，RimWorld 1.6**。从 [GitHub Releases](https://github.com/pigeonhunter715/moelotl-expansion/releases) 下载 `moelotl-expansion-v0.1.0-rimworld1.6.zip`，解压到游戏 `Mods` 目录。发行ZIP包含已编译DLL；GitHub自动提供的Source code包只包含源码，需要自行构建。
+当前版本 **v0.2.0，RimWorld 1.6**。从 [GitHub Releases](https://github.com/pigeonhunter715/moelotl-expansion/releases) 下载 `moelotl-expansion-v0.2.0-rimworld1.6.zip`，解压到游戏 `Mods` 目录。发行ZIP包含已编译DLL；GitHub自动提供的Source code包只包含源码，需要自行构建。
 
 依赖Harmony、MoeLotl Race、MoeLotl: Rigor Mortis及其前置模组。完整步骤和首次用药设置见 [安装说明](docs/INSTALL.md)。本扩展不支持RimWorld 1.7。
 
 ## 当前功能
 
-十一种丹药与七种丹剂、捣药台／炉炼流程，以及药渡玉佩的六格实物药仓。所有自动服药、续药、应急和补货功能默认关闭，补货目标默认为0。十一药与玉佩已使用第二版独立贴图，七种丹剂引用前置模组现有纹理，暂无人物腰间穿戴图。
+捣药台提供单份和五倍配方，普通丹炉按五份丹剂炼一炉。太阴丹在通天仪耗时一年炼成，符合资格的飞僵服用后蜕变为太阴仙体。药渡玉佩的六格药仓可收纳实物丹药，仓内丹药免负重。玉佩按品质提供减伤，符合条件的活体萌螈同时获得螈气护盾。自动服药、续药、应急和补货默认关闭，补货目标默认为 0。
 
-已执行隔离RimWorld 1.6.4871测试，覆盖规则、真实取药与喂药、补货竞争、镇煞攻击及商队使用等场景。版本记录、实际覆盖和局限见 [发行检查](docs/RELEASE_0.1.0.md) 与 [实现进度](docs/IMPLEMENTATION.md)。
+已执行隔离RimWorld 1.6.4871测试，覆盖规则、真实取药与喂药、补货竞争、镇煞攻击及商队使用等场景。版本记录、实际覆盖和局限见 [发行检查](docs/RELEASE_0.2.0.md) 与 [实现进度](docs/IMPLEMENTATION.md)。
 
 ## 构建与验证
 
@@ -27,7 +27,7 @@
 
 也可用已安装的 .NET SDK 构建 `Source/MoeLotlExpansion.csproj`，通过 `RimWorldManagedDir`、`AxolotlDll`、`RigorMortisDll`、`HarmonyDll` 属性配置依赖；当前机器实际验证的是上述Roslyn脚本路径。
 
-十一药与药渡玉佩使用512×512 RGBA贴图。制作过程、传统纹样参考与AI辅助参数见 [美术记录](docs/ART_DIRECTION.md)、[贴图总览](docs/art/art-preview.png)及 [素材说明](THIRD_PARTY_NOTICES.md)。
+十二种丹药和药渡玉佩使用独立透明贴图。制作过程、传统纹样参考与AI辅助参数见 [美术记录](docs/ART_DIRECTION.md)、[贴图总览](docs/art/art-preview.png)及 [素材说明](THIRD_PARTY_NOTICES.md)。
 
 运行 `./tools/package-release.ps1` 可构建、执行规则／静态校验并生成发行ZIP、SHA256和逐文件清单。发布文件采用白名单，不包含游戏依赖DLL、本机配置、测试模组或存档。输出位于忽略的 `artifacts/releases/`。
 
