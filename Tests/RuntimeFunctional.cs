@@ -188,6 +188,40 @@ namespace MoeLotlExpansionTests
             int purifyTotal = map.listerThings.ThingsOfDef(Def("MX_PurifyPill")).Sum(t => t.stackCount) + (actor.carryTracker.CarriedThing?.def == Def("MX_PurifyPill") ? actor.carryTracker.CarriedThing.stackCount : 0);
             Check(purifyTotal == 2, "interrupted feeding preserves both physical pills");
 
+            // A reachable supply goes to the wearer before an external hauler.
+            Move(actor, Cell(-12, -5)); Move(other, Cell(-8, -5));
+            int previousHaulPriority = actor.workSettings.GetPriority(WorkTypeDefOf.Hauling);
+            actor.workSettings.SetPriority(WorkTypeDefOf.Hauling, 1);
+            var coolingDef = Def("MX_CoolingPill");
+            GenSpawn.Spawn(Pill("Cooling", 4), Cell(-9, -5), map);
+            policy.autoRefill = true;
+            Check(policy.SetTarget(pendant, coolingDef, 2), "wearer-priority test target accepted");
+            Check(PendantRestock.FindJob(other, pendant) == null, "automatic helper defers to an eligible wearer");
+            Job selfRefill = new WorkGiver_RestockPendant().NonScanJob(actor);
+            Check(selfRefill?.targetA.Thing == pendant && selfRefill.targetC.Pawn == actor,
+                "hauling work giver selects the wearer's own refill");
+            Check(actor.jobs.TryTakeOrderedJob(selfRefill, JobTag.Misc), "wearer can reserve and start its own refill");
+            for (int i = 0; i < 100 && pendant.Count(coolingDef) < 2; i++) yield return 10;
+            Check(pendant.Count(coolingDef) == 2, "wearer loads its own two pills");
+            Stop(actor); Stop(other);
+            actor.workSettings.SetPriority(WorkTypeDefOf.Hauling, 0);
+            Check(policy.SetTarget(pendant, coolingDef, 4), "fallback test creates a new deficit");
+            Check(PendantRestock.FindJob(other, pendant) != null, "helper can refill with wearer hauling disabled");
+            policy.autoRefill = false;
+            Check(policy.SetTarget(pendant, coolingDef, 0), "manual load test uses no refill target");
+            // Away from the stack, the wearer must actually walk to complete the new order.
+            Move(actor, Cell(-15, -5));
+            Check(PendantRestock.FindJob(actor, pendant, coolingDef, 1) != null, "manual wearer can reach the supply");
+            Check(PendantRestock.TryOrderLoadOne(pendant, coolingDef), "manual load one accepts the order");
+            bool wearerOrdered = actor.CurJob?.def == MXDefOf.MX_LoadPendantOne &&
+                actor.CurJob.targetC.Pawn == actor;
+            foreach (QueuedJob queued in actor.jobs.jobQueue)
+                wearerOrdered |= queued.job.def == MXDefOf.MX_LoadPendantOne && queued.job.targetC.Pawn == actor;
+            Check(wearerOrdered, "manual load one orders the wearer first even with hauling disabled");
+            for (int i = 0; i < 100 && pendant.Count(coolingDef) < 3; i++) yield return 10;
+            Check(pendant.Count(coolingDef) == 3, "wearer loads one pill by manual request");
+            actor.workSettings.SetPriority(WorkTypeDefOf.Hauling, previousHaulPriority);
+
             // Target reduced while a real carrier is en route.
             Stop(actor); Stop(other); Move(zombie, Cell(15, 0)); Move(actor, Cell(-15, 0));
             Hold(zombie);

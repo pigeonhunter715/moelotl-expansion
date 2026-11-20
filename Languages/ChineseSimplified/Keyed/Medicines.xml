@@ -27,13 +27,18 @@
   <MX_PendantDescription>管理真实丹药、手动使用及独立的自动用药和补货设置。</MX_PendantDescription>
   <MX_TargetInvalid>设置未修改：数量须为0～25整数，目标合计≤60，目标与现存药合计≤6种。</MX_TargetInvalid>
   <MX_WearToConfigure>穿戴后可配置；卸下时保留实物药品并停止送药。</MX_WearToConfigure>
-  <MX_PendantHeader>{0}的药渡玉佩：{1}/60枚，{2}/6种，当前重量{3} kg</MX_PendantHeader>
-  <MX_AutoUse>启用自动用药</MX_AutoUse>
-  <MX_AutoRefill>启用自动补货</MX_AutoRefill>
+  <MX_PendantHeader>{0}的药渡玉佩：{1}/60枚，{2}/6种</MX_PendantHeader>
+  <MX_AutoUse>自动用药</MX_AutoUse>
+  <MX_AutoRefill>自动补货</MX_AutoRefill>
   <MX_RefillNow>补至目标</MX_RefillNow>
   <MX_Unload>全部卸药</MX_Unload>
   <MX_PendantDefaults>初始全部关闭、目标0。设补货目标不会开启自动服药。维持模式到期才续服；归真与回脉仅手动。</MX_PendantDefaults>
-  <MX_PendantColumns>丹药                          数量      补货目标（0～25）       自动模式                    操作                         状态</MX_PendantColumns>
+  <MX_ColumnMedicine>丹药</MX_ColumnMedicine>
+  <MX_ColumnCount>数量</MX_ColumnCount>
+  <MX_ColumnRefillTarget>补货目标</MX_ColumnRefillTarget>
+  <MX_ColumnMode>自动模式</MX_ColumnMode>
+  <MX_ColumnActions>操作</MX_ColumnActions>
+  <MX_ColumnStatus>状态</MX_ColumnStatus>
   <MX_Set>设定</MX_Set>
   <MX_ManualOnly>仅手动</MX_ManualOnly>
   <MX_ModeOff>禁用自动</MX_ModeOff>

@@ -27,16 +27,21 @@
   <MX_PendantDescription>Manage real medicine, manual use and independent automatic use/refill policies.</MX_PendantDescription>
   <MX_TargetInvalid>Unchanged: enter an integer 0–25; total targets &lt;=60; reserved and stocked types &lt;=6.</MX_TargetInvalid>
   <MX_WearToConfigure>Wear to configure; removed pendants retain stock and stop delivery.</MX_WearToConfigure>
-  <MX_PendantHeader>{0}: {1}/60 pills, {2}/6 types, {3} kg</MX_PendantHeader>
-  <MX_AutoUse>Enable automatic use</MX_AutoUse>
-  <MX_AutoRefill>Enable automatic refill</MX_AutoRefill>
-  <MX_RefillNow>Refill to targets</MX_RefillNow>
+  <MX_PendantHeader>{0}: {1}/60 pills, {2}/6 types</MX_PendantHeader>
+  <MX_AutoUse>Auto use</MX_AutoUse>
+  <MX_AutoRefill>Auto refill</MX_AutoRefill>
+  <MX_RefillNow>Refill to target</MX_RefillNow>
   <MX_Unload>Unload all</MX_Unload>
   <MX_PendantDefaults>All switches start off, targets at zero. Refill never enables use. Maintain renews on expiry. Release and repair are manual only.</MX_PendantDefaults>
-  <MX_PendantColumns>Medicine                      Count      Refill target               Automatic mode             Actions                      Status</MX_PendantColumns>
+  <MX_ColumnMedicine>Medicine</MX_ColumnMedicine>
+  <MX_ColumnCount>Count</MX_ColumnCount>
+  <MX_ColumnRefillTarget>Refill target</MX_ColumnRefillTarget>
+  <MX_ColumnMode>Auto mode</MX_ColumnMode>
+  <MX_ColumnActions>Actions</MX_ColumnActions>
+  <MX_ColumnStatus>Status</MX_ColumnStatus>
   <MX_Set>Set</MX_Set>
   <MX_ManualOnly>Manual only</MX_ManualOnly>
-  <MX_ModeOff>Automatic off</MX_ModeOff>
+  <MX_ModeOff>Off</MX_ModeOff>
   <MX_ModeConditional>Conditional</MX_ModeConditional>
   <MX_ModeMaintain>Maintain</MX_ModeMaintain>
   <MX_UseNow>Use now</MX_UseNow>
